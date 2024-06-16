@@ -45,7 +45,7 @@ class ClubStaff(models.Model):
     birth_date = models.DateField()
     position = models.CharField(max_length=SMALL_STRLEN)
     description = models.TextField()
-    club = models.models.ForeignKey(Club, on_delete=models.CASCADE)
+    club = models.models.ForeignKey(SampleClub, on_delete=models.CASCADE)
 
 
     def __str__(self):

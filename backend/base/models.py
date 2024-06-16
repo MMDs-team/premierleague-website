@@ -13,10 +13,10 @@ class Season(models.Model):
     season_id = models.AutoField(primary_key=True, editable=False)
     cup_image_path = models.ImageField(upload_to='cups', max_length=STRLEN, null=True, blank=True)
     date = models.DateField(unique=True)
-    kit1_id = models.OneToOneField(Kit, on_delete=models.CASCADE)
-    kit2_id = models.OneToOneField(Kit, on_delete=models.CASCADE)
-    kit3_id = models.OneToOneField(Kit, on_delete=models.CASCADE)
-    kit4_id = models.OneToOneField(Kit, on_delete=models.CASCADE)
+    kit1 = models.OneToOneField(Kit, on_delete=models.CASCADE)
+    kit2 = models.OneToOneField(Kit, on_delete=models.CASCADE)
+    kit3 = models.OneToOneField(Kit, on_delete=models.CASCADE)
+    kit4 = models.OneToOneField(Kit, on_delete=models.CASCADE)
 
     # ...
 
@@ -25,7 +25,7 @@ class Season(models.Model):
     
 
 class Employee(models.Model):
-    employee_id = models.OneToOneField(User, primary_key=True)
+    employee = models.OneToOneField(User, primary_key=True)
     image_path = models.ImageField(upload_to='employees', max_length=STRLEN, null=True, blank=True)
     birth_date = models.DateField()
     position = models.CharField(max_length=SMALL_STRLEN)
@@ -40,7 +40,7 @@ class Employee(models.Model):
 
 
 class ClubStaff(models.Model):
-    staff_id = models.OneToOneField(User, primary_key=True)
+    staff = models.OneToOneField(User, primary_key=True)
     image_path = models.ImageField(upload_to='club_staff', max_length=STRLEN, null=True, blank=True)
     birth_date = models.DateField()
     position = models.CharField(max_length=SMALL_STRLEN)

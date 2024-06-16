@@ -13,12 +13,12 @@ class Season(models.Model):
     season_id = models.AutoField(primary_key=True, editable=False)
     cup_image_path = models.ImageField(upload_to='cups', max_length=STRLEN, null=True, blank=True)
     date = models.DateField(unique=True)
-    kit1 = models.OneToOneField(Kit, on_delete=models.CASCADE)
-    kit2 = models.OneToOneField(Kit, on_delete=models.CASCADE)
-    kit3 = models.OneToOneField(Kit, on_delete=models.CASCADE)
-    kit4 = models.OneToOneField(Kit, on_delete=models.CASCADE)
+    kit1 = models.OneToOneField(Kit)
+    kit2 = models.OneToOneField(Kit)
+    kit3 = models.OneToOneField(Kit)
+    kit4 = models.OneToOneField(Kit)
 
-    # ...
+    # ... relation with transfer and sponser
 
     def __str__(self):
         return f'Seaseon {self.date.year}'

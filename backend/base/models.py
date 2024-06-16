@@ -35,7 +35,7 @@ class Employee(models.Model):
     gender = models.BooleanField()
 
     def __str__(self):
-        return f'{self.employee_id}({self.position})'
+        return f'{self.employee}({self.position})'
     
 
 
@@ -49,8 +49,26 @@ class ClubStaff(models.Model):
 
 
     def __str__(self):
-        return f'{self.staff_id}({self.position})'
+        return f'{self.staff}({self.position})'
     
+
+
+
+
+class Stadium(models.Model):
+    stadium_id = models.AutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=STRLEN)
+    city = models.CharField(max_length=SMALL_STRLEN)
+    image_path = models.ImageField(upload_to='stadium')
+    address = models.CharField(max_length=LONG_STRLEN)
+    coordinates = models.CharField(max_length=STRLEN)
+    capacity = models.IntegerField()
+    description = models.TextField()
+
+
+    def __str__(self):
+        return str(self.name)
+
 
 
 class TicketType(models.Model):
@@ -78,4 +96,6 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f'Ticket({self.user}-{self.match})'
+
+
 

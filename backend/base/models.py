@@ -21,7 +21,7 @@ class Season(models.Model):
     # ...
 
     def __str__(self):
-        return "Seaseon" + self.date.year
+        return f'Seaseon {self.date.year}'
     
 
 class Employee(models.Model):
@@ -35,4 +35,23 @@ class Employee(models.Model):
     gender = models.BooleanField()
 
     def __str__(self):
-        return self.employee_id + "(" + self.position +")"
+        return f'{self.employee_id}({self.position})'
+    
+
+
+class ClubStaff(models.Model):
+    staff_id = models.OneToOneField(User, primary_key=True)
+    image_path = models.ImageField(upload_to='club_staff', max_length=STRLEN, null=True, blank=True)
+    birth_date = models.DateField()
+    position = models.CharField(max_length=SMALL_STRLEN)
+    description = models.TextField()
+    club = models.models.ForeignKey(Club, on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return f'{self.staff_id}({self.position})'
+    
+
+
+
+

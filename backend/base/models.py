@@ -23,3 +23,16 @@ class Season(models.Model):
     def __str__(self):
         return "Seaseon" + self.date.year
     
+
+class Employee(models.Model):
+    employee_id = models.OneToOneField(User, primary_key=True)
+    image_path = models.ImageField(upload_to='employees', max_length=STRLEN, null=True, blank=True)
+    birth_date = models.DateField()
+    position = models.CharField(max_length=SMALL_STRLEN)
+    description = models.TextField()
+    cv_path = models.FileField(upload_to='CVs')
+    salary = models.DecimalField(max_digits=9, decimal_places=2)
+    gender = models.BooleanField()
+
+    def __str__(self):
+        return self.employee_id + "(" + self.position +")"

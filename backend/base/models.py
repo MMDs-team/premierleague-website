@@ -53,5 +53,21 @@ class ClubStaff(models.Model):
     
 
 
+class TicketType(models.Model):
+    type_id = models.AutoField(primary_key=True, editable=False)
+    ratio = models.DecimalField(max_digits=4, decimal_places=2)
+    s_number = models.IntegerField()
+    e_number = models.IntegerField()
+    color = models.CharField(max_length=SHORT_STRLEN)
+    description = models.TextField(null=True, blank=True)
+    stadium = models.ForeignKey(Stadium, on_delete=models.CASCADE)
+    html_tag_id = models.CharField(max_length=SHORT_STRLEN)
+
+    def __str__(self):
+        return f'Type{self.type_id}'
+    
+
+
+
 
 

@@ -69,5 +69,13 @@ class TicketType(models.Model):
 
 
 
+class Ticket(models.Model):
+    user = models.ForeignKey(User, primary_key=True, on_delete=models.CASCADE)
+    match = models.ForeignKey(Match, primary_key=True, on_delete=models.CASCADE)
+    seat_number = models.IntegerField()
+    type = models.ForeignKey(TicketType)
+    date_time = models.DateTimeField()
 
+    def __str__(self):
+        return f'Ticket({self.user}-{self.match})'
 

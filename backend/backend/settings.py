@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import credentials
 from pathlib import Path
 import pymysql
 
@@ -91,11 +91,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'premierleague',
-        'USER': 'mmds',
-        'PASSWORD': 'password123',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': credentials.MYSQL_DATABASE_NAME,
+        'USER': credentials.MYSQL_USER,
+        'PASSWORD': credentials.MYSQL_USER_PASSWORD,
+        'HOST': credentials.MYSQL_HOST,
+        'PORT': credentials.MYSQL_PORT,
     }
 }
 

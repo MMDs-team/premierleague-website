@@ -29,6 +29,12 @@ class Club(models.Model):
         through_fields=("club", "stadium")
     )
 
+    seasons = models.ManyToManyField(
+        Season, 
+        through='Transfer', 
+        through_fields=('target_club', 'origin_club', 'season')
+    )
+
     
     def __str__(self):
         return f"{self.club_id} - {self.name}"

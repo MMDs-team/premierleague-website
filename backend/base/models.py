@@ -90,7 +90,6 @@ class Transfer(models.Model) :
     def __str__(self):
         return f'{self.player}: {self.origin_club} -> {self.target_club}, {self.season}-{self.semester}'
 
-    
 class Match(models.Model) : 
     match_id = models.AutoField(primary_key=True, unique=True, editable=False)
     date_time = models.DateTimeField(auto_now_add=True)
@@ -102,6 +101,7 @@ class Match(models.Model) :
     
     host_club = models.ForeignKey(SampleClub, on_delete=models.CASCADE)
     guest_club = models.ForeignKey(SampleClub, on_delete=models.CASCADE)
+    stadium = models.ForeignKey(Stadium, on_delete=models.CASCADE)
     refree = models.ForeignKey(Refree, on_delete=models.CASCADE)
     first_refree_asist = models.ForeignKey(Refree, on_delete=models.CASCADE)
     second_refree_asist = models.ForeignKey(Refree, on_delete=models.CASCADE)

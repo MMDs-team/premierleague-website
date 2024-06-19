@@ -40,6 +40,9 @@ class Player(models.Model) :
     position = models.CharField(max_length=SMALL_STRLEN) # add
     heath_state = models.BooleanField(default=True)
     
+    sample_club = models.ManyToManyField(Club, through='SamplePlayer', related_name='players')
+        
+    
     def __str__(self):
         return f'{self.player_id}-{self.position}'
 
@@ -47,7 +50,7 @@ class SamplePlayer(models.Model) :
     player = models.ForeignKey(Player, primary_key=True, on_delete=models.CASCADE)
     club = models.ForeignKey(Club, primary_key=True, on_delete=models.CASCADE)
     season = models.ForeignKey(Season, primary_key=True, on_delete=models.CASCADE)
-    number_in_team = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(99)])
+    number_in_team = models.SmallIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(99)])
     position = models.CharField(max_length=SMALL_STRLEN)
     
     def __str__(self):

@@ -17,13 +17,13 @@ class Club(models.Model):
     social_media = models.URLField(max_length=LONG_STRLEN)
     email = models.Email.Field(max_length=LONG_STRLEN)
 
-    sponsors = models.ManyToMany(
+    sponsors = models.ManyToManyField(
         "Sponsor",
         through="ClubSpon",
         through_fields=("club", "sponsor")
     )
     
-    stadiums = models.ManyToMany(
+    stadiums = models.ManyToManyField(
         Stadium,
         through="ClubStad",
         through_fields=("club", "stadium")
@@ -44,7 +44,7 @@ class SampleClub(models.Model):
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
     season = modesl.ForeignKey(Season, on_delete=models.CASCADE)
 
-    players = models.ManyToMany(
+    players = models.ManyToManyField(
         Player,
         through="SamplePlayer",
         through_field=("sample_player", "player")

@@ -10,13 +10,13 @@ LONG_STRLEN = 125
 
 class Club(models.Model):
     club_id = models.AutoField(primary_key=True, editable=False)
-    name = models.CharField(max_length=STR_LEN)
+    name = models.CharField(max_length=STRLEN)
     image = models.ImageField(upload_to="clubs")
     description = models.TextField()
     est_date = models.DateField()
     website = models.URLField(max_length=LONG_STRLEN)
     social_media = models.URLField(max_length=LONG_STRLEN)
-    email = models.Email.Field(max_length=LONG_STRLEN)
+    email = models.EmailField(max_length=LONG_STRLEN)
 
     sponsors = models.ManyToManyField(
         "Sponsor",
@@ -25,13 +25,13 @@ class Club(models.Model):
     )
     
     stadiums = models.ManyToManyField(
-        Stadium,
+        "Stadium",
         through="ClubStad",
         through_fields=("club", "stadium")
     )
 
     seasons = models.ManyToManyField(
-        Season, 
+        "Season", 
         through='Transfer', 
         through_fields=('target_club', 'origin_club', 'season')
     )
@@ -43,7 +43,7 @@ class Club(models.Model):
 
 class ClubStad(models.Model):
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
-    stadium = models.ForeignKey(Stadium, models.CASCADE)
+    stadium = models.ForeignKey("Stadium", models.CASCADE)
 
     # Discuss about how to add a delimiter related with season here!
 
@@ -56,10 +56,10 @@ class SampleClub(models.Model):
     total_points = models.PositiveIntegerField()
 
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
-    season = modesl.ForeignKey(Season, on_delete=models.CASCADE)
+    season = models.ForeignKey("Season", on_delete=models.CASCADE)
 
     players = models.ManyToManyField(
-        Player,
+        "Player",
         through="SamplePlayer",
         through_fields=("club", "player")
     )
@@ -101,7 +101,7 @@ class MatchSpon(models.Model):
     amount = models.PositiveIntegerField()
     gif = models.FileField(upload_to="match_sponsors")
 
-    match = models.ForeignKey(Match, on_delete=models.CASCADE)
+    match = models.ForeignKey("Match", on_delete=models.CASCADE)
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -114,7 +114,7 @@ class SeaSpon(models.Model):
     link = models.URLField(max_length=LONG_STRLEN)
 
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE)
-    season = models.ForeignKey(Season, on_delete=models.CASCADE)
+    season = models.ForeignKey("Season", on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.season} - {self.sponsor}"
@@ -132,7 +132,7 @@ class Broadcaster(models.Model):
 
 
 class Casts(models.Model):
-    match = models.ForeignKey(Match, on_delete=models.CASCADE)
+    match = models.ForeignKey("Match", on_delete=models.CASCADE)
     broadcaster = models.ForeignKey(Broadcaster, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -143,10 +143,10 @@ class Season(models.Model):
     season_id = models.AutoField(primary_key=True, editable=False)
     cup_image = models.ImageField(upload_to='cups', max_length=STRLEN, null=True, blank=True)
     date = models.DateField(unique=True)
-    kit1 = models.OneToOneField('Kit')
-    kit2 = models.OneToOneField('Kit')
-    kit3 = models.OneToOneField('Kit')
-    kit4 = models.OneToOneField('Kit')
+    kit1 = models.OneToOneField('Kit', on_delete=models.SET_NULL)
+    kit2 = models.OneToOneField('Kit', on_delete=models.SET_NULL)
+    kit3 = models.OneToOneField('Kit', on_delete=models.SET_NULL)
+    kit4 = models.OneToOneField('Kit', on_delete=models.SET_NULL)
 
     clubs = models.ManyToManyField(
         'Club',
@@ -230,9 +230,9 @@ class TicketType(models.Model):
 
 class Ticket(models.Model):
     user = models.ForeignKey(User, primary_key=True, on_delete=models.CASCADE)
-    match = models.ForeignKey(Match, primary_key=True, on_delete=models.CASCADE)
+    match = models.ForeignKey("Match", primary_key=True, on_delete=models.CASCADE)
     seat_number = models.IntegerField()
-    type = models.ForeignKey(TicketType)
+    type = models.ForeignKey(TicketType, on_delete=models.SET_NULL)
     date_time = models.DateTimeField()
 
     def __str__(self):
@@ -255,12 +255,13 @@ class Refree(models.Model) :
     birth_date = models.DateField()
     cv = models.FileField(upload_to='CVs')
     nationality = models.CharField(max_length=SMALL_STRLEN)
+
     
     def __str__(self):
         return f'{self.refree}'
     
 class Player(models.Model) : 
-    player = models.OneToOneField(User, primary_key=True, auto_Increment=True, on_delete=models.CASCADE)
+    player = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     
     image = models.ImageField(upload_to='players', max_length=STRLEN, null=True, blank=True)
     birth_date = models.DateField()
@@ -286,7 +287,7 @@ class Player(models.Model) :
     
 class Action(models.Model) : 
     action_type = models.ForeignKey(ActionType, on_delete=models.CASCADE)
-    match = models.ForeignKey(Match, on_delete=models.CASCADE)
+    match = models.ForeignKey("Match", on_delete=models.CASCADE)
     subject = models.ForeignKey(User, on_delete=models.CASCADE)
     object = models.ForeignKey(Player, null=True, on_delete=models.CASCADE)
     
@@ -315,7 +316,7 @@ class Transfer(models.Model) :
     
     date = models.DateField(auto_now_add=True)
     amount = models.IntegerField()
-    semester = models.CharField(max_length=SMALL_STRLEN, default='SUMMER', choices=SEMESTER)
+    semester = models.CharField(max_length=SMALL_STRLEN, default='SUMMER', choices=SEMESTERS)
     duration = models.IntegerField()
     
     def __str__(self):

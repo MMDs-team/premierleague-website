@@ -13,19 +13,19 @@ class Season(models.Model):
     season_id = models.AutoField(primary_key=True, editable=False)
     cup_image = models.ImageField(upload_to='cups', max_length=STRLEN, null=True, blank=True)
     date = models.DateField(unique=True)
-    kit1 = models.OneToOneField(Kit)
-    kit2 = models.OneToOneField(Kit)
-    kit3 = models.OneToOneField(Kit)
-    kit4 = models.OneToOneField(Kit)
+    kit1 = models.OneToOneField('Kit')
+    kit2 = models.OneToOneField('Kit')
+    kit3 = models.OneToOneField('Kit')
+    kit4 = models.OneToOneField('Kit')
 
     clubs = models.ManyToManyField(
-        Club,
+        'Club',
         through='SampleClub',
         through_fields=('season', 'club')
     )
 
     sponsers = models.ManyToManyField(
-        Sponser,
+        'Sponser',
         through='SeaSpon',
         through_fields=('season', 'sponser')
     )

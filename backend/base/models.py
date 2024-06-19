@@ -11,14 +11,14 @@ LONG_STRLEN = 125
 
 class Season(models.Model):
     season_id = models.AutoField(primary_key=True, editable=False)
-    cup_image_path = models.ImageField(upload_to='cups', max_length=STRLEN, null=True, blank=True)
+    cup_image = models.ImageField(upload_to='cups', max_length=STRLEN, null=True, blank=True)
     date = models.DateField(unique=True)
     kit1 = models.OneToOneField(Kit)
     kit2 = models.OneToOneField(Kit)
     kit3 = models.OneToOneField(Kit)
     kit4 = models.OneToOneField(Kit)
 
-    # ... relation with transfer and sponser
+    
 
     def __str__(self):
         return f'Seaseon {self.date.year}'
@@ -26,7 +26,7 @@ class Season(models.Model):
 
 class Employee(models.Model):
     employee = models.OneToOneField(User, primary_key=True)
-    image_path = models.ImageField(upload_to='employees', max_length=STRLEN, null=True, blank=True)
+    image = models.ImageField(upload_to='employees', max_length=STRLEN, null=True, blank=True)
     birth_date = models.DateField()
     position = models.CharField(max_length=SMALL_STRLEN)
     description = models.TextField()
@@ -41,11 +41,11 @@ class Employee(models.Model):
 
 class ClubStaff(models.Model):
     staff = models.OneToOneField(User, primary_key=True)
-    image_path = models.ImageField(upload_to='club_staff', max_length=STRLEN, null=True, blank=True)
+    image = models.ImageField(upload_to='club_staff', max_length=STRLEN, null=True, blank=True)
     birth_date = models.DateField()
     position = models.CharField(max_length=SMALL_STRLEN)
     description = models.TextField()
-    club = models.models.ForeignKey(SampleClub, on_delete=models.CASCADE)
+    club = models.ForeignKey(SampleClub, on_delete=models.CASCADE)
 
 
     def __str__(self):
@@ -59,7 +59,7 @@ class Stadium(models.Model):
     stadium_id = models.AutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=STRLEN)
     city = models.CharField(max_length=SMALL_STRLEN)
-    image_path = models.ImageField(upload_to='stadium')
+    image = models.ImageField(upload_to='stadiums')
     address = models.CharField(max_length=LONG_STRLEN)
     coordinates = models.CharField(max_length=STRLEN)
     capacity = models.IntegerField()

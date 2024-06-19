@@ -1,3 +1,27 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import *
+
+admin.site.register(Season)
+admin.site.register(Club)
+admin.site.register(SampleClub)
+admin.site.register(Player)
+admin.site.register(SamplePlayer)
+admin.site.register(Kit)
+admin.site.register(Refree)
+admin.site.register(Employee)
+admin.site.register(ClubStaff)
+admin.site.register(Stadium)
+admin.site.register(Ticket)
+admin.site.register(TicketType)
+admin.site.register(Match)
+admin.site.register(Action)
+admin.site.register(ActionType)
+admin.site.register(Transfer)
+admin.site.register(Sponsor)
+admin.site.register(ClubSpon)
+admin.site.register(SeaSpon)
+admin.site.register(MatchSpon)
+admin.site.register(BroadCaster)
+admin.site.register(Casts)
+admin.site.register(ClubStad)

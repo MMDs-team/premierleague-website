@@ -83,7 +83,7 @@ class ClubSpon(models.Model):
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE)
 
     def __str__(self):
-    return f"{club} - {sponsor}"
+        return f"{self.club} - {self.sponsor}"
     
 
 class Kit(models.Model):
@@ -137,7 +137,7 @@ class Casts(models.Model):
 
     def __str__(self):
         return f"{self.match} - {self.broadcaster}"
-=======
+
 
 class Season(models.Model):
     season_id = models.AutoField(primary_key=True, editable=False)
@@ -240,7 +240,6 @@ class Ticket(models.Model):
 
 
 
-=======
 class ActionType(models.Model) : 
     action_type_id = models.AutoField(primary_key=True, unique=True, editable=False)
     subtype = models.CharField(max_length=SMALL_STRLEN)

@@ -29,12 +29,19 @@ class Club(models.Model):
         through_fields=("club", "stadium")
     )
 
+    
+    def __str__(self):
+        return f"{self.club_id} - {self.name}"
+
 
 class ClubStad(models.Model):
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
     stadium = models.ForeignKey(Stadium, models.CASCADE)
 
     # Discuss about how to add a delimiter related with season here!
+
+    def __str__(self):
+        return f"{self.club} - {self.stadium}"
 
 
 class SampleClub(models.Model):
@@ -47,8 +54,11 @@ class SampleClub(models.Model):
     players = models.ManyToManyField(
         Player,
         through="SamplePlayer",
-        through_field=("sample_player", "player")
+        through_fields=("club", "player")
     )
+
+    def __str__(self):
+        return f"{self.club} - {self.season}"
 
 
 class Sponsor(models.Model):
@@ -57,10 +67,16 @@ class Sponsor(models.Model):
     logo = models.ImageField(upload_to="sponsors")
     website = models.URLField(max_length=LONG_STRLEN)
 
+    def __str__(self):
+        return f"{self.sponsor_id} - {self.name}"
+
 
 class ClubSpon(models.Model):
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE)
+
+    def __str__(self):
+    return f"{club} - {sponsor}"
     
 
 class Kit(models.Model):
@@ -70,13 +86,19 @@ class Kit(models.Model):
 
     sample_club = models.ForeignKey(SampleClub, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.kit_id} - {self.sample_club}"
+
 
 class MatchSpon(models.Model):
     amount = models.PositiveIntegerField()
     gif = models.FileField(upload_to="match_sponsors")
 
-    _match = models.ForeignKey(Match, on_delete=models.CASCADE)
+    match = models.ForeignKey(Match, on_delete=models.CASCADE)
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.match} - {self.sponsor}"
 
 
 class SeaSpon(models.Model):
@@ -87,6 +109,9 @@ class SeaSpon(models.Model):
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE)
     season = models.ForeignKey(Season, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.season} - {self.sponsor}"
+
 
 class Broadcaster(models.Model):
     broadcaster_id = models.AutoField(primary_key=True, editable=False)
@@ -95,7 +120,13 @@ class Broadcaster(models.Model):
     s_date = models.DateField()
     e_date = models.DateField()
 
+    def __str__(self):
+        return f"{self.broadcaster} - {self.name}"
+
 
 class Casts(models.Model):
-    _match = models.ForeignKey(Match, on_delete=models.CASCADE)
+    match = models.ForeignKey(Match, on_delete=models.CASCADE)
     broadcaster = models.ForeignKey(Broadcaster, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.match} - {self.broadcaster}"

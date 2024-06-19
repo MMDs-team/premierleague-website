@@ -24,10 +24,10 @@ class Season(models.Model):
         through_fields=('season', 'club')
     )
 
-    sponsers = models.ManyToManyField(
-        'Sponser',
+    sponsors = models.ManyToManyField(
+        'Sponsor',
         through='SeaSpon',
-        through_fields=('season', 'sponser')
+        through_fields=('season', 'sponsor')
     )
 
 

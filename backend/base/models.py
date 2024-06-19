@@ -18,14 +18,25 @@ class Season(models.Model):
     kit3 = models.OneToOneField(Kit)
     kit4 = models.OneToOneField(Kit)
 
-    
+    clubs = models.ManyToManyField(
+        Club,
+        through='SampleClub',
+        through_fields=('season', 'club')
+    )
+
+    sponsers = models.ManyToManyField(
+        Sponser,
+        through='SeaSpon',
+        through_fields=('season', 'sponser')
+    )
+
 
     def __str__(self):
         return f'Seaseon {self.date.year}'
     
 
 class Employee(models.Model):
-    employee = models.OneToOneField(User, primary_key=True)
+    employee = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='employees', max_length=STRLEN, null=True, blank=True)
     birth_date = models.DateField()
     position = models.CharField(max_length=SMALL_STRLEN)
@@ -40,12 +51,12 @@ class Employee(models.Model):
 
 
 class ClubStaff(models.Model):
-    staff = models.OneToOneField(User, primary_key=True)
+    staff = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='club_staff', max_length=STRLEN, null=True, blank=True)
     birth_date = models.DateField()
     position = models.CharField(max_length=SMALL_STRLEN)
     description = models.TextField()
-    club = models.ForeignKey(SampleClub, on_delete=models.CASCADE)
+    club = models.ForeignKey('SampleClub', on_delete=models.CASCADE)
 
 
     def __str__(self):

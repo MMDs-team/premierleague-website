@@ -232,7 +232,7 @@ class Ticket(models.Model):
     user = models.ForeignKey(User, primary_key=True, on_delete=models.CASCADE)
     match = models.ForeignKey("Match", primary_key=True, on_delete=models.CASCADE)
     seat_number = models.IntegerField()
-    type = models.ForeignKey(TicketType, on_delete=models.SET_NULL)
+    type = models.ForeignKey(TicketType, null=True, blank=True, on_delete=models.SET_NULL)
     date_time = models.DateTimeField()
 
     def __str__(self):

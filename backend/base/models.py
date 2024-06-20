@@ -143,10 +143,10 @@ class Season(models.Model):
     season_id = models.AutoField(primary_key=True, editable=False)
     cup_image = models.ImageField(upload_to='cups', max_length=STRLEN, null=True, blank=True)
     date = models.DateField(unique=True)
-    kit1 = models.OneToOneField('Kit', on_delete=models.SET_NULL)
-    kit2 = models.OneToOneField('Kit', on_delete=models.SET_NULL)
-    kit3 = models.OneToOneField('Kit', on_delete=models.SET_NULL)
-    kit4 = models.OneToOneField('Kit', on_delete=models.SET_NULL)
+    kit1 = models.OneToOneField('Kit', on_delete=models.SET_NULL, null= True, blank=True, related_name='for_kit1')
+    kit2 = models.OneToOneField('Kit', on_delete=models.SET_NULL, null= True, blank=True, related_name='for_kit2')
+    kit3 = models.OneToOneField('Kit', on_delete=models.SET_NULL, null= True, blank=True, related_name='for_kit3')
+    kit4 = models.OneToOneField('Kit', on_delete=models.SET_NULL, null= True, blank=True, related_name='for_kit4')
 
     clubs = models.ManyToManyField(
         'Club',

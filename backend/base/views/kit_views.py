@@ -12,9 +12,9 @@ from base.serializers.kit_serializers import *
 @api_view(['GET'])
 def get_all_kits(request):
     kits = Kit.objects.all()
-    serializer = KitSerializer(kits, many=True)
+    serializers = KitSerializer(kits, many=True)
 
-    return Response(serializer.data)
+    return Response(serializers.data)
 
 
 @api_view(['GET'])
@@ -35,6 +35,7 @@ def remove_kit(request, pk):
     if kit is None: return Response({
         'detail': "Kit with given id doesn't exists!"
     }, status=status.HTTP_204_NO_CONTENT)
+    kit.delete()
 
     return Response({
         'detail': f"Kit with id={pk} have been deleted!"

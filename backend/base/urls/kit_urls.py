@@ -8,5 +8,4 @@ urlpatterns = [
     path('remove/<int:pk>', views.remove_kit, name='remove_kit'),
     path('<int:pk>', views.get_single_kit, name='get_single_kit'),
     path('', views.get_all_kits, name='all_kits'),
-
 ]

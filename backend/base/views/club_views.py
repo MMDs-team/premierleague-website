@@ -83,3 +83,14 @@ def update_club(request, pk):
     except:
         message = {'detail': 'Error while updating club'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+def remove_club(request, pk):
+    try:
+        Club(pk = pk).delete()
+    except:
+        message = {'detail': 'Error while deleting club'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    
+    

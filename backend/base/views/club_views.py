@@ -33,9 +33,6 @@ def add_club(request):
     y = int(data['est_date'][:4])
     m = int(data['est_date'][5:7])
     d = int(data['est_date'][8:])
-    print("year=", y)
-    print("mounth=", m)
-    print("day=", d)
     date = datetime.date(y, m, d)
 
     try:
@@ -57,3 +54,32 @@ def add_club(request):
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['PUT'])
+def update_club(request, pk):
+    data = request.data
+    # "1956-10-19"
+    date = None
+    if data.get('est_date') != None:
+        y = int(data['est_date'][:4])
+        m = int(data['est_date'][5:7])
+        d = int(data['est_date'][8:])
+        date = datetime.date(y, m, d)
+
+    try:
+        club = Club.objects.get(pk = pk)
+
+        if data.get('description') != None: club.description = data['description']
+        if data.get('social_media') != None: club.social_media = data['social_media']
+        if data.get('website')  != None: club.website = data['website']
+        if data.get('image') != None: club.image = data['image']
+        if data.get('email') != None: club.email = data['email']
+        if data.get('name') != None: club.name = data['name']
+        if date != None: club.est_date = date
+
+        club.save()
+
+        serializers = ClubSerializer(club, many=False)
+        return Response(serializers.data)
+    except:
+        message = {'detail': 'Error while updating club'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)

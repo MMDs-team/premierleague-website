@@ -28,13 +28,13 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 
-
 @api_view(['POST'])
 def register_user(request):
     data = request.data
     try:
         user = User.objects.create(
-            first_name = data['name'],
+            first_name = data['first_name'],
+            last_name = data['last_name'],
             username = data['email'],
             email = data['email'],
             password = make_password(data['password']) #hashing the password
@@ -47,16 +47,6 @@ def register_user(request):
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_user_profile(request):
-    user = request.user
-    serializer = UserSerializer(user, many=False)
-    return Response(serializer.data)
-
-
-
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def update_user_profile(request):
@@ -64,7 +54,8 @@ def update_user_profile(request):
     serializer = UserSerializerWithToken(user, many=False)
 
     data = request.data
-    user.first_name = data['name']
+    user.first_name = data['first_name']
+    user.last_name = data['last_name']
     user.email = data['email']
     user.username = data['email']
     
@@ -78,6 +69,13 @@ def update_user_profile(request):
 
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_profile(request):
+    user = request.user
+    serializer = UserSerializer(user, many=False)
+    return Response(serializer.data)
+
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
@@ -85,4 +83,3 @@ def get_all_users(request):
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
-

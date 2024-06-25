@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 import datetime
 
-from base.models import Club
+from base.models import Club, ClubStaff
 from base.serializers.club_serializers import *
 
 @api_view(['GET'])
@@ -78,8 +78,8 @@ def update_club(request, pk):
 
         club.save()
 
-        serializers = ClubSerializer(club, many=False)
-        return Response(serializers.data)
+        serializer = ClubSerializer(club, many=False)
+        return Response(serializer.data)
     except:
         message = {'detail': 'Error while updating club'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
@@ -87,10 +87,99 @@ def update_club(request, pk):
 
 @api_view(['DELETE'])
 def remove_club(request, pk):
+    message, stat = None, None
     try:
         Club(pk = pk).delete()
+        message = {'detail': 'The club deleted successfully.'}
+        stat = status.HTTP_200_OK
     except:
         message = {'detail': 'Error while deleting club'}
+        stat = status.HTTP_400_BAD_REQUEST
+    return Response(message, status=stat)
+
+    
+@api_view(['GET'])
+def get_all_staff(request):
+    all_club_staff = ClubStaff.objects.all()
+    serializer = ClubStaffSerializer(all_club_staff, many=True)
+    
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def add_staff(request):
+    data = request.data
+    # "1956-10-19"
+    date = None
+    if data.get('est_date') != None:
+        y = int(data['est_date'][:4])
+        m = int(data['est_date'][5:7])
+        d = int(data['est_date'][8:])
+        date = datetime.date(y, m, d)
+
+    club_staff = ClubStaff.objects.create(
+        club_id = int(data['club']),
+        staff_id = int(data['user']),
+        position = data['position'],
+        description = data['description'],
+        image = data['image'],
+        birth_date = date
+    )
+
+    serializer = ClubStaffSerializer(club_staff, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_single_staff(request, pk):
+    try:
+        club_staff = ClubStaff.objects.get(pk = pk)
+        serializer = ClubStaffSerializer(club_staff, many=False)
+        return Response(serializer.data)
+    except :
+        message = {'detail': 'No Staff found with this id'}
+        return Response(message, status=status.HTTP_404_NOT_FOUND)
+        
+
+@api_view(['DELETE'])
+def remove_staff(request, pk):
+    message, stat = None, None
+    try:
+        ClubStaff(pk = pk).delete()
+        message = {'detail': 'The club staff deleted successfully.'}
+        stat = status.HTTP_200_OK
+    except:
+        message = {'detail': 'Error while deleting club staff'}
+        stat = status.HTTP_400_BAD_REQUEST
+    return Response(message, status=stat)
+
+
+@api_view(['PUT'])
+def update_staff(request, pk):
+    data = request.data
+    # "1956-10-19"
+    date = None
+    if data.get('est_date') != None:
+        y = int(data['est_date'][:4])
+        m = int(data['est_date'][5:7])
+        d = int(data['est_date'][8:])
+        date = datetime.date(y, m, d)
+
+    try:
+        club_staff = ClubStaff.objects.get(pk = pk)
+
+        if data.get('description') != None: club_staff.description = data['description']
+        if data.get('position') != None: club_staff.position = data['position']
+        if data.get('website')  != None: club_staff.website = data['website']
+        if data.get('image') != None: club_staff.image = data['image']
+        if data.get('club') != None: club_staff.club_id = data['club']
+        if data.get('user') != None: club_staff.staff_id = data['user']
+        if date != None: club_staff.est_date = date
+
+        club_staff.save()
+
+        serializer = ClubStaffSerializer(club_staff, many=False)
+        return Response(serializer.data)
+    except:
+        message = {'detail': 'Error while updating club staff'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
-    
-    

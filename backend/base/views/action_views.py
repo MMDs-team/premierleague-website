@@ -151,14 +151,14 @@ def update_action_type(request, pk):
 
 
     '''
-        fields we can change: sub_type, type
+        fields we can change: subtype, type
     '''
     data = request.data
     if data.get('action_type_id') is not None: return Response({
         'detail': "You can not change the primary key!"
     }, status=status.HTTP_400_BAD_REQUEST)
 
-    if data.get('sub_type') is not None: action_type.sub_type = data['sub_type']
+    if data.get('subtype') is not None: action_type.subtype = data['subtype']
     if data.get('type') is not None: action_type.type = data['type']
 
     action_type.save()

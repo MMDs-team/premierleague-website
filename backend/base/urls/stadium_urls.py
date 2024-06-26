@@ -10,3 +10,12 @@ urlpatterns = [
     path('', views.get_all_stadiums, name='all_stadiums'),
 
 ]
+
+
+urlpatterns = [
+    path('clubStad/add', views.add_club_stadium, name='add_club_stadium'),
+    path('clubStad/remove/<int:pk>', views.remove_club_stadium, name='remove_club_stadium'),
+    path('clubStad/<int:pk>', views.get_single_club_stadium, name='get_single_club_stadium'),
+    path('clubStad', views.get_all_club_stadium, name='all_club_stadium'),
+
+] + urlpatterns

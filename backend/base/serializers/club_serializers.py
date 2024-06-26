@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from base.models import Club, ClubStaff, SampleClub
 from base.serializers.user_serializers import SimpleUserSerializer
+from base.serializers.season_serializers import SeasonSerializer
 
 
 
@@ -14,10 +15,22 @@ class ClubSerializer(serializers.ModelSerializer):
 
 
 class SampleClubSerializer(serializers.ModelSerializer):
-
+    club = serializers.SerializerMethodField(read_only=True)
+    season = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = SampleClub
         fields = '__all__'
+    
+    def get_club(self, obj):
+        club = obj.club
+        serializer = ClubSerializer(club, many=False)
+        return serializer.data
+    
+    def get_season(self, obj):
+        season = obj.staff
+        serializer = SeasonSerializer(season, many=False)
+        return serializer.data
+    
 
 
 

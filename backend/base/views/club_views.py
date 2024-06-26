@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 import datetime
 
-from base.models import Club, ClubStaff
+from base.models import Club, ClubStaff, SampleClub
 from base.serializers.club_serializers import *
 
 @api_view(['GET'])
@@ -182,4 +182,73 @@ def update_staff(request, pk):
         return Response(serializer.data)
     except:
         message = {'detail': 'Error while updating club staff'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def get_all_sample_clubs(request):
+    all_sample_clubs = SampleClub.objects.all()
+    serializer = SampleClubSerializer(all_sample_clubs, many=True)
+    
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_single_sample_club(request, pk):
+    try:
+        sample_club = SampleClub.objects.get(pk = pk)
+        serializer = SampleClubSerializer(sample_club, many=False)
+        return Response(serializer.data)
+    except :
+        message = {'detail': 'No sample club found with this id'}
+        return Response(message, status=status.HTTP_404_NOT_FOUND)
+    
+
+
+@api_view(['DELETE'])
+def remove_sample_club(request, pk):
+    message, stat = None, None
+    try:
+        SampleClub(pk = pk).delete()
+        message = {'detail': 'The club sample club deleted successfully.'}
+        stat = status.HTTP_200_OK
+    except:
+        message = {'detail': 'Error while deleting club sample club'}
+        stat = status.HTTP_400_BAD_REQUEST
+    return Response(message, status=stat)
+
+
+@api_view(['POST'])
+def add_sample_club(request):
+    data = request.data
+
+    sample_club = ClubStaff.objects.create(
+        club_id = int(data['club']),
+        season_id = int(data['season']),
+        total_points = 0,
+        logo = data['logo'],
+    )
+
+    serializer = ClubStaffSerializer(sample_club, many=False)
+    return Response(serializer.data)
+
+
+
+@api_view(['PUT'])
+def update_sample_club(request, pk):
+    data = request.data
+
+    try:
+        sample_club = SampleClub.objects.get(pk = pk)
+
+        if data.get('logo') != None: sample_club.logo = data['logo']
+        if data.get('club') != None: sample_club.club_id = data['club']
+        if data.get('season') != None: sample_club.season_id = data['season']
+
+        sample_club.save()
+
+        serializer = SampleClubSerializer(sample_club, many=False)
+        return Response(serializer.data)
+    except:
+        message = {'detail': 'Error while updating sample club'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)

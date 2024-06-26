@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'base',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 REST_FRAMEWORK = {

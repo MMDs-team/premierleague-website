@@ -12,6 +12,15 @@ urlpatterns = [
 ]
 
 
+urlpatterns = [
+    path('sampleClub/add', views.add_sample_club, name='add_sample_club'),
+    path('sampleClub/update/<int:pk>', views.update_sample_club, name='update_sample_club'),
+    path('sampleClub/remove/<int:pk>', views.remove_sample_club, name='remove_sample_club'),
+    path('sampleClub/<int:pk>', views.get_single_sample_club, name='get_single_sample_club'),
+    path('sampleClub', views.get_all_sample_clubs, name='all_sample_clubs'),
+
+] + urlpatterns
+
 
 urlpatterns = [
     path('staff/add', views.add_staff, name='add_staff'),

@@ -69,6 +69,7 @@ def update_kit(request, pk):
 @api_view(['POST'])
 def add_kit(request):
     data = request.data
+    print(type(data.get('image')))
     if data.get('image') is None or \
         data.get('color') is None or \
         data.get('sample_club') is None: return Response({
@@ -78,7 +79,7 @@ def add_kit(request):
     kit = Kit() if data.get('kit_id') is None else Kit(pk=int(data['kit_id']))
     kit.image = data['image']
     kit.color = data['color'].lower()
-    kit.sample_club = int(data['sample_club'])
+    kit.sample_club_id = int(data['sample_club'])
     kit.save()
 
     serializer = KitSerializer(kit, many=False)

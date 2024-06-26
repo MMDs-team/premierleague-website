@@ -45,7 +45,7 @@ def remove_employee(request, pk):
 
 @api_view(['PUT'])
 def update_employee(request, pk):
-    employee = employee.objects.filter(pk=pk).first()
+    employee = Employee.objects.filter(pk=pk).first()
     if employee is None: return Response({
         'detail': "Employee with given id doesn't exists!"
     }, status=status.HTTP_204_NO_CONTENT)

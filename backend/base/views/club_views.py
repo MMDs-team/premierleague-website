@@ -237,9 +237,8 @@ def update_sample_club(request, pk):
 
     try:
         sample_club = SampleClub.objects.get(pk = pk)
-
         if data.get('logo') != None: sample_club.logo = data['logo']
-
+          
         sample_club.save()
 
         serializer = SampleClubSerializer(sample_club, many=False)

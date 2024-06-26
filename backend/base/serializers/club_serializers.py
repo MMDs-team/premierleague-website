@@ -35,7 +35,6 @@ class SampleClubSerializer(serializers.ModelSerializer):
 
 
 class ClubStaffSerializer(serializers.ModelSerializer):
-
     staff = serializers.SerializerMethodField(read_only=True)
     club = serializers.SerializerMethodField(read_only=True)
     class Meta:

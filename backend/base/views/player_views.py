@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 import datetime
 
-from base.models import Player
+from base.models import Player, SamplePlayer
 from base.serializers.player_serializers import *
 
 @api_view(['GET'])
@@ -92,4 +92,70 @@ def add_player(request):
         return Response(serializer.data)
     except :
         message = {'detail': 'Error while add player'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    
+     
+@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+def get_all_sample_players(request):
+    sample_players = SamplePlayer.objects.all()
+    serializer = SamplePlayerSerializer(sample_players, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+def get_single_sample_player(request, pk):
+    try:
+        sample_player = SamplePlayer.objects.get(pk = pk)
+        serializer = SamplePlayerSerializer(sample_player, many=False)
+        return Response(serializer.data)
+    except :
+        message = {'detail': 'No sample_player found with this id'}
+        return Response(message, status=status.HTTP_404_NOT_FOUND)
+    
+    
+@api_view(['DELETE'])
+# @permission_classes([IsAdminUser])
+def remove_sample_player(request, pk):    
+    try:
+        SamplePlayer(pk = pk).delete()
+        message = {'detail': 'The sample player deleted successfully'}
+        return Response(message, status=status.HTTP_200_OK)
+    except :
+        message = {'detail': 'No sample player found with this id'}
+        return Response(message, status=status.HTTP_404_NOT_FOUND)
+    
+    
+@api_view(['PUT'])
+# @permission_classes([IsAdminUser])
+def update_sample_player(request, pk):
+    data = request.data
+    try:
+        sample_player = SamplePlayer.objects.get(pk = pk)
+        if data.get('number_in_team') != None: sample_player.number_in_team = data['number_in_team']
+        if data.get('position') != None: sample_player.position = data['position']
+        sample_player.save()
+        serializer = SamplePlayerSerializer(sample_player, many=False)
+        return Response(serializer.data)
+    except:
+        message = {'detail': 'Error while updating sample player'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+@api_view(['POST'])
+# @permission_classes([IsAdminUser])
+def add_sample_player(request):
+    data = request.data
+    try :
+        sample_player = SamplePlayer.objects.create(
+            club_id = int(data['club']),
+            player_id = int(data['player']),
+            number_in_team = int(data['number_in_team']),
+            position = data['position'],
+        )
+        serializer = SamplePlayerSerializer(sample_player, many=False)
+        return Response(serializer.data)
+    except :
+        message = {'detail': 'Error while add sample player'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)

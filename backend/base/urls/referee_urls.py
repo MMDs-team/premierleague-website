@@ -8,5 +8,4 @@ urlpatterns = [
     path('remove/<int:pk>', views.remove_referee, name='remove_referee'),
     path('<int:pk>', views.get_single_referee, name='get_single_referee'),
     path('', views.get_all_referees, name='referees'),
-
 ]

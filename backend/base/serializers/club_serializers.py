@@ -27,7 +27,7 @@ class SampleClubSerializer(serializers.ModelSerializer):
         return serializer.data
     
     def get_season(self, obj):
-        season = obj.staff
+        season = obj.season
         serializer = SeasonSerializer(season, many=False)
         return serializer.data
     
@@ -35,7 +35,6 @@ class SampleClubSerializer(serializers.ModelSerializer):
 
 
 class ClubStaffSerializer(serializers.ModelSerializer):
-
     staff = serializers.SerializerMethodField(read_only=True)
     club = serializers.SerializerMethodField(read_only=True)
     class Meta:

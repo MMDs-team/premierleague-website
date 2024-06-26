@@ -170,10 +170,7 @@ def update_staff(request, pk):
 
         if data.get('description') != None: club_staff.description = data['description']
         if data.get('position') != None: club_staff.position = data['position']
-        if data.get('website')  != None: club_staff.website = data['website']
         if data.get('image') != None: club_staff.image = data['image']
-        if data.get('club') != None: club_staff.club_id = data['club']
-        if data.get('user') != None: club_staff.staff_id = data['user']
         if date != None: club_staff.est_date = date
 
         club_staff.save()
@@ -222,14 +219,14 @@ def remove_sample_club(request, pk):
 def add_sample_club(request):
     data = request.data
 
-    sample_club = ClubStaff.objects.create(
+    sample_club = SampleClub.objects.create(
         club_id = int(data['club']),
         season_id = int(data['season']),
         total_points = 0,
         logo = data['logo'],
     )
 
-    serializer = ClubStaffSerializer(sample_club, many=False)
+    serializer = SampleClubSerializer(sample_club, many=False)
     return Response(serializer.data)
 
 
@@ -240,11 +237,8 @@ def update_sample_club(request, pk):
 
     try:
         sample_club = SampleClub.objects.get(pk = pk)
-
         if data.get('logo') != None: sample_club.logo = data['logo']
-        if data.get('club') != None: sample_club.club_id = data['club']
-        if data.get('season') != None: sample_club.season_id = data['season']
-
+          
         sample_club.save()
 
         serializer = SampleClubSerializer(sample_club, many=False)

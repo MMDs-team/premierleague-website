@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
-from base.models import Action
+from base.models import Action, ActionType
 from base.serializers.action_serializers import *
 import datetime
 
@@ -19,10 +19,10 @@ def get_all_actions(request):
 
 
 @api_view(['GET'])
-def get_single_season(request, pk):
+def get_single_action(request, pk):
     action = Action.objects.filter(pk=pk).first()
 
-    if season is None: return Response({
+    if action is None: return Response({
         'detail': "Action with given id doesn't exists!"
     }, status=status.HTTP_204_NO_CONTENT)
 
@@ -72,7 +72,7 @@ def update_action(request, pk):
 
     action.save()
 
-    serializer = ActionSerializer(season, many=False)
+    serializer = ActionSerializer(action, many=False)
     return Response(serializer.data)
 
 
@@ -89,9 +89,9 @@ def add_action(request):
     hour, minute, second = int(data['time'][:2]), int(data['time'][3:5]), int(data['time'][6:])
     time = datetime.time(hour, minute, second)
     action = Action(
-        action_type = int(data['action_type']),
-        match = int(data['match']),
-        subject = int(data['subject']),
+        action_type_id = int(data['action_type']),
+        match_id = int(data['match']),
+        subject_id = int(data['subject']),
         time = time,
     ) if data.get('action_id') is None else Action(
         pk=int(data['action_id']),
@@ -106,4 +106,79 @@ def add_action(request):
     action.save()
 
     serializer = ActionSerializer(action, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_all_action_types(request):
+    action_types = ActionType.objects.all()
+    serializers = ActionTypeSerializer(action_types, many=True)
+    
+    return Response(serializers.data)
+
+
+@api_view(['GET'])
+def get_single_action_type(request, pk):
+    action_type = ActionType.objects.filter(pk=pk).first()
+
+    if action_type is None: return Response({
+        'detail': "Action type with given id doesn't exists!"
+    }, status=status.HTTP_204_NO_CONTENT)
+
+    serializer = ActionTypeSerializer(action_type, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+def remove_action_type(request, pk):
+    action_type = ActionType.objects.filter(pk=pk).first()
+    if action_type is None: return Response({
+        'detail': "Action type with given id doesn't exists!"
+    }, status=status.HTTP_204_NO_CONTENT)
+
+    action_type.delete()
+    return Response({
+        'detail': f"Action type with id={pk} have been deleted!"
+    }, status=status.HTTP_200_OK)
+
+
+@api_view(['PUT'])
+def update_action_type(request, pk):
+    action_type = ActionType.objects.filter(pk=pk).first()
+    if action_type is None: return Response({
+        'detail': "Action type with given id doesn't exists!"
+    }, status=status.HTTP_204_NO_CONTENT)
+
+
+    '''
+        fields we can change: sub_type, type
+    '''
+    data = request.data
+    if data.get('action_type_id') is not None: return Response({
+        'detail': "You can not change the primary key!"
+    }, status=status.HTTP_400_BAD_REQUEST)
+
+    if data.get('sub_type') is not None: action_type.sub_type = data['sub_type']
+    if data.get('type') is not None: action_type.type = data['type']
+
+    action_type.save()
+
+    serializer = ActionTypeSerializer(action_type, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def add_action_type(request):
+    data = request.data
+    if data.get('subtype') is None or \
+        data.get('type') is None: return Response({
+            'detail': 'Some required field of request is missing!'
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+    action_type = ActionType() if data.get('action_type_id') is None else ActionType(pk=int(data['action_type_id']))
+    action_type.subtype = data['subtype']
+    action_type.type = data['type']
+    action_type.save()
+
+    serializer = ActionTypeSerializer(action_type, many=False)
     return Response(serializer.data)

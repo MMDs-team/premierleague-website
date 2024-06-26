@@ -111,10 +111,10 @@ def add_staff(request):
     data = request.data
     # "1956-10-19"
     date = None
-    if data.get('est_date') != None:
-        y = int(data['est_date'][:4])
-        m = int(data['est_date'][5:7])
-        d = int(data['est_date'][8:])
+    if data.get('birth_date') != None:
+        y = int(data['birth_date'][:4])
+        m = int(data['birth_date'][5:7])
+        d = int(data['birth_date'][8:])
         date = datetime.date(y, m, d)
 
     club_staff = ClubStaff.objects.create(

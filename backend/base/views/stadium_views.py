@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
 
-from base.models import Stadium
+from base.models import Stadium, ClubStad
 from base.serializers.stadium_serializers import *
 
 
@@ -88,5 +88,57 @@ def remove_stadium(request, pk):
         stat = status.HTTP_200_OK
     except:
         message = {'detail': 'Error while deleting stadium'}
+        stat = status.HTTP_400_BAD_REQUEST
+    return Response(message, status=stat)
+
+
+
+
+@api_view(['GET'])
+def get_all_club_stadium(request):
+    stadiums = ClubStad.objects.all()
+    serializer = ClubStadiumSerializer(stadiums, many=True)
+
+    return Response(serializer.data)
+
+
+
+@api_view(['GET'])
+def get_single_club_stadium(request, pk):
+    try:
+        stadium = ClubStad.objects.get(pk = pk)
+        serializer = ClubStadiumSerializer(stadium, many=False)
+        return Response(serializer.data)
+    except :
+        message = {'detail': 'No club_stadium found with this id'}
+        return Response(message, status=status.HTTP_404_NOT_FOUND)
+    
+
+
+
+
+@api_view(['POST'])
+def add_club_stadium(request):
+    data = request.data
+
+    club_stadium = ClubStad.objects.create(
+        club_id = int(data['club']),
+        stadium_id = int(data['stadium']),
+    )
+
+    serializer = ClubStadiumSerializer(club_stadium, many=False)
+    return Response(serializer.data)
+
+
+
+@api_view(['DELETE'])
+def remove_club_stadium(request, pk):
+    message, stat = None, None
+    try:
+        ClubStad(pk = pk).delete()
+        message = {'detail': 'The club stadium deleted successfully.'}
+        stat = status.HTTP_200_OK
+    except:
+        message = {'detail': 'Error while deleting club stadium'}
         stat = status.HTTP_400_BAD_REQUEST
     return Response(message, status=stat)

@@ -18,7 +18,7 @@ class Club(models.Model):
     website = models.URLField(max_length=LONG_STRLEN)
     social_media = models.URLField(max_length=LONG_STRLEN)
     email = models.EmailField(max_length=LONG_STRLEN)
-    main_stadium = models.ForeignKey('ClubStad', null=True, blank=True, on_delete=models.SET_NULL, related_name='club_club_stad')
+    stadium = models.ForeignKey('ClubStad', null=True, blank=True, on_delete=models.SET_NULL, related_name='club_club_stad')
 
     sponsors = models.ManyToManyField(
         "Sponsor",
@@ -362,6 +362,7 @@ class Match(models.Model) :
     weather = models.CharField(max_length=SMALL_STRLEN, default='Stable')
     referee_kit_number = models.SmallIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(4)], null=True, blank=True)
     ticket_price = models.IntegerField()
+    resault = models.CharField(max_length=SMALL_STRLEN)
     
     host_club = models.ForeignKey(SampleClub, on_delete=models.CASCADE, related_name='match_host_club')
     guest_club = models.ForeignKey(SampleClub, on_delete=models.CASCADE, related_name='match_guest_club')

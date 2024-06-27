@@ -8,6 +8,4 @@ urlpatterns = [
     path('table', views.get_table, name='get_table'),
     path('action', views.get_action, name='get_action'),
     path('fixtures', views.get_fixtures, name='get_fixtures'),
-    path('fixtures', views.get_fixtures, name='get_fixtures'),
-
 ]

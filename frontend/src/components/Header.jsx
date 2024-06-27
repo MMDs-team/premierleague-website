@@ -7,44 +7,11 @@ import { SubNav } from './SubNav';
 import logoImage from '../static/images/pl-main-logo.png'
 
 
-const Header = () => {
+const Header = ({lists}) => {
 
     const [isOpen, setIsOpen] = useState(false)
     const [scrolling, setScrolling] = useState(false);
 
-
-    let lists = [
-        {
-            name: "Permier League",
-            options : [
-                "Home", "Fixtures", "Results", "Tables", "Transfers", "Stats", "News", "Video", "clubs", "Ticktes", "Players", "Awards"
-            ],
-        },
-        {
-            name: "Permier League",
-            options : [
-                "Home", "Fixtures", "Results", "Tables", "Transfers", "Stats", "News", "Video", "clubs", "Ticktes", "Players", "Awards"
-            ],
-        },
-        {
-            name: "Permier League",
-            options : [
-                "Home", "Fixtures", "Results", "Tables", "Transfers", "Stats", "News", "Video", "clubs", "Ticktes", "Players", "Awards"
-            ],
-        },
-        {
-            name: "Permier League",
-            options : [
-                "Home", "Fixtures", "Results", "Tables", "Transfers", "Stats", "News", "Video", "clubs", "Ticktes", "Players", "Awards"
-            ],
-        },
-        {
-            name: "Permier League",
-            options : [
-                "Home", "Fixtures", "Results", "Tables", "Transfers", "Stats", "News", "Video", "clubs", "Ticktes", "Players", "Awards"
-            ],
-        }
-    ]
 
 
     
@@ -119,7 +86,7 @@ const Header = () => {
     
     
     
-            <SubNav />
+            <SubNav options={lists[0].options}/>
         </div>
     
     

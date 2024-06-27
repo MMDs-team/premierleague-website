@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from '../components/Header'
+
 
 
 const HomeScreen = () => {
@@ -8,8 +8,7 @@ const HomeScreen = () => {
   
   return (
     <div>
-        <Header />
-        
+
         <h1 style={{padding: '3rem 7rem'}}>Lorem Ipsum</h1>
         <p style={{padding: '0 15rem'}}>
           "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."

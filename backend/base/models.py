@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator 
 
 SEMESTERS = [('SUMMER', 'summer'), ('WINTER', 'winter')]
+
 SHORT_STRLEN = 10
 SMALL_STRLEN = 25
 STRLEN = 45
@@ -17,6 +18,7 @@ class Club(models.Model):
     website = models.URLField(max_length=LONG_STRLEN)
     social_media = models.URLField(max_length=LONG_STRLEN)
     email = models.EmailField(max_length=LONG_STRLEN)
+    main_stadium = models.ForeignKey('ClubStad', null=True, on_delete=models.SET_NULL, related_name='club_club_stad')
 
     sponsors = models.ManyToManyField(
         "Sponsor",
@@ -39,7 +41,8 @@ class ClubStad(models.Model):
     club = models.ForeignKey(Club, on_delete=models.CASCADE, related_name='club_stad_club')
     stadium = models.ForeignKey("Stadium", models.CASCADE, related_name='club_stad_stadium')
 
-    # Discuss about how to add a delimiter related with season here!
+    class Meta:
+        unique_together = ['club', 'stadium']
 
     def __str__(self):
         return f"{self.club} - {self.stadium}"
@@ -59,6 +62,9 @@ class SampleClub(models.Model):
         through_fields=("club", "player")
     )
 
+    class Meta:
+        unique_together = ['club', 'season']
+
     def __str__(self):
         return f"{self.club} - {self.season}"
 
@@ -77,6 +83,9 @@ class ClubSpon(models.Model):
     club_spon_id = models.AutoField(primary_key=True, editable=False)
     club = models.ForeignKey(Club, on_delete=models.CASCADE, related_name='club_spon_club')
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE, related_name='club_spon_sponsor')
+
+    class Meta:
+        unique_together = ['club', 'sponsor']
 
     def __str__(self):
         return f"{self.club} - {self.sponsor}"
@@ -101,6 +110,9 @@ class MatchSpon(models.Model):
     match = models.ForeignKey("Match", on_delete=models.CASCADE, related_name='match_spon_match')
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE, related_name='match_spon_sponsor')
 
+    class Meta:
+        unique_together = ['match', 'sponsor']
+
     def __str__(self):
         return f"{self.match} - {self.sponsor}"
 
@@ -113,6 +125,9 @@ class SeaSpon(models.Model):
 
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE, related_name='sea_spon_sponsor')
     season = models.ForeignKey("Season", on_delete=models.CASCADE, related_name='sea_spon_season')
+
+    class Meta:
+        unique_together = ['season', 'sponsor']
 
     def __str__(self):
         return f"{self.season} - {self.sponsor}"
@@ -133,6 +148,9 @@ class Casts(models.Model):
     casts_id = models.AutoField(primary_key=True, editable=False)
     match = models.ForeignKey("Match", on_delete=models.CASCADE, related_name='casts_match')
     broadcaster = models.ForeignKey(Broadcaster, on_delete=models.CASCADE, related_name='casts_broadcaster')
+
+    class Meta:
+        unique_together = ['match', 'broadcaster']
 
     def __str__(self):
         return f"{self.match} - {self.broadcaster}"
@@ -159,18 +177,17 @@ class Season(models.Model):
         through_fields=('season', 'sponsor')
     )
 
-
     def __str__(self):
         return f'Seaseon {self.date.year}'
     
 
 class Employee(models.Model):
-    employee = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE, related_name='employee_user')
+    employee = models.OneToOneField(User, primary_key=True, editable=False, on_delete=models.CASCADE, related_name='employee_user')
     image = models.ImageField(upload_to='employees', max_length=STRLEN, null=True, blank=True)
     birth_date = models.DateField()
     position = models.CharField(max_length=SMALL_STRLEN)
     description = models.TextField()
-    cv_path = models.FileField(upload_to='CVs')
+    cv = models.FileField(upload_to='CVs')
     salary = models.DecimalField(max_digits=9, decimal_places=2)
     gender = models.BooleanField()
 
@@ -186,6 +203,8 @@ class ClubStaff(models.Model):
     description = models.TextField()
     club = models.ForeignKey('SampleClub', on_delete=models.CASCADE, related_name='club_staff_club')
 
+    class Meta:
+        unique_together = ['staff', 'club']
 
     def __str__(self):
         return f'{self.staff}({self.position})'
@@ -200,7 +219,6 @@ class Stadium(models.Model):
     coordinates = models.CharField(max_length=STRLEN)
     capacity = models.IntegerField()
     description = models.TextField()
-
 
     def __str__(self):
         return str(self.name)
@@ -240,6 +258,9 @@ class Ticket(models.Model):
     seat_number = models.IntegerField()
     date_time = models.DateTimeField()
 
+    class Meta:
+        unique_together = ['user', 'match']
+
     def __str__(self):
         return f'Ticket({self.user}-{self.match})'
 
@@ -261,7 +282,6 @@ class Referee(models.Model) :
     cv = models.FileField(upload_to='CVs')
     nationality = models.CharField(max_length=SMALL_STRLEN)
 
-    
     def __str__(self):
         return f'{self.referee}'
     
@@ -308,6 +328,9 @@ class SamplePlayer(models.Model) :
     
     number_in_team = models.SmallIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(99)])
     position = models.CharField(max_length=SMALL_STRLEN)
+
+    class Meta:
+        unique_together = ['player', 'club']
     
     def __str__(self):
         return f'{self.player}-{self.club}-{self.season}'
@@ -323,6 +346,9 @@ class Transfer(models.Model) :
     amount = models.IntegerField()
     semester = models.CharField(max_length=SMALL_STRLEN, default='SUMMER', choices=SEMESTERS)
     duration = models.IntegerField()
+
+    class Meta:
+        unique_together = ['player', 'target_club']
     
     def __str__(self):
         return f'{self.player}: {self.origin_club} -> {self.target_club}, {self.season}-{self.semester}'
@@ -330,7 +356,7 @@ class Transfer(models.Model) :
 
 class Match(models.Model) : 
     match_id = models.AutoField(primary_key=True, unique=True, editable=False)
-    date_time = models.DateTimeField(auto_now_add=True)
+    date_time = models.DateTimeField()
     host_players = models.CharField(max_length=LONG_STRLEN, null=True, blank=True)
     away_players = models.CharField(max_length=LONG_STRLEN, null=True, blank=True)
     weather = models.CharField(max_length=SMALL_STRLEN, default='Stable')
@@ -362,5 +388,8 @@ class Match(models.Model) :
         through_fields=('match', 'user')
     )
     
+    class Meta:
+        unique_together = ['host_club', 'guest_club']
+
     def __str__(self):
         return f'{self.match_id} -> {self.host_club} vs {self.guest_club}'

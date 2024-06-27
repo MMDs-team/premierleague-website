@@ -69,17 +69,15 @@ def update_kit(request, pk):
 @api_view(['POST'])
 def add_kit(request):
     data = request.data
-    print(type(data.get('image')))
     if data.get('image') is None or \
-        data.get('color') is None or \
-        data.get('sample_club') is None: return Response({
+        data.get('color') is None: return Response({
             'detail': 'Some mandatory fields of request is missing!'
         }, status=status.HTTP_400_BAD_REQUEST)
 
     kit = Kit() if data.get('kit_id') is None else Kit(pk=int(data['kit_id']))
     kit.image = data['image']
     kit.color = data['color'].lower()
-    kit.sample_club_id = int(data['sample_club'])
+    if data.get('sample_club') is not None: kit.sample_club_id = int(data['sample_club'])
     kit.save()
 
     serializer = KitSerializer(kit, many=False)

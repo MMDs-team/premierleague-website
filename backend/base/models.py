@@ -18,7 +18,7 @@ class Club(models.Model):
     website = models.URLField(max_length=LONG_STRLEN)
     social_media = models.URLField(max_length=LONG_STRLEN)
     email = models.EmailField(max_length=LONG_STRLEN)
-    main_stadium = models.ForeignKey('ClubStad', null=True, on_delete=models.SET_NULL, related_name='club_club_stad')
+    main_stadium = models.ForeignKey('ClubStad', null=True, blank=True, on_delete=models.SET_NULL, related_name='club_club_stad')
 
     sponsors = models.ManyToManyField(
         "Sponsor",
@@ -96,7 +96,7 @@ class Kit(models.Model):
     image = models.ImageField(upload_to="kits")
     color = models.CharField(max_length=SHORT_STRLEN)
 
-    sample_club = models.ForeignKey(SampleClub, on_delete=models.CASCADE, related_name='kit_sample_club')
+    sample_club = models.ForeignKey(SampleClub, null=True, blank=True, on_delete=models.CASCADE, related_name='kit_sample_club')
 
     def __str__(self):
         return f"{self.kit_id} - {self.sample_club}"
@@ -178,7 +178,7 @@ class Season(models.Model):
     )
 
     def __str__(self):
-        return f'Seaseon {self.date.year}'
+        return f'Season {self.date.year}'
     
 
 class Employee(models.Model):

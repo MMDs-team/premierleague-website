@@ -246,3 +246,16 @@ def update_sample_club(request, pk):
     except:
         message = {'detail': 'Error while updating sample club'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    
+
+from ..models import Season
+from django.db.models import Max
+
+@api_view(['GET'])
+def get_clubs_small_details(request):
+    date = Season.objects.aggregate(Max('date'))['date__max']
+    last_season = Season.objects.get(date = date)
+    clubs_of_last_season = SampleClub.objects.filter(season_id = last_season.season_id)
+    
+    serializer = SampleClubOfLastSeasonSerializer(clubs_of_last_season, many=True)
+    return Response(serializer.data)

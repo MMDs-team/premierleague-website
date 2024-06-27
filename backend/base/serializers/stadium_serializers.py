@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from base.models import Stadium, ClubStad
-from base.serializers.club_serializers import ClubSerializer
+from base.models import Stadium
+# from base.serializers.club_serializers import ClubSerializer
 
 
 
@@ -11,16 +11,16 @@ class StadiumSerializer(serializers.ModelSerializer):
 
 
 class ClubStadiumSerializer(serializers.ModelSerializer):
-    club = serializers.SerializerMethodField(read_only=True)
+    # club = serializers.SerializerMethodField(read_only=True)
     stadium = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Stadium
-        fields = ['club', 'stadium']
+        fields = '__all__'
 
-    def get_club(self, obj):
-        club = obj.club
-        serializer = ClubSerializer(club, many=False)
-        return serializer.data
+    # def get_club(self, obj):
+    #     club = obj.club
+    #     serializer = ClubSerializer(club, many=False)
+    #     return serializer.data
     
     def get_stadium(self, obj):
         stadium = obj.stadium

@@ -30,3 +30,8 @@ urlpatterns = [
     path('staff', views.get_all_staff, name='all_staff'),
 
 ] + urlpatterns
+
+urlpatterns = [
+    path('ex', views.get_clubs_small_details, name='get_clubs_small_details'),
+
+] + urlpatterns

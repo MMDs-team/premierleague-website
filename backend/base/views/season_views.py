@@ -52,7 +52,8 @@ def update_season(request, pk):
 
 
     '''
-        fields we can change: cup_image, date, kit1, kit2, kit3, kit4
+        fields we can change: cup_image, date, 
+            kit1, kit2, kit3, kit4
     '''
     data = request.data
     if data.get('season_id') is not None: return Response({
@@ -61,10 +62,10 @@ def update_season(request, pk):
 
     if data.get('cup_image') is not None: season.cup_image = data['cup_image']
     if data.get('date') is not None: season.date = data['date']
-    if data.get('kit1') is not None: season.kit1 = int(data['kit1'])
-    if data.get('kit2') is not None: season.kit2 = int(data['kit2'])
-    if data.get('kit3') is not None: season.kit3 = int(data['kit3'])
-    if data.get('kit4') is not None: season.kit4 = int(data['kit4'])
+    if data.get('kit1') is not None: season.kit1_id = int(data['kit1'])
+    if data.get('kit2') is not None: season.kit2_id = int(data['kit2'])
+    if data.get('kit3') is not None: season.kit3_id = int(data['kit3'])
+    if data.get('kit4') is not None: season.kit4_id = int(data['kit4'])
     season.save()
 
     serializer = SeasonSerializer(season, many=False)
@@ -79,17 +80,15 @@ def add_season(request):
         }, status=status.HTTP_400_BAD_REQUEST)
 
     season = Season() if data.get('season_id') is None else Season(pk=int(data['season_id']))
+    year, month, day = int(data['date'][:4]), int(data['date'][5:7]), int(data['date'][8:])
+    season.date = datetime.date(year, month, day)
 
     if data.get('cup_image') is not None: season.cup_image = data['cup_image']
-    if data.get('date') is not None:
-        year, month, day = int(data['date'][:4]), int(data['date'][5:7]), int(data['date'][8:])
-        season.date = datetime.date(year, month, day)
-
     if data.get('date') is not None: season.date = data['date']
-    if data.get('kit1') is not None: season.kit1 = int(data['kit1'])
-    if data.get('kit2') is not None: season.kit2 = int(data['kit2'])
-    if data.get('kit3') is not None: season.kit3 = int(data['kit3'])
-    if data.get('kit4') is not None: season.kit4 = int(data['kit4'])
+    if data.get('kit1') is not None: season.kit1_id = int(data['kit1'])
+    if data.get('kit2') is not None: season.kit2_id = int(data['kit2'])
+    if data.get('kit3') is not None: season.kit3_id = int(data['kit3'])
+    if data.get('kit4') is not None: season.kit4_id = int(data['kit4'])
     season.save()
 
     serializer = SeasonSerializer(season, many=False)

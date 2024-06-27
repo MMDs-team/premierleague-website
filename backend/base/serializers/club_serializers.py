@@ -1,17 +1,22 @@
 from rest_framework import serializers
-from base.models import Club, ClubStaff, SampleClub
+from base.models import Club, ClubStaff, SampleClub, Stadium
 from base.serializers.user_serializers import SimpleUserSerializer
 from base.serializers.season_serializers import SeasonSerializer
-
+from base.serializers.stadium_serializers import StadiumSerializer
 
 
 class ClubSerializer(serializers.ModelSerializer):
+    main_stadium = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Club
         fields = [
             'club_id', 'name', 'image', 'description',
-            'est_date', 'website', 'social_media', 'email'
+            'est_date', 'website', 'social_media', 'email', 'main_stadium'
         ]
+    
+    def get_main_stadium(request, obj):
+        main_stadium = obj.main_stadium
+        serializer = StadiumSerializer(main_stadium, many=False)
 
 
 class SampleClubSerializer(serializers.ModelSerializer):
@@ -51,3 +56,21 @@ class ClubStaffSerializer(serializers.ModelSerializer):
         serializer = SampleClubSerializer(club, many=False)
         return serializer.data
     
+
+
+
+class ClubOfLastSeasonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Club
+        fields = ['club_id', 'name', 'website']
+
+class SampleClubOfLastSeasonSerializer(serializers.ModelSerializer):
+    club = serializers.SerializerMethodField(read_only=True)
+    class Meta:
+        model = SampleClub
+        fields = ['logo', 'club']
+    
+    def get_club(self, obj):
+        club = obj.club
+        serializer = ClubOfLastSeasonSerializer(club, many=False)
+        return serializer.data

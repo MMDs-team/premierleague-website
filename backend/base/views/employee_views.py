@@ -52,15 +52,14 @@ def update_employee(request, pk):
 
 
     '''
-        fields we can change: employee, image, birth_date, position, description, 
-            cv_path, salary, gender
+        fields we can change: image, birth_date, position, description, 
+            cv, salary, gender
     '''
     data = request.data
-    if data.get('employee_id') is not None: return Response({
+    if data.get('employee') is not None: return Response({
         'detail': "You can not change the primary key!"
     }, status=status.HTTP_400_BAD_REQUEST)
 
-    # Check here for type issues
     if data.get('image') is not None: employee.image = data['image']
     if data.get('birth_date') is not None: 
         year, month, day = int(data['birth_date'][:4]), int(data['birth_date'][5:7]), int(data['birth_date'][8:])
@@ -68,7 +67,7 @@ def update_employee(request, pk):
 
     if data.get('position') is not None: employee.position = data['position']
     if data.get('description') is not None: employee.description = data['description']
-    if data.get('cv_path') is not None: employee.cv_path = data['cv_path']
+    if data.get('cv') is not None: employee.cv = data['cv']
     if data.get('salary') is not None: employee.salary = float(data['salary'])
     if data.get('gender') is not None: employee.gender = bool(data['gender'])
     employee.save()
@@ -84,7 +83,7 @@ def add_employee(request):
         data.get('birth_date') is None or \
         data.get('position') is None or \
         data.get('description') is None or \
-        data.get('cv_path') is None or \
+        data.get('cv') is None or \
         data.get('salary') is None or \
             data.get('gender') is None: return Response({
             'detail': 'Some required fields is missing!'
@@ -98,7 +97,7 @@ def add_employee(request):
         birth_date=birth_date,
         position=data['position'],
         description=data['description'],
-        cv_path=data['cv_path'],
+        cv=data['cv'],
         salary=float(data['salary']),
         gender=bool(data['gender'])
     )

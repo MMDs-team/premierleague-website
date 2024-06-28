@@ -1,11 +1,11 @@
 from django.urls import path
-from base.views import overviews as views
+from base.views import overview_views as views
 
 
 urlpatterns = [
-    path('club', views.get_club, name='get_club'),
-    path('player', views.get_player, name='get_player'),
-    path('table', views.get_table, name='get_table'),
-    path('action', views.get_action, name='get_action'),
+    path('clubs', views.get_clubs, name='get_clubs'),
+    path('players', views.get_players, name='get_players'),
+    path('tables', views.get_tables, name='get_tables'),    
+    path('actions', views.get_actions, name='get_actions'),
     path('fixtures', views.get_fixtures, name='get_fixtures'),
 ]

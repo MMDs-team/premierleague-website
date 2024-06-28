@@ -38,6 +38,11 @@ class SampleClubSerializer(serializers.ModelSerializer):
     
 
 
+class SampleClubSerializerSimple(serializers.ModelSerializer):
+    class Meta:
+        model = SampleClub
+        fields = '__all__'
+    
 
 class ClubStaffSerializer(serializers.ModelSerializer):
     staff = serializers.SerializerMethodField(read_only=True)

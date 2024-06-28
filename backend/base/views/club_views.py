@@ -185,7 +185,7 @@ def update_staff(request, pk):
 @api_view(['GET'])
 def get_all_sample_clubs(request):
     all_sample_clubs = SampleClub.objects.all()
-    serializer = SampleClubSerializer(all_sample_clubs, many=True)
+    serializer = SampleClubSerializerSimple(all_sample_clubs, many=True)
     
     return Response(serializer.data)
 
@@ -255,7 +255,7 @@ from django.db.models import Max
 def get_clubs_small_details(request):
     date = Season.objects.aggregate(Max('date'))['date__max']
     last_season = Season.objects.get(date = date)
-    clubs_of_last_season = SampleClub.objects.filter(season_id = last_season.season_id)
-    
+    last_season_id = last_season.season_id
+    clubs_of_last_season = SampleClub.objects.filter(season_id = last_season_id)
     serializer = SampleClubOfLastSeasonSerializer(clubs_of_last_season, many=True)
     return Response(serializer.data)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from base.models import SamplePlayer
+from base.models import SamplePlayer, Match
 
 class PlayersOverviewSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source='player.player.first_name', read_only=True)
@@ -13,3 +13,22 @@ class PlayersOverviewSerializer(serializers.ModelSerializer):
             'sample_player_id', 'first_name', 'last_name', 
             'position', 'nationality', 'image',
         )
+
+        
+class MatchSerializerForFixtures(serializers.ModelSerializer):
+    time = serializers.SerializerMethodField(read_only=True)
+    
+    def get_time(self, obj):
+        return obj.date_time.time()
+        
+    class Meta:
+        model = Match
+        fields = [
+            'match_id',
+            'time',
+            'ticket_price',
+            'result',
+            'host_club',
+            'guest_club',
+            'stadium'
+        ]

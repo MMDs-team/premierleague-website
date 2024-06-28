@@ -5,17 +5,18 @@ from base.views import ticket_views as views
 
 
 urlpatterns = [
-    path('add', views.buy_ticket, name='add_type_stadium'),
-    path('remove', views.cancel_ticket, name='add_type_stadium'),
-    path('get<int:pk>', views.get_single_ticket, name='get_all_tickets'),
-    path('', views.get_all_ticket, name='get_all_tickets'),
+    path('buy', views.buy_ticket, name='buy_ticket'),
+    path('remove/<int:pk>', views.cancel_ticket, name='cancel_ticket'),
+    path('whatch', views.get_user_ticket, name='get_user_ticket'),  #api/ticket/whatch?us=4
+    path('<int:pk>', views.get_single_ticket, name='get_single_ticket'),
+    path('', views.get_all_tickets, name='get_all_tickets'),
 ]
 
 
 urlpatterns = [
-    path('type/add', views.add_type_stadium, name='add_type_stadium'),
-    path('type/update/<int:pk>', views.update_type_stadium, name='update_type_stadium'),
-    path('type/remove/<int:pk>', views.remove_type_stadium, name='remove_type_stadium'),
-    path('type/<int:pk>', views.get_single_type_stadium, name='get_single_type_stadium'),
-    path('type', views.get_all_type_stadium, name='all_type_stadiums'),
+    path('type/add', views.add_ticket_type, name='add_ticket_type'),
+    path('type/update/<int:pk>', views.update_ticket_type, name='update_ticket_type'),
+    path('type/remove/<int:pk>', views.remove_ticket_type, name='remove_ticket_type'),
+    path('type/<int:pk>', views.get_single_ticket_type, name='get_single_ticket_type'),
+    path('type', views.get_all_ticket_type, name='all_ticket_types'),
 ] + urlpatterns

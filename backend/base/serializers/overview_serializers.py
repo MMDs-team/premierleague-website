@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from base.models import SamplePlayer, Match
+from base.models import SamplePlayer, Match, SampleClub, Club
 
 class PlayersOverviewSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source='player.player.first_name', read_only=True)
@@ -10,8 +10,40 @@ class PlayersOverviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = SamplePlayer
         fields = (
-            'sample_player_id', 'first_name', 'last_name', 
-            'position', 'nationality', 'image',
+            'sample_player_id',
+            'first_name',
+            'last_name', 
+            'position',
+            'nationality',
+            'image',
+        )
+        
+        
+class SeasonClubsOverviewSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source='club.name', read_only=True)
+
+    class Meta:
+        model = SampleClub
+        fields = (
+            'sample_club_id',
+            'name',
+            'logo',
+        )
+   
+class AllClubsOverviewSerializer(serializers.ModelSerializer):
+    logo = serializers.SerializerMethodField(read_only=True)
+    
+    def get_logo(self, obj):
+        logo = SampleClub.objects.filter(club=obj.club_id).latest('season').logo
+        return logo.url
+    
+    class Meta:
+        model = Club
+        fields = (
+            'club_id',
+            'name',
+            'logo',
+            'main_stadium',
         )
 
         

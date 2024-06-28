@@ -3,7 +3,8 @@ from base.views import overview_views as views
 
 
 urlpatterns = [
-    path('clubs', views.get_clubs, name='get_clubs'),
+    path('seasonClubs', views.season_clubs, name='season_clubs'),
+    path('allClubs', views.all_clubs, name='all_clubs'),
     path('players', views.get_players, name='get_players'),
     path('tables', views.get_tables, name='get_tables'),    
     path('actions', views.get_actions, name='get_actions'),

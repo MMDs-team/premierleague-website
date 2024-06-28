@@ -1,36 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios'
-import clubLogo from '../static/images/clubImage.png'
+import React, { useContext, useEffect } from 'react';
+import {ThisSeasonClubs} from '../App.js'
+
+
 
 export const ClubNavigation = () => {
 
-    const [clubs, setClubs] = useState([])
-
-    const fetchData = async () => {
-        try {
-            const response = await axios.get("http://127.0.0.1:8000/api/club/ex")
-            setClubs(response.data)
-            console.log(response.data)
-        } catch (error) {
-            console.log("Error fetching clubs!", error)
-        }
-
-        
-    }
-
-    useEffect(() => {
-        fetchData();
-    },[])
-
+    const clubs = useContext(ThisSeasonClubs)
 
     return (
+
+
         <nav className="clubNavigation js-club-navigation" data-script="pl_global-header" role="menubar">
             <h4 className="clubSitesHeading">
                 Club Sites
             </h4>
 
             <ul className="clubList" role="menu">
-                {clubs.map((club, i) => (
+
+                {clubs && clubs.map((club, i) => (
                     
                     <li className="clubList__club" key={i}>
                         <a className="clubList__link" target="_blank" href={club.website} role="menuitem">

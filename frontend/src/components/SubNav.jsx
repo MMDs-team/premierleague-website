@@ -22,7 +22,6 @@ export const SubNav = (props) => {
                         data-link-index={index} 
                         role="menuitem"
                         onClick={() => setActiveIndex(index)}
-                        as a
                         >
 
                         {option.name}

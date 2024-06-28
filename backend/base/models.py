@@ -18,7 +18,7 @@ class Club(models.Model):
     website = models.URLField(max_length=LONG_STRLEN)
     social_media = models.URLField(max_length=LONG_STRLEN)
     email = models.EmailField(max_length=LONG_STRLEN)
-    stadium = models.ForeignKey('ClubStad', null=True, blank=True, on_delete=models.SET_NULL, related_name='club_club_stad')
+    main_stadium = models.ForeignKey('Stadium', null=True, blank=True, on_delete=models.SET_NULL, related_name='club_club_stad')
 
     sponsors = models.ManyToManyField(
         "Sponsor",
@@ -182,12 +182,12 @@ class Season(models.Model):
     
 
 class Employee(models.Model):
-    employee = models.OneToOneField(User, primary_key=True, editable=False, on_delete=models.CASCADE, related_name='employee_user')
+    employee = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE, related_name='employee_user')
     image = models.ImageField(upload_to='employees', max_length=STRLEN, null=True, blank=True)
     birth_date = models.DateField()
     position = models.CharField(max_length=SMALL_STRLEN)
     description = models.TextField()
-    cv = models.FileField(upload_to='CVs')
+    CV = models.FileField(upload_to='CVs')
     salary = models.DecimalField(max_digits=9, decimal_places=2)
     gender = models.BooleanField()
 
@@ -275,7 +275,7 @@ class ActionType(models.Model) :
 
 
 class Referee(models.Model) : 
-    referee = models.OneToOneField(User, primary_key=True, unique=True, editable=False, on_delete=models.CASCADE, related_name='referee_user')
+    referee = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE, related_name='referee_user')
     
     image = models.ImageField(upload_to='referees', max_length=STRLEN, null=True, blank=True)
     birth_date = models.DateField()
@@ -362,7 +362,7 @@ class Match(models.Model) :
     weather = models.CharField(max_length=SMALL_STRLEN, default='Stable')
     referee_kit_number = models.SmallIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(4)], null=True, blank=True)
     ticket_price = models.IntegerField()
-    resault = models.CharField(max_length=SMALL_STRLEN)
+    result = models.CharField(max_length=SMALL_STRLEN)
     
     host_club = models.ForeignKey(SampleClub, on_delete=models.CASCADE, related_name='match_host_club')
     guest_club = models.ForeignKey(SampleClub, on_delete=models.CASCADE, related_name='match_guest_club')

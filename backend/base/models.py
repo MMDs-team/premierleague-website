@@ -187,7 +187,7 @@ class Employee(models.Model):
     birth_date = models.DateField()
     position = models.CharField(max_length=SMALL_STRLEN)
     description = models.TextField()
-    CV = models.FileField(upload_to='CVs')
+    cv = models.FileField(upload_to='CVs')
     salary = models.DecimalField(max_digits=9, decimal_places=2)
     gender = models.BooleanField()
 

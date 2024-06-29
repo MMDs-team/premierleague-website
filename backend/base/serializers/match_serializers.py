@@ -18,7 +18,7 @@ class MatchSerializer(serializers.ModelSerializer):
         model = Match
         fields = [
             'match_id', 'date_time', 'host_players', 'away_players', 
-            'weather', 'referee_kit_number', 'ticket_price',
+            'weather', 'referee_kit_number', 'ticket_price','result',
             
             'host_club', 'guest_club', 'stadium', 'referee',
             'first_referee_asist', 'second_referee_asist',

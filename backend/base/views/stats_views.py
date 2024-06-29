@@ -43,7 +43,7 @@ def count_club_matches(season, comp):
 
         result.append(dict(serializer.data) | {'stats': count})
 
-    return Response(result)
+    return result
 
 
 def count_club_actions(season, action_type, subject=True):
@@ -80,7 +80,7 @@ def count_club_actions(season, action_type, subject=True):
     
     for res in result: res.pop('club_id')
 
-    return Response(result)
+    return result
 
 
 @api_view(['GET'])
@@ -88,7 +88,7 @@ def stats_top_club(request):
     season = int(request.GET['se'])
     action_type = request.GET['at']
 
-    response = Response({})
+    response = {}
     match action_type:
         case 'wins': response = count_club_matches(season, lambda self, other: self > other)
         case 'loses': response = count_club_matches(season, lambda self, other: self < other)
@@ -113,11 +113,11 @@ def stats_top_club(request):
         case 'passes': response = count_club_actions(season, action_type=ACTIONS['pass'])
         case 'crosses': response = count_club_actions(season, action_type=ACTIONS['cross'])
         case 'corners': response = count_club_actions(season, action_type=ACTIONS['corner'])
-        case _: response = Response({
+        case _: response = {
             'detail': f'There is no action type called {action_type}'
-        })
+        }
 
-    return response
+    return Response(response)
 
 '''
 club, nationality and position parts are getting a role as extra filters

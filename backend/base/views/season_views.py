@@ -7,6 +7,7 @@ from django.contrib.auth.hashers import make_password
 from rest_framework import status
 from base.models import Season
 from base.serializers.season_serializers import *
+from django.db.models import ExpressionWrapper, F, DateField
 import datetime
 
 
@@ -97,5 +98,8 @@ def add_season(request):
 
 @api_view(['GET'])
 def get_all_seasons_by_order(request):
-    result = Season.objects.order_by('date').values('season_id', 'date')
+    result = [
+        {'season_id': season.season_id, 'date': season.date.year} 
+        for season in Season.objects.order_by('date')
+    ]
     return Response(result)

@@ -28,6 +28,7 @@ const Fixtures = () => {
     }
 
     useEffect(() => {
+        console.log("here club index became", clubIndex)
         fetchData();
     },[clubsOfThisSeason, clubIndex])
 

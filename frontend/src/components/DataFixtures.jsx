@@ -12,8 +12,8 @@ export const DataFixtures = ({ fixtures }) => {
 
 
     useEffect(() => {
-        console.log("here")
         console.log(fixtures)
+        console.log("top was fixtures")
     }, [fixtures])
 
     return (
@@ -49,25 +49,25 @@ export const DataFixtures = ({ fixtures }) => {
                                                         <span className="match-fixture__teams">
                                                             <span className="match-fixture__team">
                                                                 <span className="match-fixture__team-name">
-                                                                    <span className="match-fixture__short-name">Man Utd</span>
-                                                                    <span className="match-fixture__abbr">MUN</span>
+                                                                    <span className="match-fixture__short-name">{match.host_club.name}</span>
+                                                                    <span className="match-fixture__abbr">{match.host_club.name}</span>
                                                                 </span>
                                                                 <span className="badge badge-image-container"
                                                                     data-widget="club-badge-image" data-size="50">
                                                                     <img className="badge-image badge-image--32 js-badge-image"
-                                                                        src="https://resources.premierleague.com/premierleague/badges/50/t1.png"/>
+                                                                        src={`http://127.0.0.1:8000${match.host_club.logo}`} alt="host-logo"/>
                                                                 </span>
                                                             </span>
-                                                            <time datetime="22:30">22:30</time>
+                                                            <time datetime={match.time.slice(0,5)}>{match.time.slice(0,5)}</time>
                                                             <span className="match-fixture__team">
                                                                 <span className="badge badge-image-container"
                                                                     data-widget="club-badge-image" data-size="50">
                                                                     <img className="badge-image badge-image--32 js-badge-image"
-                                                                        src="https://resources.premierleague.com/premierleague/badges/50/t54.png"/>
+                                                                        src={`http://127.0.0.1:8000${match.guest_club.logo}`} alt="gest-logo"/>
                                                                 </span>
                                                                 <span className="match-fixture__team-name">
-                                                                    <span className="match-fixture__short-name">Fulham</span>
-                                                                    <span className="match-fixture__abbr">FUL</span>
+                                                                    <span className="match-fixture__short-name">{match.guest_club.name}</span>
+                                                                    <span className="match-fixture__abbr">{match.guest_club.name}</span>
                                                                 </span>
                                                             </span>
                                                         </span>
@@ -80,7 +80,7 @@ export const DataFixtures = ({ fixtures }) => {
                                                                     </path>
                                                                 </svg>
                                                             </span>
-                                                            Old Trafford, Manchester
+                                                            {`${match.stadium.name} ${match.stadium.city}`}
                                                         </span>
                                                         <div className="match-fixture__end-container">
                                                             <span

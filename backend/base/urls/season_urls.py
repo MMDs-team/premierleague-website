@@ -9,3 +9,9 @@ urlpatterns = [
     path('<int:pk>', views.get_single_season, name='get_single_season'),
     path('', views.get_all_seasons, name='all_seasons'),
 ]
+
+urlpatterns = [
+    path('ordered', views.get_all_seasons_by_order, name='add_season')
+] + urlpatterns
+    
+

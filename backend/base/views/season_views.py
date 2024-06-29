@@ -101,5 +101,6 @@ def get_all_seasons_by_order(request):
     result = [
         {'season_id': season.season_id, 'date': season.date.year} 
         for season in Season.objects.order_by('date')
-    ]
+    ][::-1]
+
     return Response(result)

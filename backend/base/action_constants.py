@@ -1,6 +1,6 @@
 ACTION_NAMES = [
     'goal',
-    'asist',
+    'assist',
     'goal_from_header',
     'goal_from_penalty',
     'goal_from_freekick',

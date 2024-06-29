@@ -177,7 +177,7 @@ def status_top_player(request):
             else: response = count_player_actions(season, club, position, nationality, ACTIONS['goal'], subject=False)
         
         case 'saves': response = count_player_actions(season, club, position, nationality, ACTIONS['save'])
-        case 'asists': response = count_player_actions(season, club, position, nationality, ACTIONS['asist'])
+        case 'assists': response = count_player_actions(season, club, position, nationality, ACTIONS['assist'])
         case 'appearances': response = count_player_actions(season, club, position, nationality, ACTIONS['appearance'])
         case 'yellow_cards': response = count_player_actions(season, club, position, nationality, ACTIONS['yellow_card'], subject=False)
         case 'red_cards': response = count_player_actions(season, club, position, nationality, ACTIONS['red_card'], subject=False)

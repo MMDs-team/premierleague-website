@@ -3,10 +3,12 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
 from base.action_constants import ACTIONS
-from base.models import Action, Club, Match, Player, SampleClub, SamplePlayer, Season
-from base.serializers.stats_serializers import SampleClubSerializer, SamplePlayerSerializer, PlayerSerializer, StatsTopPlayerAllTimeSerializer, StatsTopClubAllTimeSerializer
 from bisect import bisect_left, bisect_right
-from django.db.models import F, Value
+from django.db.models import F, Value, Q
+from django.db.models.aggregates import Count
+
+from base.models import Action, Club, Match, Player, SampleClub, SamplePlayer, Season
+from base.serializers.stats_serializers import *
 
 
 @api_view(['GET'])
@@ -94,8 +96,6 @@ def count_club_actions(season, action_type, subject=True):
             index = bisect_left(result, curr_club, key=lambda res: res['club_id'])
             if index < len(result): result[index]['stats'] += 1
     
-    for res in result: res.pop('club_id')
-
     return result
 
 
@@ -225,3 +225,54 @@ def stats_top_player(request):
         for res in response: del res['player_id']
     
     return Response(response)
+
+
+def find_best_player(season, action_type, limit=-1):
+    users = Action.objects.filter(Q(action_type=action_type) & Q(match_id__host_club__season=season)) \
+        .values(user_id=F('subject_id')).annotate(count=Count('user_id')).order_by('-count')
+    
+    if limit != -1: users = users[:limit]
+    
+    users = [user['user_id'] for user in users]
+    
+    result = []
+    for user in users:
+        player_id = Player.objects.get(pk=user).player_id
+        # You can if It's None or not!
+        sample_player = SamplePlayer.objects.filter(Q(player=player_id) & Q(club__season=season)).first()
+
+        serializer = SamplePlayerSerializerForTopPlayers(sample_player, many=False)
+        result.append(serializer.data)
+    
+    return result
+
+
+@api_view(['GET'])
+def get_each_actions_best(request):
+    RESULT_LEN = 10
+
+    current_season = Season.objects.latest('date').season_id
+    player_actions = ['goal', 'assist', 'pass', 'clean_sheet']
+
+    for_players = []
+    for player_action in player_actions:
+        for_players.append({'action_type': player_action})
+
+        best_players = find_best_player(current_season, ACTIONS[player_action], limit=RESULT_LEN)
+        for_players[-1]['players'] = best_players
+    
+    
+    clubs = Club.objects.filter(sample_club_club__season=current_season)
+    for_clubs = StatsOnClubs(clubs, current_season)
+
+    tackles = list(count_club_actions(current_season, action_type=ACTIONS['tackle']))
+    for tackle in tackles:
+        club_id = tackle['club_id']
+        main_stadium = clubs.get(pk=club_id).main_stadium_id
+
+        tackle['main_stadium'] = main_stadium
+    
+    for_clubs['tackle'] = tackles
+    result = {'player_stats': for_players, 'club_stats': for_clubs}
+
+    return Response(result)

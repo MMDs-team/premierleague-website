@@ -19,7 +19,7 @@ CLEAN_SHEET_COUNT_PLAYER = dict()
 LOSE_COUNT_CLUB = dict()
 WIN_COUNT_CLUB = dict()
 GOAL_COUNT_CLUB = dict()
-GOAL_CONCEDE_COUNT_CLUB = dict()
+GOAL_CONCEDED_COUNT_CLUB = dict()
 
 ########################## player stats #############################
 
@@ -155,10 +155,11 @@ def player_logo(query) :
         
 def StatsTopPlayerAllTimeSerializer(query) :
     last_season()
+    PLAYER_CLUB_LOGO.clear()
     player_logo(query)
     player_info()
     data = dict()
-    
+
     data['appearance'] = sorted(StatsTopPlayerAppearanceAllTimeSerializer(query, many=True).data, key=lambda x: x['appearances'], reverse=True)[:10]
     data['goal']  = sorted(StatsTopPlayerGoalAllTimeSerializer(query, many=True).data, key=lambda x: x['goal'], reverse=True)[:10]
     data['assist']  = sorted(StatsTopPlayerAssistAllTimeSerializer(query, many=True).data, key=lambda x: x['assist'], reverse=True)[:10]
@@ -236,7 +237,7 @@ class StatsTopClubGoalConcededAllTimeSerializer(serializers.ModelSerializer):
     club_logo = serializers.SerializerMethodField(read_only=True)
     
     def get_goal_conceded(self, obj):
-        return GOAL_CONCEDE_COUNT_CLUB.get(obj.club_id, 0)
+        return GOAL_CONCEDED_COUNT_CLUB.get(obj.club_id, 0)
     
     def get_club_logo(self, obj):
         return CLUB_LOGO[obj.club_id]
@@ -252,8 +253,9 @@ class StatsTopClubGoalConcededAllTimeSerializer(serializers.ModelSerializer):
         )
     
         
-def club_info() : 
+def club_info(season=-1) : 
     matchs = Match.objects.all()
+    if season != -1: matchs = matchs.filter(host_club__season=season)
     for obj in matchs :
         c1 = obj.host_club.club.club_id
         c2 = obj.guest_club.club.club_id
@@ -263,8 +265,8 @@ def club_info() :
 
         GOAL_COUNT_CLUB[c1] = GOAL_COUNT_CLUB.get(c1, 0) + g1
         GOAL_COUNT_CLUB[c2] = GOAL_COUNT_CLUB.get(c2, 0) + g2
-        GOAL_CONCEDE_COUNT_CLUB[c1] = GOAL_CONCEDE_COUNT_CLUB.get(c1, 0) + g2
-        GOAL_CONCEDE_COUNT_CLUB[c2] = GOAL_CONCEDE_COUNT_CLUB.get(c2, 0) + g1
+        GOAL_CONCEDED_COUNT_CLUB[c1] = GOAL_CONCEDED_COUNT_CLUB.get(c1, 0) + g2
+        GOAL_CONCEDED_COUNT_CLUB[c2] = GOAL_CONCEDED_COUNT_CLUB.get(c2, 0) + g1
         
         if g1 > g2 :
             WIN_COUNT_CLUB[c1] = WIN_COUNT_CLUB.get(c1, 0) + 1
@@ -298,6 +300,27 @@ class SampleClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = SampleClub
         fields = ['name', 'logo']
+
+
+class SamplePlayerSerializerForTopPlayers(serializers.ModelSerializer):
+    first_name = serializers.CharField(source='player.player.first_name', read_only=True)
+    last_name = serializers.CharField(source='player.player.last_name', read_only=True)
+    sample_club = serializers.SerializerMethodField(read_only=True)
+
+    def get_sample_club(self, obj):
+        sample_club = obj.club
+        serializer = SampleClubSerializer(sample_club, many=False)
+
+        return serializer.data
+
+    class Meta:
+        model = SamplePlayer
+        fields = [
+            'first_name',
+            'last_name',
+            'sample_club',
+            'number_in_team'
+        ]
 
 
 class SamplePlayerSerializer(serializers.ModelSerializer):
@@ -336,3 +359,19 @@ class PlayerSerializer(serializers.ModelSerializer):
             'position',
             'nationality'
         ]
+
+
+def StatsOnClubs(query, season) :
+    CLUB_LOGO.clear()
+    WIN_COUNT_CLUB.clear()
+    LOSE_COUNT_CLUB.clear()
+    GOAL_COUNT_CLUB.clear()
+    GOAL_CONCEDE_COUNT_CLUB.clear()
+    
+    club_logo(query)
+    club_info(season)
+    data = dict()
+    data['win'] = sorted(StatsTopClubWinAllTimeSerializer(query, many=True).data, key=lambda x: x['win'], reverse=True)[:10]
+    data['lose']  = sorted(StatsTopClubLoseAllTimeSerializer(query, many=True).data, key=lambda x: x['lose'], reverse=True)[:10]
+    data['goal']  = sorted(StatsTopClubGoalAllTimeSerializer(query, many=True).data, key=lambda x: x['goal'], reverse=True)[:10]
+    return data

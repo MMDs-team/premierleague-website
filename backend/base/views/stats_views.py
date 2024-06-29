@@ -4,16 +4,23 @@ from rest_framework.response import Response
 from rest_framework import status
 from base.action_constants import ACTIONS
 from base.models import Action, Club, Match, Player, SampleClub, SamplePlayer, Season
-from base.serializers.stats_serializers import SampleClubSerializer, SamplePlayerSerializer, PlayerSerializer, StatusTopPlayerAllTimeSerializer
+from base.serializers.stats_serializers import SampleClubSerializer, SamplePlayerSerializer, PlayerSerializer, StatsTopPlayerAllTimeSerializer, StatsTopClubAllTimeSerializer
 from bisect import bisect_left, bisect_right
 from django.db.models import F, Value
 
 
 @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
-def status_top_player_all_time(request):
+def stats_top_players_all_time(request):
     players = Player.objects.all()
-    serializer = StatusTopPlayerAllTimeSerializer(players)
+    serializer = StatsTopPlayerAllTimeSerializer(players)
+    return Response(serializer)
+
+@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+def stats_top_clubs_all_time(request):
+    clubs = Club.objects.all()
+    serializer = StatsTopClubAllTimeSerializer(clubs)
     return Response(serializer)
 
 
@@ -169,7 +176,7 @@ def count_player_actions(season, club, position, nationality, action_type, subje
 
 
 @api_view(['GET'])
-def status_top_player(request):
+def stats_top_player(request):
     season = int(request.GET['se'])
     club = int(request.GET['cl'])
     position = request.GET['po']

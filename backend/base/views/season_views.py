@@ -93,3 +93,9 @@ def add_season(request):
 
     serializer = SeasonSerializer(season, many=False)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_all_seasons_by_order(request):
+    result = Season.objects.order_by('date').values('season_id', 'date')
+    return Response(result)

@@ -1,22 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TopPlayerFiltering } from '../components/TopPlayerFilter'
 import axios from 'axios'
-// import {MainContext} from '../App.js'
 import imageMissing from '../static/i/elements/Photo-Missing.png';
 
 const Players = () => {
 
-    const [clubIndex, setClubIndex] = useState(-1) // the index which is sample_club_id for filtering
-    const [seasonIndex, setSeasonIndex] = useState(1) // the index which is season_id for filtering
+    const [clubIndex, setClubIndex] = useState(-1) // the id which is sample_club_id for filtering
+    const [seasonIndex, setSeasonIndex] = useState(1) // the id which is season_id for filtering
 
     const [players, setPlayers] = useState([])
 
 
     const fetchData = async () => {
         try {
-            console.log("players:1")
+            console.log(`season is ${seasonIndex} and club is ${clubIndex}`)
             const response = await axios.get(`http://127.0.0.1:8000/api/overview/players?se=${seasonIndex}&cl=${clubIndex}`)
-            console.log("players:2")
+            console.log("players:")
             console.log(response.data)
             setPlayers(response.data)
         } catch (error) {
@@ -42,7 +41,7 @@ const Players = () => {
 
                         <TopPlayerFiltering 
                             handelClubIndex={setClubIndex} 
-                            handelSeasonIndex={setSeasonIndex} 
+                            handelSeasonIndex={setSeasonIndex}
                         />
 
 
@@ -67,7 +66,7 @@ const Players = () => {
                                                     <td> 
                                                         <a href="//www.premierleague.com/players/19970/Max-Aarons/overview" className="player__name">
                                                         
-                                                            <img className="img player__name-image" data-player="p232980" data-size="40x40" src={player.image!=""?`http://127.0.0.1:8000${player.image}`:imageMissing} alt="Photo for Max Aarons"/>
+                                                            <img className="img player__name-image" data-player="p232980" data-size="40x40" src={player.image!==""?`http://127.0.0.1:8000${player.image}`:imageMissing} alt="Photo for Max Aarons"/>
                                                             {`${player.first_name} ${player.last_name}`}
                                                         </a> 
                                                     </td> 

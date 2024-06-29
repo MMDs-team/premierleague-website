@@ -33,5 +33,6 @@ urlpatterns = [
 
 urlpatterns = [
     path('ex', views.get_clubs_small_details, name='get_clubs_small_details'),
+    path('getAll', views.get_all_clubs_id, name='get_all_clubs_id'),
 
 ] + urlpatterns

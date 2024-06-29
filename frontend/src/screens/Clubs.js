@@ -3,6 +3,7 @@ import { TopPlayerFiltering } from '../components/TopPlayerFilter'
 import { TopClubFiltering } from '../components/TopClubFiltering'
 import { MainContext } from '../App'
 import axios from 'axios'
+import { AllTimePremierLeagueClubs } from '../components/AllTimePremierLeagueClubs'
 
 const Clubs = () => {
 
@@ -50,7 +51,7 @@ const Clubs = () => {
                                                     <a href="/clubs/1/Arsenal/overview" class="club-card club-card--t3  indexItem t3">
                                                         <div class="club-card__badge">
                                                             <span class="badge badge-image-container" data-widget="club-badge-image" data-size="100">
-                                                                <img class="badge-image badge-image--78 js-badge-image" src="https://resources.premierleague.com/premierleague/badges/100/t3.png" srcset="https://resources.premierleague.com/premierleague/badges/100/t3@x2.png 2x"/>
+                                                                <img class="badge-image badge-image--78 js-badge-image" src={`http://127.0.0.1:8000${club.logo}`}/>
                                                             </span>
                                                         </div>
                                                         <div class="club-card__info">
@@ -85,7 +86,10 @@ const Clubs = () => {
                                 </div>
                             </div>
 
-                            
+                        
+
+                            <AllTimePremierLeagueClubs/>
+
                         </div>
                     </div>
                 </div>

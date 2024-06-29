@@ -259,3 +259,11 @@ def get_clubs_small_details(request):
     clubs_of_last_season = SampleClub.objects.filter(season_id = last_season_id)
     serializer = SampleClubOfLastSeasonSerializer(clubs_of_last_season, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_all_clubs_id(request):
+    clubs = list(Club.objects.all())
+    clubs_id = []
+    for club in clubs: clubs_id.append({"club_id":club.club_id, "name":club.name})
+    return Response(clubs_id)

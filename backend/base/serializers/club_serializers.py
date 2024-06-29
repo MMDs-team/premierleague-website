@@ -73,7 +73,7 @@ class SampleClubOfLastSeasonSerializer(serializers.ModelSerializer):
     club = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = SampleClub
-        fields = ['logo', 'club']
+        fields = ['logo', 'club', 'sample_club_id']
     
     def get_club(self, obj):
         club = obj.club

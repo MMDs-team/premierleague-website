@@ -4,9 +4,18 @@ from rest_framework.response import Response
 from rest_framework import status
 from base.action_constants import ACTIONS
 from base.models import Action, Club, Match, Player, SampleClub, SamplePlayer, Season
-from base.serializers.stats_serializers import SampleClubSerializer, SamplePlayerSerializer, PlayerSerializer
+from base.serializers.stats_serializers import SampleClubSerializer, SamplePlayerSerializer, PlayerSerializer, StatusTopPlayerAllTimeSerializer
 from bisect import bisect_left, bisect_right
-from django.db.models import F, Value, Q
+from django.db.models import F, Value
+
+
+@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+def status_top_player_all_time(request):
+    players = Player.objects.all()
+    serializer = StatusTopPlayerAllTimeSerializer(players)
+    return Response(serializer)
+
 
 def count_club_matches(season, comp):
     current_season = Season.objects.latest('date').season_id
@@ -119,10 +128,7 @@ def stats_top_club(request):
 
     return Response(response)
 
-'''
-club, nationality and position parts are getting a role as extra filters
-and not effecting the queries we would have!
-'''
+  
 def count_player_actions(season, club, position, nationality, action_type, subject=True):
     actions = None
     if subject: actions = Action.objects.filter(action_type=action_type).annotate(player_id=F('subject__player_user')) \

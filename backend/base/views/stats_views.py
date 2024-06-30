@@ -254,9 +254,9 @@ def find_best_player(season, action_type, limit=-1):
     result = []
     for user in users:
         player_id = Player.objects.get(pk=user).player_id
-        # You can if It's None or not!
         sample_player = SamplePlayer.objects.filter(Q(player=player_id) & Q(club__season=season)).first()
 
+        if sample_player is None: continue
         serializer = SamplePlayerSerializerForTopPlayers(sample_player, many=False)
         result.append(serializer.data)
     

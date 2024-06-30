@@ -305,7 +305,13 @@ class SampleClubSerializer(serializers.ModelSerializer):
 class SamplePlayerSerializerForTopPlayers(serializers.ModelSerializer):
     first_name = serializers.CharField(source='player.player.first_name', read_only=True)
     last_name = serializers.CharField(source='player.player.last_name', read_only=True)
+    image = serializers.SerializerMethodField(read_only=True)
     sample_club = serializers.SerializerMethodField(read_only=True)
+
+    def get_image(self, obj):
+        image = obj.player.image
+
+        return image.url
 
     def get_sample_club(self, obj):
         sample_club = obj.club
@@ -318,6 +324,7 @@ class SamplePlayerSerializerForTopPlayers(serializers.ModelSerializer):
         fields = [
             'first_name',
             'last_name',
+            'image',
             'sample_club',
             'number_in_team'
         ]

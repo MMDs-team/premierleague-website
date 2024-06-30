@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { PageNav } from '../components/PageNav'
 import { PlayerStats } from '../components/PlayerStats'
 import { ClubStats } from '../components/ClubStats'
+import { StatsDashboard } from '../components/StatsDashboard'
 
 
 const Stats = () => {
@@ -36,7 +37,7 @@ const Stats = () => {
                     <h2 class="widget-header__title">Premier League {menu[indexTab].name}</h2>
             </header>
 
-            {/* {indexTab===0 && <StatsDashboard /> } */}
+            {indexTab===0 && <StatsDashboard />}
             {indexTab===1 && <PlayerStats /> }
              {indexTab===2 && <ClubStats /> }
             {/*indexTab===3 && <AllTimeStats /> }

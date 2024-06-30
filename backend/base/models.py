@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator 
+import datetime
 
 SEMESTERS = [('SUMMER', 'summer'), ('WINTER', 'winter')]
 
@@ -159,7 +160,7 @@ class Casts(models.Model):
 class Season(models.Model):
     season_id = models.AutoField(primary_key=True, editable=False)
     cup_image = models.ImageField(upload_to='cups', max_length=STRLEN, null=True, blank=True)
-    date = models.DateField(unique=True)
+    date = models.DateField()
     kit1 = models.OneToOneField('Kit', on_delete=models.SET_NULL, null= True, blank=True, related_name='season_kit1')
     kit2 = models.OneToOneField('Kit', on_delete=models.SET_NULL, null= True, blank=True, related_name='season_kit2')
     kit3 = models.OneToOneField('Kit', on_delete=models.SET_NULL, null= True, blank=True, related_name='season_kit3')
@@ -176,6 +177,13 @@ class Season(models.Model):
         through='SeaSpon',
         through_fields=('season', 'sponsor')
     )
+
+
+    def have_year(year):
+        years = list(Season.objects.all())
+
+        return year not in years
+       
 
     def __str__(self):
         return f'Season {self.date.year}'
@@ -333,7 +341,7 @@ class SamplePlayer(models.Model) :
         unique_together = ['player', 'club']
     
     def __str__(self):
-        return f'{self.player}-{self.club}-{self.season}'
+        return f'{self.player}-{self.club}-{self.club.season}'
 
 
 class Transfer(models.Model) : 
@@ -362,7 +370,7 @@ class Match(models.Model) :
     weather = models.CharField(max_length=SMALL_STRLEN, default='Stable')
     referee_kit_number = models.SmallIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(4)], null=True, blank=True)
     ticket_price = models.IntegerField()
-    result = models.CharField(max_length=SMALL_STRLEN)
+    result = models.CharField(max_length=SMALL_STRLEN, default='0-0')
     
     host_club = models.ForeignKey(SampleClub, on_delete=models.CASCADE, related_name='match_host_club')
     guest_club = models.ForeignKey(SampleClub, on_delete=models.CASCADE, related_name='match_guest_club')

@@ -29,6 +29,7 @@ export default function App() {
 
     const [thisSeasonClubs, setThisSeasonClubs] = useState()
     const [seasonOrdered, setSeasonOrdered] = useState([])
+    const [actonTypes, setActionTypes] = useState([])
     const [clubs, setClubs] = useState([])
 
     const fetchData = async () => {
@@ -55,6 +56,15 @@ export default function App() {
             setClubs(response.data)
         } catch (error) {
             console.log("Error fetching clubs!", error)
+        }
+
+        try {
+            
+            const response = await axios.get(`http://127.0.0.1:8000/api/action/action_type`)
+            console.log("clubs:")
+            setActionTypes(response.data)
+        } catch (error) {
+            console.log("Error fetching action types!", error)
         }
 
         
@@ -125,7 +135,8 @@ export default function App() {
         <MainContext.Provider value={{
                 thisSeasonClubs : thisSeasonClubs ,
                 seasonOrdered : seasonOrdered,
-                clubs: clubs
+                actionTypes: actonTypes,
+                clubs: clubs,
             }}>
             <BrowserRouter>
 

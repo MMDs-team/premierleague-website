@@ -32,10 +32,14 @@ class SeasonClubsOverviewSerializer(serializers.ModelSerializer):
    
 class AllClubsOverviewSerializer(serializers.ModelSerializer):
     logo = serializers.SerializerMethodField(read_only=True)
+    main_stadium = serializers.SerializerMethodField(read_only=True)
     
     def get_logo(self, obj):
         logo = SampleClub.objects.filter(club=obj.club_id).latest('season').logo
         return logo.url
+    
+    def get_main_stadium(self, obj):
+        return obj.main_stadium.name
     
     class Meta:
         model = Club
@@ -43,6 +47,7 @@ class AllClubsOverviewSerializer(serializers.ModelSerializer):
             'club_id',
             'name',
             'logo',
+            'main_stadium_id',
             'main_stadium',
         )
     

@@ -1,17 +1,29 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ClubNavigation } from './ClubNavigation'
 import '../styles/scre.css';
 import { MainNav } from './MainNav';
 import { SubNav } from './SubNav';
+import {NavLink, useNavigate} from 'react-router-dom'
+import { MainContext, lists } from '../App';
+
+
 
 import logoImage from '../static/images/pl-main-logo.png'
 
 
-const Header = ({lists}) => {
+const Header = () => {
 
     const [isOpen, setIsOpen] = useState(false)
     const [scrolling, setScrolling] = useState(false);
 
+    const navigate = useNavigate();
+    const {userInfo, setUserInfo} = useContext(MainContext)
+
+    const logoutHandler = () => {
+        localStorage.removeItem("user")
+        setUserInfo(null)
+        navigate('/');
+    }
 
 
     
@@ -46,9 +58,6 @@ const Header = ({lists}) => {
 
         <header className="masthead">
 
-        <a className="skipTo" href="#mainNav">Skip to main navigation</a>
-        <a className="skipTo" href="#mainContent">Skip to main content</a>
-
     
         <ClubNavigation/>
     
@@ -71,15 +80,20 @@ const Header = ({lists}) => {
     
                    <MainNav lists={lists} />
     
-    
-                    <a href="#!" className="navLink navOption navOption--no-border fantasySignIn nav-sign-in-btn" role="button" tabIndex="0">
-                        <span className="fantasySignInLabel">Sign in</span>
-                    </a>
-                    
-                    <a href="#!" className="navLink navOption navOption--no-border fantasySignOut" role="button" tabIndex="0">
-                        <span className="fantasyUsername"></span>
-                    </a>
-
+                    { userInfo === null?
+                        <NavLink to="/auth" className="navLink navOption navOption--no-border fantasySignIn nav-sign-in-btn" role="button" tabIndex="0">
+                            <span className="fantasySignInLabel">Sign in</span>
+                        </NavLink>
+                        :
+                        <>
+                            <div className="navLink navOption navOption--no-border nav-sign-in-btn" tabIndex="0" onClick={() => {logoutHandler()}}>
+                                <span>Log out</span>
+                            </div>
+                            <NavLink to="/profile" className="navLink navOption navOption--no-border" tabIndex="0">
+                                <span>{userInfo.username}</span>
+                            </NavLink>
+                       </>
+                    }
                 </section>
             </div>
     

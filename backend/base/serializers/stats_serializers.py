@@ -125,8 +125,8 @@ def last_season() :
     
     
 def player_info() : 
-    matchs = Action.objects.filter(match__host_club__season__season_id=LAST_SEASON)
-    for obj in matchs :
+    actions = Action.objects.filter(match__host_club__season__season_id=LAST_SEASON)
+    for obj in actions :
         player = obj.subject.id
         action_type = obj.action_type.action_type_id
 

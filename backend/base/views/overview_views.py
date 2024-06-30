@@ -6,8 +6,8 @@ from bisect import bisect_left, bisect_right
 from django.db.models import Q
 import datetime
 
-from base.models import Match, SamplePlayer, SampleClub, Club
-from base.serializers.overview_serializers import MatchSerializerForFixtures, PlayersOverviewSerializer, SeasonClubsOverviewSerializer, AllClubsOverviewSerializer
+from base.models import Match, SamplePlayer, SampleClub, Club, Action
+from base.serializers.overview_serializers import *
 
 
 @api_view(['GET'])
@@ -31,7 +31,6 @@ def season_clubs(request):
     clubs = SampleClub.objects.filter(club__season__season_id=season)
     serializer = SeasonClubsOverviewSerializer(clubs, many=True).data
     return Response(serializer)
-
 
 @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
@@ -66,3 +65,10 @@ def get_fixtures(request):
         else: break
     
     return Response(result)
+
+
+@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+def get_tables(request):
+    serializer = table_serializer(request)
+    return Response(serializer)

@@ -172,6 +172,7 @@ def StatsTopPlayerAllTimeSerializer(query) :
 class StatsTopClubWinAllTimeSerializer(serializers.ModelSerializer):
     win = serializers.SerializerMethodField(read_only=True)
     club_logo = serializers.SerializerMethodField(read_only=True)
+    main_stadium_name = serializers.CharField(source='main_stadium.name', read_only=True)
     
     def get_win(self, obj):
         return WIN_COUNT_CLUB.get(obj.club_id, 0)
@@ -185,6 +186,7 @@ class StatsTopClubWinAllTimeSerializer(serializers.ModelSerializer):
             'club_id',
             'name',
             'main_stadium', 
+            'main_stadium_name',
             'club_logo',
             'win',
         )
@@ -193,6 +195,7 @@ class StatsTopClubWinAllTimeSerializer(serializers.ModelSerializer):
 class StatsTopClubLoseAllTimeSerializer(serializers.ModelSerializer):
     lose = serializers.SerializerMethodField(read_only=True)
     club_logo = serializers.SerializerMethodField(read_only=True)
+    main_stadium_name = serializers.CharField(source='main_stadium.name', read_only=True)
     
     def get_lose(self, obj):
         return LOSE_COUNT_CLUB.get(obj.club_id, 0)
@@ -206,6 +209,7 @@ class StatsTopClubLoseAllTimeSerializer(serializers.ModelSerializer):
             'club_id',
             'name',
             'main_stadium', 
+            'main_stadium_name', 
             'club_logo',
             'lose',
         )
@@ -214,6 +218,7 @@ class StatsTopClubLoseAllTimeSerializer(serializers.ModelSerializer):
 class StatsTopClubGoalAllTimeSerializer(serializers.ModelSerializer):
     goal = serializers.SerializerMethodField(read_only=True)
     club_logo = serializers.SerializerMethodField(read_only=True)
+    main_stadium_name = serializers.CharField(source='main_stadium.name', read_only=True)
     
     def get_goal(self, obj):
         return GOAL_COUNT_CLUB.get(obj.club_id, 0)
@@ -227,6 +232,7 @@ class StatsTopClubGoalAllTimeSerializer(serializers.ModelSerializer):
             'club_id',
             'name',
             'main_stadium', 
+            'main_stadium_name', 
             'club_logo',
             'goal',
         )

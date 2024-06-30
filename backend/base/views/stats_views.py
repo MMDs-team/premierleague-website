@@ -7,7 +7,7 @@ from bisect import bisect_left, bisect_right
 from django.db.models import F, Value, Q
 from django.db.models.aggregates import Count
 
-from base.models import Action, Club, Match, Player, SampleClub, SamplePlayer, Season
+from base.models import *
 from base.serializers.stats_serializers import *
 
 RESULT_LEN = 10
@@ -281,9 +281,10 @@ def get_each_actions_best(request):
     tackles = list(count_club_actions(current_season, action_type=ACTIONS['tackle']))
     for tackle in tackles:
         club_id = tackle['club_id']
-        main_stadium = clubs.get(pk=club_id).main_stadium_id
+        main_stadium = clubs.get(pk=club_id).main_stadium
 
-        tackle['main_stadium'] = main_stadium
+        tackle['main_stadium'] = main_stadium.stadium_id
+        tackle['main_stadium_name'] = main_stadium.name
     
     for_clubs['tackle'] = tackles
     result = {'player_stats': for_players, 'club_stats': for_clubs}

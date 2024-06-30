@@ -244,21 +244,20 @@ def stats_top_player(request):
 
 
 def find_best_player(season, action_type, limit=-1):
-    users = Action.objects.filter(Q(action_type=action_type) & Q(match_id__host_club__season=season)) \
-        .values(user_id=F('subject_id')).annotate(count=Count('user_id')).order_by('-count')
+    users = list(Action.objects.filter(Q(action_type=action_type) & Q(match_id__host_club__season=season)) \
+        .values(user_id=F('subject_id')).annotate(count=Count('user_id')).order_by('-count'))
     
     if limit != -1: users = users[:limit]
     
-    users = [user['user_id'] for user in users]
-    
     result = []
     for user in users:
-        player_id = Player.objects.get(pk=user).player_id
+        user_id = user['user_id']
+        player_id = Player.objects.get(pk=user_id).player_id
         sample_player = SamplePlayer.objects.filter(Q(player=player_id) & Q(club__season=season)).first()
 
         if sample_player is None: continue
         serializer = SamplePlayerSerializerForTopPlayers(sample_player, many=False)
-        result.append(serializer.data)
+        result.append(dict(serializer.data) | {'stats': user['count']})
     
     return result
 

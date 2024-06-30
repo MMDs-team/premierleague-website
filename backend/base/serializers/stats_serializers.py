@@ -366,7 +366,6 @@ def StatsOnClubs(query, season) :
     WIN_COUNT_CLUB.clear()
     LOSE_COUNT_CLUB.clear()
     GOAL_COUNT_CLUB.clear()
-    GOAL_CONCEDE_COUNT_CLUB.clear()
     
     club_logo(query)
     club_info(season)

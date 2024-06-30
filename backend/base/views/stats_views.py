@@ -62,6 +62,7 @@ def count_club_matches(season, comp):
 
         result.append(dict(serializer.data) | {'stats': count})
 
+    result.sort(key=lambda x: x['stats'], reverse=True)
     return result
 
 
@@ -97,6 +98,7 @@ def count_club_actions(season, action_type, subject=True):
             index = bisect_left(result, curr_club, key=lambda res: res['club_id'])
             if index < len(result): result[index]['stats'] += 1
     
+    result = sorted(list(result), key=lambda x: x['stats'], reverse=True)
     return result
 
 
@@ -104,6 +106,8 @@ def count_club_actions(season, action_type, subject=True):
 def stats_top_club(request):
     season = int(request.GET['se'])
     action_type = request.GET['at']
+    fr = int(request.GET['from'])
+    order = request.GET.get('order', 'desc')
 
     response = {}
     match action_type:
@@ -133,6 +137,10 @@ def stats_top_club(request):
         case _: response = {
             'detail': f'There is no action type called {action_type}'
         }
+    
+    
+    if order == 'asc': response = response[-fr:-(fr + RESULT_LEN):-1]
+    else: response = response[fr - 1:fr + RESULT_LEN - 1]
 
     return Response(response)
 
@@ -186,7 +194,7 @@ def stats_top_player(request):
     nationality = request.GET['na']
     action_type = request.GET['at']
     fr = int(request.GET['from'])
-    order = request.GET['order']
+    order = request.GET.get('order', 'desc')
 
     response = {}
     match action_type:

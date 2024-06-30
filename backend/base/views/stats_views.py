@@ -10,6 +10,7 @@ from django.db.models.aggregates import Count
 from base.models import Action, Club, Match, Player, SampleClub, SamplePlayer, Season
 from base.serializers.stats_serializers import *
 
+RESULT_LEN = 10
 
 @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
@@ -61,6 +62,7 @@ def count_club_matches(season, comp):
 
         result.append(dict(serializer.data) | {'stats': count})
 
+    result.sort(key=lambda x: x['stats'], reverse=True)
     return result
 
 
@@ -96,6 +98,7 @@ def count_club_actions(season, action_type, subject=True):
             index = bisect_left(result, curr_club, key=lambda res: res['club_id'])
             if index < len(result): result[index]['stats'] += 1
     
+    result = sorted(list(result), key=lambda x: x['stats'], reverse=True)
     return result
 
 
@@ -103,6 +106,8 @@ def count_club_actions(season, action_type, subject=True):
 def stats_top_club(request):
     season = int(request.GET['se'])
     action_type = request.GET['at']
+    fr = int(request.GET['from'])
+    order = request.GET.get('order', 'desc')
 
     response = {}
     match action_type:
@@ -132,6 +137,10 @@ def stats_top_club(request):
         case _: response = {
             'detail': f'There is no action type called {action_type}'
         }
+    
+    
+    if order == 'asc': response = response[-fr:-(fr + RESULT_LEN):-1]
+    else: response = response[fr - 1:fr + RESULT_LEN - 1]
 
     return Response(response)
 
@@ -171,6 +180,8 @@ def count_player_actions(season, club, position, nationality, action_type, subje
             serializer = PlayerSerializer(player)
 
             result.append(dict(serializer.data) | {'player_id': player_id, 'stats': score})
+    
+    result.sort(key=lambda x: x['stats'], reverse=True)
 
     return result
 
@@ -182,6 +193,8 @@ def stats_top_player(request):
     position = request.GET['po']
     nationality = request.GET['na']
     action_type = request.GET['at']
+    fr = int(request.GET['from'])
+    order = request.GET.get('order', 'desc')
 
     response = {}
     match action_type:
@@ -224,6 +237,9 @@ def stats_top_player(request):
     if len(response) != 0 and 'player_id' in response[0]:
         for res in response: del res['player_id']
     
+    if order == 'asc': response = response[-fr:-(fr + RESULT_LEN):-1]
+    else: response = response[fr - 1:fr + RESULT_LEN - 1]
+    
     return Response(response)
 
 
@@ -249,8 +265,6 @@ def find_best_player(season, action_type, limit=-1):
 
 @api_view(['GET'])
 def get_each_actions_best(request):
-    RESULT_LEN = 10
-
     current_season = Season.objects.latest('date').season_id
     player_actions = ['goal', 'assist', 'pass', 'clean_sheet']
 

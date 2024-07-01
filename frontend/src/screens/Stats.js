@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { PageNav } from '../components/PageNav'
 import { PlayerStats } from '../components/PlayerStats'
 import { ClubStats } from '../components/ClubStats'
 import { StatsDashboard } from '../components/StatsDashboard'
 import { AllTimeStats } from '../components/AllTimeStats'
+import { MainContext } from '../App'
 
 
 const Stats = () => {
@@ -22,13 +23,16 @@ const Stats = () => {
 
 
   const [indexTab, setTabIndex] = useState(0)
-
-
+  const {heroNameHandler} = useContext(MainContext)
+    
+  heroNameHandler("Stats")
 
 
   return (
+
+
    
-    <main className="mainContent" style={{padding:"1rem"}}>
+    <main className="mainContent">
 
       <PageNav menu={menu} tabHandler={setTabIndex} />
       <div className='wrapper'>

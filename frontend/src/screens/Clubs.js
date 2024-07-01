@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { TopPlayerFiltering } from '../components/TopPlayerFilter'
 import { TopClubFiltering } from '../components/TopClubFiltering'
 import { MainContext } from '../App'
@@ -9,6 +9,9 @@ const Clubs = () => {
 
     const [clubs, setClubs] = useState([]) 
     const [seasonId, setSeasonId] = useState(1) 
+    const {heroNameHandler} = useContext(MainContext)
+    
+    heroNameHandler("Clubs")
 
 
 

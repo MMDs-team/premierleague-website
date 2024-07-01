@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { TopPlayerFiltering } from '../components/TopPlayerFilter'
 import axios from 'axios'
 import imageMissing from '../static/i/elements/Photo-Missing.png';
+import { MainContext } from '../App';
 
 const Players = () => {
 
@@ -9,6 +10,9 @@ const Players = () => {
     const [seasonIndex, setSeasonIndex] = useState(1) // the id which is season_id for filtering
 
     const [players, setPlayers] = useState([])
+    const {heroNameHandler} = useContext(MainContext)
+    
+    heroNameHandler("Players")
 
 
     const fetchData = async () => {

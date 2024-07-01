@@ -1,80 +1,114 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { MainContext } from '../App'
+import axios from 'axios'
 
 
 
 const HomeScreen = () => {
 
+  const [fixtures, setFixtures] = useState([])
 
-  
+
+    
+
+  const fetchData = async () => {
+      try {
+          const response = await axios.get(`http://127.0.0.1:8000/api/overview/fixtures?s_cl=-1`)
+          setFixtures(response.data)
+      } catch (error) {
+          console.log("Error fetching fixtures!", error)
+      }
+
+      
+  }
+
+  useEffect(() => {
+      fetchData();
+  },[])
+
+
+  const { heroNameHandler } = useContext(MainContext)
+
+  heroNameHandler("Home")
+
   return (
-    <div>
+    <div className='mainContent'>
 
-        <h1 style={{padding: '3rem 7rem'}}>Lorem Ipsum</h1>
-        <p style={{padding: '0 15rem'}}>
-          "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
-          "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
+      <div class="wrapper hasFixedSidebar">
+        <div class="tabbedHome">
+          <nav class="fixedSidebar" data-ui-tab="Matches">
 
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In faucibus vulputate laoreet. Nulla at arcu lectus. Donec egestas commodo orci vel molestie. Duis molestie lectus a erat bibendum mattis. Duis lacinia eu diam sit amet mattis. Aliquam suscipit nibh non diam aliquam dapibus. Suspendisse sed eros vel libero ornare dapibus. Curabitur lobortis efficitur diam nec pulvinar.
+            <div class="fixtures-abridged-header fixtures-abridged-header--comp-1  ">
+              <div class="fixtures-abridged-header__header">
 
-          Integer sodales, orci sit amet dictum elementum, odio augue molestie enim, nec fermentum nulla diam vitae lacus. Phasellus rutrum ullamcorper velit, et ultrices metus tempor sit amet. Suspendisse vehicula ex odio. Donec ultricies arcu id tincidunt blandit. Vivamus at interdum odio, nec euismod ipsum. Donec tristique efficitur dui, ac tempor ante sodales ut. Pellentesque sit amet venenatis odio. Mauris non tellus vitae elit fermentum consequat. Nulla quis tempus nisi, nec rutrum diam. Ut ac vulputate neque. Morbi at condimentum tortor. Curabitur porta in felis quis dictum. Nullam vestibulum nec mauris at interdum.
+                <img alt="2024/25" class="fixtures-abridged-header__competition-image " src="https://resources.premierleague.com/premierleague/competitions/competition_1_small.png" />
+                <div class="fixtures-abridged-header__title">
+                  Matchweek 1
+                </div>
+              </div>
+              <div class="fixtures-abridged-header__local-time">
+                All times shown are your  <span class="bold">local time</span>
+              </div>
 
-          In hac habitasse platea dictumst. Sed posuere leo massa, sed sagittis urna interdum quis. Maecenas in augue non erat imperdiet consequat ut at velit. Nunc et hendrerit quam, quis pretium tortor. Nulla pulvinar ipsum et neque dapibus, vel efficitur enim mattis. Nunc mattis vehicula convallis. Proin ac dapibus sapien.
-
-          Curabitur lacinia facilisis tempus. Nulla facilisis faucibus velit. Fusce dictum hendrerit augue. Suspendisse eu dictum justo, et pulvinar mauris. Sed ultrices ligula at tortor tincidunt posuere. Sed sed ultrices leo. Mauris ac metus nisl. Ut sed risus vitae orci posuere euismod. Morbi in neque dolor. Proin molestie at libero ac pellentesque. Nullam scelerisque, purus id laoreet tincidunt, felis urna lobortis dui, in vulputate diam ante ac mauris. Sed bibendum cursus dui in ornare. Nullam id est eu ex facilisis sodales quis ut quam.
-
-          Sed dignissim consectetur dignissim. Curabitur eget mauris at ligula ultricies maximus eu ac leo. In condimentum porttitor est, ut venenatis quam tincidunt a. Sed sagittis id felis eu vestibulum. Nullam sapien quam, porta non metus nec, dapibus varius eros. Mauris consectetur tincidunt mi et ultricies. Nam rhoncus leo elit, vitae eleifend ante ullamcorper eget. Donec efficitur, ante gravida ornare faucibus, ante dolor pellentesque neque, in tincidunt nibh magna lacinia mi. Proin non hendrerit enim. Donec sagittis tortor nec est eleifend lacinia. Curabitur quis ultrices sapien. Ut quis iaculis ligula. Sed vestibulum nulla eget est viverra, et malesuada augue malesuada. Aenean luctus lectus neque, non varius turpis lobortis eget. Quisque luctus nunc ut malesuada luctus.
-
-          Aliquam faucibus purus quis rutrum bibendum. Nulla id aliquam mauris. Quisque pharetra velit ac ipsum vulputate, ut dignissim justo hendrerit. Mauris venenatis, ligula et suscipit facilisis, ante nibh cursus erat, fringilla ultrices neque tortor id lacus. Maecenas lobortis sed turpis vitae euismod. Phasellus porttitor maximus est, eu feugiat felis volutpat ut. Etiam a nisi iaculis, condimentum ex ac, maximus quam. Vestibulum eget tincidunt risus, eget varius orci. Nullam vulputate tincidunt laoreet. Curabitur sodales bibendum auctor. Fusce dapibus, lorem eu fringilla semper, tellus lacus posuere diam, id dapibus dui nisi non elit. Etiam id efficitur sapien, sed aliquet nunc. Vivamus tellus tortor, efficitur id sapien ut, cursus molestie dolor. Duis convallis nisl posuere, sollicitudin eros sit amet, pellentesque leo. Etiam nec tellus in ex bibendum elementum.
-
-          Pellentesque blandit posuere dapibus. Suspendisse potenti. Fusce iaculis semper bibendum. Quisque id eros nec mi vehicula tincidunt. Phasellus vitae velit consequat, bibendum ante sed, accumsan ante. Morbi mattis tristique tortor eu ullamcorper. Proin gravida scelerisque mollis. Donec at ipsum sed justo condimentum venenatis ut at turpis. Fusce bibendum mollis justo, eu pulvinar odio pulvinar tempus. Fusce lobortis posuere lacus. Morbi porttitor sapien nec fermentum fringilla. Quisque pulvinar turpis posuere felis placerat, et pharetra nibh semper. Vivamus sed urna id elit rutrum faucibus et sed urna.
-
-          In hac habitasse platea dictumst. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed ut facilisis purus, at tristique velit. Nam fringilla, ligula eu commodo vehicula, magna dui commodo mauris, et pellentesque massa tortor at elit. Etiam varius eget diam placerat dictum. Maecenas rhoncus ligula turpis, ut bibendum mauris tincidunt et. Donec ornare egestas velit non condimentum. Nulla dictum leo sapien. Maecenas vel nisl nec lacus convallis condimentum. Suspendisse sit amet dapibus est. Aliquam sit amet lorem dolor. Aenean rhoncus odio malesuada magna luctus, id luctus sapien eleifend.
-
-          Suspendisse sit amet laoreet risus. Nulla facilisi. Ut tincidunt rutrum sapien, ac accumsan erat suscipit sed. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Ut nec elit elementum, iaculis augue nec, lacinia lorem. Aenean in accumsan risus, a fringilla erat. Mauris finibus mi sit amet pharetra gravida. Integer vulputate pretium lectus, a auctor tortor tempor sed. Praesent placerat feugiat sem, condimentum facilisis nisl semper eget. Sed convallis leo at felis placerat, a fermentum tortor ornare. In a turpis felis. Duis iaculis maximus felis ac auctor. Ut lacinia tempus diam, id congue quam laoreet a. Aenean ut ornare tortor, eu venenatis dui. Fusce at erat condimentum, vehicula elit eu, vehicula augue.
-
-          Sed quis interdum nunc. Aenean a lacus vel sapien gravida fringilla sed a eros. Donec porttitor cursus tristique. Maecenas dapibus ultricies diam id facilisis. Morbi vel tincidunt eros. Etiam ultrices pharetra viverra. Mauris in suscipit ante. Maecenas sit amet elit gravida, placerat odio eu, eleifend erat. Vivamus hendrerit, urna ut pulvinar sollicitudin, urna risus pretium elit, quis cursus metus neque non massa. Phasellus ultrices lectus in ante consectetur, et luctus enim congue. Maecenas eu hendrerit ante, sit amet efficitur leo. Proin eget elementum lectus. Integer est enim, elementum sed faucibus id, tincidunt in ligula.
-
-          Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque semper metus laoreet augue pretium, at ultrices orci ullamcorper. In hac habitasse platea dictumst. Suspendisse laoreet, odio et sodales bibendum, quam dolor rutrum nulla, id faucibus est metus ut urna. Sed sed augue vitae nisl iaculis condimentum. Vestibulum vitae tincidunt quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec quam felis. Donec tincidunt semper orci at ullamcorper. Mauris feugiat sit amet ligula ut rutrum. Integer venenatis, nisl vitae feugiat mattis, augue massa laoreet odio, vel molestie tortor orci eget dui. Aenean a sodales leo. Suspendisse potenti. Etiam posuere eget risus et molestie. Sed elementum risus vel faucibus vulputate. Nulla eu volutpat mi.
-
-          Phasellus elementum odio vitae lacus molestie pharetra. Mauris feugiat at sapien at iaculis. Fusce vitae nisi eget nisi semper efficitur feugiat id nisl. Suspendisse convallis maximus massa quis dapibus. Pellentesque mattis justo eget lorem posuere blandit. Aenean tincidunt est leo, quis gravida odio fringilla nec. Duis elit est, efficitur quis ultrices a, aliquet quis augue. Proin at nibh tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus feugiat accumsan enim, eu rutrum justo euismod lobortis. Mauris vitae tortor nec lacus eleifend congue in a nisi.
-
-          Proin pulvinar neque nisi. Sed tortor erat, fringilla et leo nec, congue euismod diam. Vivamus fringilla consequat vestibulum. Quisque sagittis sit amet elit a dignissim. Suspendisse aliquam eros sit amet pharetra lobortis. Pellentesque eros enim, blandit in aliquam vitae, viverra eu neque. Praesent magna augue, euismod nec augue quis, tempus hendrerit neque. Quisque eu ipsum nec magna sollicitudin vehicula. Nam dictum nisl et quam laoreet commodo.
-
-          Aenean nisl eros, maximus at urna ac, bibendum feugiat velit. Vivamus metus lacus, placerat vitae viverra feugiat, molestie in odio. Mauris nec nulla a turpis placerat malesuada et sed odio. Mauris nec urna congue, egestas risus a, fringilla eros. Aenean ultrices ligula in magna semper vulputate. Curabitur ante tortor, vestibulum non dignissim eleifend, egestas iaculis augue. Fusce placerat at orci a iaculis.
-
-          In arcu tellus, aliquam non velit eu, facilisis dictum arcu. Etiam mauris erat, malesuada vitae neque tempus, porta dignissim enim. Praesent leo leo, luctus vitae porta nec, tincidunt ac purus. Sed nec risus in ex congue consectetur sed sed justo. Curabitur faucibus mi dolor, sed hendrerit dolor sollicitudin ac. Nullam non sem interdum, accumsan urna eget, vestibulum eros. Suspendisse eget dolor leo. Etiam venenatis, ex eu suscipit egestas, velit urna convallis nisi, aliquam vestibulum dui odio nec sem. Aenean vehicula posuere nibh, non ultrices diam faucibus a. Maecenas porta erat a felis volutpat, vel tempus dolor pellentesque. Nunc efficitur imperdiet volutpat. Phasellus ac sapien eu tellus condimentum tincidunt nec a urna. Praesent id justo sed lacus sagittis semper non at elit. Pellentesque molestie odio 
-          
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In faucibus vulputate laoreet. Nulla at arcu lectus. Donec egestas commodo orci vel molestie. Duis molestie lectus a erat bibendum mattis. Duis lacinia eu diam sit amet mattis. Aliquam suscipit nibh non diam aliquam dapibus. Suspendisse sed eros vel libero ornare dapibus. Curabitur lobortis efficitur diam nec pulvinar.
-
-          Integer sodales, orci sit amet dictum elementum, odio augue molestie enim, nec fermentum nulla diam vitae lacus. Phasellus rutrum ullamcorper velit, et ultrices metus tempor sit amet. Suspendisse vehicula ex odio. Donec ultricies arcu id tincidunt blandit. Vivamus at interdum odio, nec euismod ipsum. Donec tristique efficitur dui, ac tempor ante sodales ut. Pellentesque sit amet venenatis odio. Mauris non tellus vitae elit fermentum consequat. Nulla quis tempus nisi, nec rutrum diam. Ut ac vulputate neque. Morbi at condimentum tortor. Curabitur porta in felis quis dictum. Nullam vestibulum nec mauris at interdum.
-
-          In hac habitasse platea dictumst. Sed posuere leo massa, sed sagittis urna interdum quis. Maecenas in augue non erat imperdiet consequat ut at velit. Nunc et hendrerit quam, quis pretium tortor. Nulla pulvinar ipsum et neque dapibus, vel efficitur enim mattis. Nunc mattis vehicula convallis. Proin ac dapibus sapien.
-
-          Curabitur lacinia facilisis tempus. Nulla facilisis faucibus velit. Fusce dictum hendrerit augue. Suspendisse eu dictum justo, et pulvinar mauris. Sed ultrices ligula at tortor tincidunt posuere. Sed sed ultrices leo. Mauris ac metus nisl. Ut sed risus vitae orci posuere euismod. Morbi in neque dolor. Proin molestie at libero ac pellentesque. Nullam scelerisque, purus id laoreet tincidunt, felis urna lobortis dui, in vulputate diam ante ac mauris. Sed bibendum cursus dui in ornare. Nullam id est eu ex facilisis sodales quis ut quam.
-
-          Sed dignissim consectetur dignissim. Curabitur eget mauris at ligula ultricies maximus eu ac leo. In condimentum porttitor est, ut venenatis quam tincidunt a. Sed sagittis id felis eu vestibulum. Nullam sapien quam, porta non metus nec, dapibus varius eros. Mauris consectetur tincidunt mi et ultricies. Nam rhoncus leo elit, vitae eleifend ante ullamcorper eget. Donec efficitur, ante gravida ornare faucibus, ante dolor pellentesque neque, in tincidunt nibh magna lacinia mi. Proin non hendrerit enim. Donec sagittis tortor nec est eleifend lacinia. Curabitur quis ultrices sapien. Ut quis iaculis ligula. Sed vestibulum nulla eget est viverra, et malesuada augue malesuada. Aenean luctus lectus neque, non varius turpis lobortis eget. Quisque luctus nunc ut malesuada luctus.
-
-          Aliquam faucibus purus quis rutrum bibendum. Nulla id aliquam mauris. Quisque pharetra velit ac ipsum vulputate, ut dignissim justo hendrerit. Mauris venenatis, ligula et suscipit facilisis, ante nibh cursus erat, fringilla ultrices neque tortor id lacus. Maecenas lobortis sed turpis vitae euismod. Phasellus porttitor maximus est, eu feugiat felis volutpat ut. Etiam a nisi iaculis, condimentum ex ac, maximus quam. Vestibulum eget tincidunt risus, eget varius orci. Nullam vulputate tincidunt laoreet. Curabitur sodales bibendum auctor. Fusce dapibus, lorem eu fringilla semper, tellus lacus posuere diam, id dapibus dui nisi non elit. Etiam id efficitur sapien, sed aliquet nunc. Vivamus tellus tortor, efficitur id sapien ut, cursus molestie dolor. Duis convallis nisl posuere, sollicitudin eros sit amet, pellentesque leo. Etiam nec tellus in ex bibendum elementum.
-
-          Pellentesque blandit posuere dapibus. Suspendisse potenti. Fusce iaculis semper bibendum. Quisque id eros nec mi vehicula tincidunt. Phasellus vitae velit consequat, bibendum ante sed, accumsan ante. Morbi mattis tristique tortor eu ullamcorper. Proin gravida scelerisque mollis. Donec at ipsum sed justo condimentum venenatis ut at turpis. Fusce bibendum mollis justo, eu pulvinar odio pulvinar tempus. Fusce lobortis posuere lacus. Morbi porttitor sapien nec fermentum fringilla. Quisque pulvinar turpis posuere felis placerat, et pharetra nibh semper. Vivamus sed urna id elit rutrum faucibus et sed urna.
-
-          In hac habitasse platea dictumst. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed ut facilisis purus, at tristique velit. Nam fringilla, ligula eu commodo vehicula, magna dui commodo mauris, et pellentesque massa tortor at elit. Etiam varius eget diam placerat dictum. Maecenas rhoncus ligula turpis, ut bibendum mauris tincidunt et. Donec ornare egestas velit non condimentum. Nulla dictum leo sapien. Maecenas vel nisl nec lacus convallis condimentum. Suspendisse sit amet dapibus est. Aliquam sit amet lorem dolor. Aenean rhoncus odio malesuada magna luctus, id luctus sapien eleifend.
-
-          Suspendisse sit amet laoreet risus. Nulla facilisi. Ut tincidunt rutrum sapien, ac accumsan erat suscipit sed. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Ut nec elit elementum, iaculis augue nec, lacinia lorem. Aenean in accumsan risus, a fringilla erat. Mauris finibus mi sit amet pharetra gravida. Integer vulputate pretium lectus, a auctor tortor tempor sed. Praesent placerat feugiat sem, condimentum facilisis nisl semper eget. Sed convallis leo at felis placerat, a fermentum tortor ornare. In a turpis felis. Duis iaculis maximus felis ac auctor. Ut lacinia tempus diam, id congue quam laoreet a. Aenean ut ornare tortor, eu venenatis dui. Fusce at erat condimentum, vehicula elit eu, vehicula augue.
-
-          Sed quis interdum nunc. Aenean a lacus vel sapien gravida fringilla sed a eros. Donec porttitor cursus tristique. Maecenas dapibus ultricies diam id facilisis. Morbi vel tincidunt eros. Etiam ultrices pharetra viverra. Mauris in suscipit ante. Maecenas sit amet elit gravida, placerat odio eu, eleifend erat. Vivamus hendrerit, urna ut pulvinar sollicitudin, urna risus pretium elit, quis cursus metus neque non massa. Phasellus ultrices lectus in ante consectetur, et luctus enim congue. Maecenas eu hendrerit ante, sit amet efficitur leo. Proin eget elementum lectus. Integer est enim, elementum sed faucibus id, tincidunt in ligula.
-
-          Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque semper metus laoreet augue pretium, at ultrices orci ullamcorper. In hac habitasse platea dictumst. Suspendisse laoreet, odio et sodales bibendum, quam dolor rutrum nulla, id faucibus est metus ut urna. Sed sed augue vitae nisl iaculis condimentum. Vestibulum vitae tincidunt quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec quam felis. Donec tincidunt semper orci at ullamcorper. Mauris feugiat sit amet ligula ut rutrum. Integer venenatis, nisl vitae feugiat mattis, augue massa laoreet odio, vel molestie tortor orci eget dui. Aenean a sodales leo. Suspendisse potenti. Etiam posuere eget risus et molestie. Sed elementum risus vel faucibus vulputate. Nulla eu volutpat mi.
-
-          Phasellus elementum odio vitae lacus molestie pharetra. Mauris feugiat at sapien at iaculis. Fusce vitae nisi eget nisi semper efficitur feugiat id nisl. Suspendisse convallis maximus massa quis dapibus. Pellentesque mattis justo eget lorem posuere blandit. Aenean tincidunt est leo, quis gravida odio fringilla nec. Duis elit est, efficitur quis ultrices a, aliquet quis augue. Proin at nibh tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus feugiat accumsan enim, eu rutrum justo euismod lobortis. Mauris vitae tortor nec lacus eleifend congue in a nisi.
-
-          Proin pulvinar neque nisi. Sed tortor erat, fringilla et leo nec, congue euismod diam. Vivamus fringilla consequat vestibulum. Quisque sagittis sit amet elit a dignissim. Suspendisse aliquam eros sit amet pharetra lobortis. Pellentesque eros enim, blandit in aliquam vitae, viverra eu neque. Praesent magna augue, euismod nec augue quis, tempus hendrerit neque. Quisque eu ipsum nec magna sollicitudin vehicula. Nam dictum nisl et quam laoreet commodo.
-
-          Aenean nisl eros, maximus at urna ac, bibendum feugiat velit. Vivamus metus lacus, placerat vitae viverra feugiat, molestie in odio. Mauris nec nulla a turpis placerat malesuada et sed odio. Mauris nec urna congue, egestas risus a, fringilla eros. Aenean ultrices ligula in magna semper vulputate. Curabitur ante tortor, vestibulum non dignissim eleifend, egestas iaculis augue. Fusce placerat at orci a iaculis.
-
-        </p>
+              <div class="fixtures-abridged   calendar " data-fixturesids="115827,115830,115828,115829,115831,115832,115833,115834,115835,115836" data-script="pl_club" data-widget="club-matches" data-pagesize="10" data-sort="ASCENDING" data-gameweek="18390" data-start-date="2024-08-16" data-end-date="2024-08-19" data-rendered="true">
+                <div class="fixtures-abridged__list js-match-list-container">
+                  <div class="fixtures-abridged__day-container ">
+                    <time class="fixtures-abridged__date"> Friday 16 August
+                    </time>
 
 
+
+
+
+                    
+                                <a href="//www.premierleague.com/match/115827" class="match-fixture match-fixture--abridged " data-matchid="115827">
+                                  <div class="match-fixture__team match-fixture__team--home">
+                                    <span class="match-fixture__team-name match-fixture__team-name--abbr u-hide-phablet">MUN
+                                    </span>
+                                    <span class="match-fixture__team-name match-fixture__team-name--full u-show-phablet">Man Utd
+                                    </span>
+                                    <span class="badge badge-image-container" data-widget="club-badge-image" data-size="50">
+                                      <img class="badge-image badge-image--30 js-badge-image" src="https://resources.premierleague.com/premierleague/badges/50/t1.png" srcset="https://resources.premierleague.com/premierleague/badges/50/t1.png, https://resources.premierleague.com/premierleague/badges/50/t1@x2.png 2x" />
+                                    </span>
+                                  </div>
+                                  <time>22:30
+                                  </time>
+                                  <div class="match-fixture__team match-fixture__team--away">
+                                    <span class="badge badge-image-container" data-widget="club-badge-image" data-size="50">
+                                      <img class="badge-image badge-image--30 js-badge-image" src="https://resources.premierleague.com/premierleague/badges/50/t54.png" srcset="https://resources.premierleague.com/premierleague/badges/50/t54.png, https://resources.premierleague.com/premierleague/badges/50/t54@x2.png 2x" />
+                                    </span>
+                                    <span class="match-fixture__team-name match-fixture__team-name--abbr u-hide-phablet">FUL
+                                    </span>
+                                    <span class="match-fixture__team-name match-fixture__team-name--full u-show-phablet">Fulham
+                                    </span>
+                                  </div>
+                                  <div data-id="115827" class="match-fixture__summary-broadcasters js-match-summary-broadcasters">
+                                  </div>
+                                  <svg class="match-fixture__icon" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 15.085 9.422" space="preserve">
+                                    <path d="M15.084,4.709c-0.013-0.285-0.106-0.581-0.325-0.782l-1.215-1.216l-1.941-1.94l-0.445-0.446 c-0.21-0.204-0.489-0.32-0.782-0.325c-0.271,0-0.595,0.12-0.781,0.325C9.403,0.536,9.259,0.812,9.27,1.107 c0.012,0.294,0.112,0.569,0.325,0.781l1.218,1.218l0.495,0.496H2.69c-0.519,0-1.041-0.006-1.56,0H1.107 c-0.285,0-0.58,0.124-0.781,0.326C0.133,4.12-0.01,4.432,0.001,4.709C0.014,4.993,0.107,5.29,0.326,5.49 c0.218,0.2,0.484,0.326,0.781,0.325h10.207L10.04,7.088L9.595,7.533c-0.2,0.2-0.324,0.5-0.325,0.782c0,0.271,0.12,0.595,0.325,0.781 c0.21,0.192,0.486,0.337,0.782,0.325c0.292-0.015,0.57-0.113,0.781-0.325l1.218-1.218l1.941-1.941l0.445-0.445 c0.114-0.113,0.194-0.248,0.247-0.392c0.052-0.124,0.078-0.258,0.076-0.392L15.084,4.709z">
+                                    </path>
+                                  </svg>
+                                </a>
+
+
+
+
+                    <a class="match-fixture__mc-button global-btn" href="//www.premierleague.com/match/115827"> View match centre
+                      <svg class="match-fixture__icon icn" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 15.085 9.422" space="preserve">
+                        <path d="M15.084,4.709c-0.013-0.285-0.106-0.581-0.325-0.782l-1.215-1.216l-1.941-1.94l-0.445-0.446 c-0.21-0.204-0.489-0.32-0.782-0.325c-0.271,0-0.595,0.12-0.781,0.325C9.403,0.536,9.259,0.812,9.27,1.107 c0.012,0.294,0.112,0.569,0.325,0.781l1.218,1.218l0.495,0.496H2.69c-0.519,0-1.041-0.006-1.56,0H1.107 c-0.285,0-0.58,0.124-0.781,0.326C0.133,4.12-0.01,4.432,0.001,4.709C0.014,4.993,0.107,5.29,0.326,5.49 c0.218,0.2,0.484,0.326,0.781,0.325h10.207L10.04,7.088L9.595,7.533c-0.2,0.2-0.324,0.5-0.325,0.782c0,0.271,0.12,0.595,0.325,0.781 c0.21,0.192,0.486,0.337,0.782,0.325c0.292-0.015,0.57-0.113,0.781-0.325l1.218-1.218l1.941-1.941l0.445-0.445 c0.114-0.113,0.194-0.248,0.247-0.392c0.052-0.124,0.078-0.258,0.076-0.392L15.084,4.709z">
+                        </path>
+                      </svg> 
+                      </a>       
+                      </div>
+                </div>
+
+              </div>
+
+            </div>
+          </nav>
+
+        </div>
+      </div>
 
 
 

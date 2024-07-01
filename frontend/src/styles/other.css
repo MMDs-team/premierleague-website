@@ -1,0 +1,34 @@
+
+.page-header {
+
+    background-image: url(../static/images/primary-bg.svg);
+}
+
+
+.page-header:after {
+    background-image: url(../static/images/primary-graphic.svg)
+}
+
+.page-header--stats.page-header .page-header__title{
+    color: #fff;
+}
+
+main {
+    min-height: 80vh;
+}
+
+.footer-sponsors{
+    display: flex;
+}
+
+.footer-sponsors ul{
+    display: flex;
+    width: 100%;
+}
+
+.mainFooter {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    margin-top: 10rem;
+}

@@ -9,12 +9,12 @@ export const TopPlayerFilteringStats = (props) => {
     const handelActionIndex = props.handelActionIndex
     const hadelNationalityIndex = props.hadelNationalityIndex
     const handelPositionIndex = props.handelPositionIndex
-    const positions = props.positions
+    const {positions} = props
+    
 
     const clubs = useContext(MainContext).clubs
     const seasonOrdered = useContext(MainContext).seasonOrdered
     const actionTypes = useContext(MainContext).actionTypes
-    const [chosenActionName, setChosenActionName] = useState("Goal")
     const [chosenSeasonName, setChosenSeasonName] = useState("All Seasons")
     const [chosenClubName, setChosenClubName] = useState("All Clubs")
     const [chosenNationality, setChosenNationality] = useState("All Nationality")
@@ -26,10 +26,10 @@ export const TopPlayerFilteringStats = (props) => {
     const [isPositionFilterOpen, setIsPostionFilterOpen] = useState(false)
     const [isMobileFilter, setIsMobileFilter] = useState(false)
 
+    const {chosenActionName, setChosenActionName} = props
+
 
     const choseFilter = (index, name, type) => {
-        console.log("pos")
-        console.log(positions)
         if (type === 'Club') {
             handelClubIndex(index)
             setChosenClubName(name)
@@ -132,7 +132,7 @@ export const TopPlayerFilteringStats = (props) => {
                                 className=""
                                 onClick={() => choseFilter(index, at.subtype, "Action")}>
 
-                                {at.subtype}s
+                                {at.subtype}
                          
                             </li>
                         ))}

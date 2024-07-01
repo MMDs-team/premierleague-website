@@ -1,12 +1,18 @@
 import React from 'react'
 
-export const StatsCard = () => {
+export const StatsCard = ({data, type, name}) => {
+
+
+
+
+    
   return (
     
             <li>
-                <div data-stat-header="topPerformers" class="top-stats">
+                <div data-stat-header="topPerformers" class="top-stats">{console.log(data)}
+                    
                         <header>
-                            <h4 class="top-stats__title"><a href="/stats/top/players/goals?se=578">Goals</a></h4>
+                            <h4 class="top-stats__title"><a href="/stats/top/players/goals?se=578">{name}</a></h4>
 
                             <div class="top-stats__wrapper">
 
@@ -28,43 +34,46 @@ export const StatsCard = () => {
                                             <div class="top-stats__hero-info">
                                             <div class="top-stats__hero-pos">1</div>
 
-                                            <div class="top-stats__hero-first">Erling </div>
-                                        <div class="top-stats__hero-last">Haaland </div>
+                                            {/* <div class="top-stats__hero-first">{type === "Player" ? data[0].first_name : data[0].name} </div> */}
+                                        <div class="top-stats__hero-last">{type === "Player" && data[0].last_name} </div>
                                                 <div class="top-stats__hero-club-info">
                                         <div class="badge badge-image-container" data-widget="club-badge-image" data-size="25">
-                                            <img class="badge-image js-badge-image" src="https://resources.premierleague.com/premierleague/badges/25/t43.png" alt='image club'/>
+                                            <img class="badge-image js-badge-image" src={`http://127.0.0.1:8000${type === "Player" && data[0].sample_club.logo}`} alt='image club'/>
                                         </div>
-                                                <div class="top-stats__hero-club-name">Man City </div>
+                                                <div class="top-stats__hero-club-name">{type === "Player" ? data[0].sample_club.name : data[0].main_stadium}</div>
                                                 </div>
                                             </div>
                                             <div class="top-stats__hero-stat">
-                                                27
+                                                {type == "Player" ? 68754:data[0][name]}
                                             </div>
                                         </div>
                                         <div class="top-stats__hero-image ">
-                                            <img data-script="pl_player-image" data-widget="player-image" data-player="p223094" data-size="110x140" class="img statCardImg" src="https://resources.premierleague.com/premierleague/photos/players/110x140/p223094.png" alt="Photo for Erling Haaland"/>
+                                            <img data-script="pl_player-image" data-widget="player-image" data-player="p223094" data-size="110x140" class="img statCardImg" src={`http://127.0.0.1:8000${type === "Player" ? data[0].image:data[0].club_logo}`} alt={`Photo for ${data.name}`}/>
                                         </div>
                                         </a>
                                     </li>
 
+                                    {/* { data.slice(1, data.length).map((item, index) => (
 
-                                    <li class="top-stats__row top-stats__row--">
-                                        <div class="top-stats__row-info">
-                                        <div class="top-stats__row-pos">2</div>
-                                        <div class="badge badge-image-container" data-widget="club-badge-image" data-size="25">
-                                            <img class="badge-image js-badge-image" src="https://resources.premierleague.com/premierleague/badges/25/t8.png"/>
-                                        </div>
-                                        <div class="top-stats__row-team-info">
-                                            <a href="/players/49293/Cole-Palmer/overview" class="top-stats__row-name">Cole Palmer</a>
-                                            <a href="/clubs/4/Chelsea/overview" class="top-stats__row-team-name">Chelsea</a>
-                                        </div>
-                                        </div>
-                                        <div class="top-stats__row-stat">
-                                        22
-                                        </div>
-                                    </li>
-                                </ul>
+                                        <li class="top-stats__row top-stats__row--" key={index}>
+                                            <div class="top-stats__row-info">
+                                            <div class="top-stats__row-pos">{index + 2 }</div>
+                                            <div class="badge badge-image-container" data-widget="club-badge-image" data-size="25">
+                                                <img class="badge-image js-badge-image" src={`http://127.0.0.1:8000${type === "Player" && data[index].sample_club.logo}`} />
+                                            </div>
+                                            <div class="top-stats__row-team-info">
+                                                <a href="/players/49293/Cole-Palmer/overview" class="top-stats__row-name">{type === "Player" ? data[0].first_name : data[0].name}</a>
+                                                <a href="/clubs/4/Chelsea/overview" class="top-stats__row-team-name"></a>
+                                            </div>
+                                            </div>
+                                            <div class="top-stats__row-stat">
+                                            22
+                                            </div>
+                                        </li>
+                                        ))
+                                    } */}
 
+                                    </ul>
                                 <a class="top-stats__button global-btn" href="/stats/top/players/goals?se=578">
                                     View Full List
                                     <svg class="icon " aria-hidden="true">

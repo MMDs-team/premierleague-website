@@ -6,9 +6,12 @@ import { NATIONALITY_LIST } from "../nationality"
 export const ClubStats = () => {
 
 
-    const [seasonIndex, setSeasonIndex] = useState(1) // the id which is season_id for filtering
-    const [actionIndex, setActionIndex] = useState(1) // the id which is season_id for filtering
+    const [seasonIndex, setSeasonIndex] = useState(-1) // the id which is season_id for filtering
+    const [actionIndex, setActionIndex] = useState(0) // the id which is season_id for filtering
 
+    const [order, setOrder] = useState(true) 
+    const [chosenActionName, setChosenActionName] = useState("Goal")
+    const [fromNumber, setFromNumber] = useState(0)
 
     const [clubs, setClubs] = useState([])
 
@@ -23,7 +26,7 @@ export const ClubStats = () => {
     const fetchData = async () => {
         console.log("repeat fetching data...")
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/stats/top/club?at=yellow_cards&se=-1`) // is not complited yet
+            const response = await axios.get(`http://127.0.0.1:8000/api/stats/top/club?at=${chosenActionName.toLowerCase()}&se=${seasonIndex}&from=${fromNumber}&order=${order?"desc":"asc"}`) // is not complited yet
             console.log("stats clubs: ")
             console.log(response.data)
             setClubs(response.data)
@@ -49,41 +52,46 @@ export const ClubStats = () => {
             <TopClubFilteringStats
                 handelActionIndex={setActionIndex}
                 handelSeasonIndex={setSeasonIndex}
+                chosenActionName={chosenActionName}
+                setChosenActionName={setChosenActionName}
             />
 
 
-<div class="table playerIndex statsTable teamStatsTable stats-table">
-                <h1 class="stats-table__header">Wins</h1>
-                <summary class="visuallyHidden">This table ranks teams based on the currently selected stat type</summary><table>
+            <div className="table playerIndex statsTable teamStatsTable stats-table">
+                <h1 className="stats-table__header">{chosenActionName}s</h1>
+                <table>
 
                     <thead>
                         <tr>
-                            <th class="stats-table__header-rank" scope="col">Rank</th>
+                            <th className="stats-table__header-rank" scope="col">Rank</th>
                             <th scope="col">Club</th>
-                            <th scope="col" class="stats-table__header-stat">Stat</th>
-                            <th class="table__order">
-                                <span class="table__reorder-stats-button js-reorder-stats-button">
-                                    <span class="icn sort"></span>
+                            <th scope="col" className="stats-table__header-stat">Stat</th>
+                            <th className="table__order">
+                                <span className="table__reorder-stats-button js-reorder-stats-button">
+                                    <span className="icn sort"></span>
                                 </span>
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="statsTableContainer">
-                        <tr class="table__row ">
-                            <td class="stats-table__rank">1.</td>
-                            <td class="stats-table__name">
-                                <a href="//www.premierleague.com/clubs/1/club/overview" class="stats-table__cell-icon-align">
-                                    <span class="badge badge-image-container" data-widget="club-badge-image" data-size="25">
-                                        <img class="badge-image badge-image--25 js-badge-image" src="https://resources.premierleague.com/premierleague/badges/25/t3.png" />
+                    <tbody className="statsTableContainer">
+                        {clubs.length > 0&& clubs.map((club, index) => (
+                        
+                        <tr className="table__row " key={index}>
+                            <td className="stats-table__rank">{index + 1}.</td>
+                            <td className="stats-table__name">
+                                <a href="//www.premierleague.com/clubs/1/club/overview" className="stats-table__cell-icon-align">
+                                    <span className="badge badge-image-container" data-widget="club-badge-image" data-size="25">
+                                        <img className="badge-image badge-image--25 js-badge-image" src={`http://127.0.0.1:8000${club.logo}`} alt="logo"/>
                                     </span>
-                                    Arsenal
+                                    {club.name}
                                 </a>
                             </td>
-                            <td class="stats-table__main-stat">
-                                28
+                            <td className="stats-table__main-stat">
+                                {club.stats}
                             </td>
                             <td>&nbsp;</td>
                         </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>

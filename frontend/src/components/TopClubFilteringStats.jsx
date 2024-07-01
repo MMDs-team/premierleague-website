@@ -6,11 +6,10 @@ export const TopClubFilteringStats = (props) => {
     const handelActionIndex = props.handelActionIndex
     const handelSeasonIndex = props.handelSeasonIndex
 
-    const clubs = useContext(MainContext).clubs
     const seasonOrdered = useContext(MainContext).seasonOrdered
     const actionTypes = useContext(MainContext).actionTypes
 
-    const [chosenActionName, setChosenActionName] = useState("Goal")
+    const {chosenActionName, setChosenActionName} = props
     const [chosenSeasonName, setChosenSeasonName] = useState("All Seasons")
     const [isSeasonFilterOpen, setIsSeasonFilterOpen] = useState(false)
     const [isActionFilterOpen, setIsActionFilterOpen] = useState(false)
@@ -25,7 +24,7 @@ export const TopClubFilteringStats = (props) => {
             handelSeasonIndex(index)
             setChosenSeasonName(name)
         } else {          
-            handelSeasonIndex()
+            handelSeasonIndex(-1)
             setChosenSeasonName("All Seasons")
             setChosenActionName("Goal")
         }

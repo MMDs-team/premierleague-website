@@ -5,17 +5,16 @@ import { StatsCard } from "./StatsCard"
 export const StatsDashboard = () => {
 
   
-    const [players, setPlayers] = useState([])
+    const [stats, setStats] = useState(null)
 
     const fetchData = async () => {
         console.log("repeat fetching data...")
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/stats/top/player?at=penalties&se=${-1}&cl=${-1}&na=${-1}&po=${-1}`)
+            const {data} = await axios.get("http://127.0.0.1:8000/api/stats")
             console.log("stats player: ")
-            console.log(response.data)
-            setPlayers(response.data)
+            setStats(data)
         } catch (error) {
-            console.log("Error fetching players!", error)
+            console.log("Error fetching stats!", error)
         }
     }
 
@@ -25,21 +24,36 @@ export const StatsDashboard = () => {
     }, [])
 
 
+    useEffect(() => {
+
+        console.log(stats)
+    }, [stats])
 
 
 
-
-    return (
+    if (stats != null) return (
         <>
+            
             <ul data-script="pl_stats" data-widget="top-stats-header" data-header-id="topPerformers" class="block-list-4 mobileScrollList">
                 
-                    
-                        <StatsCard />
-                        <StatsCard />
-                        <StatsCard />
-                        <StatsCard />
+           {stats.player_stats.map((ps, index) => (
+
+                <StatsCard data={ps.players} name={ps.action_type} key={index} type="Player" />
+            ))}
             
             </ul>
+
+            <ul data-script="pl_stats" data-widget="top-stats-header" data-header-id="topPerformers" class="block-list-4 mobileScrollList">
+                
+               {/* <StatsCard data={stats.club_stats.win } name="Win" type="Club" />
+               <StatsCard data={stats.club_stats.lose } name="Lose" type="Club" />
+               <StatsCard data={stats.club_stats.goal } name="Goal" type="Club" />
+               <StatsCard data={stats.club_stats.tackle } name="Tackle" type="Club" /> */}
+
+                
+            
+            </ul>
+            
         </>
-    )
+    ) 
 }

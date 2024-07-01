@@ -264,7 +264,7 @@ class Ticket(models.Model):
     match = models.ForeignKey("Match", on_delete=models.CASCADE, related_name='ticket_match')
     type = models.ForeignKey(TicketType, null=True, blank=True, on_delete=models.SET_NULL, related_name='ticket_type')
     seat_number = models.IntegerField()
-    date_time = models.DateTimeField()
+    date_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ['user', 'match']
@@ -334,7 +334,7 @@ class SamplePlayer(models.Model) :
     player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='sample_player_player')
     club = models.ForeignKey(SampleClub, on_delete=models.CASCADE, related_name='sample_player_club')
     
-    number_in_team = models.SmallIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(99)])
+    number_in_team = models.CharField(max_length=2)
     position = models.CharField(max_length=SMALL_STRLEN)
 
     class Meta:
@@ -369,16 +369,16 @@ class Match(models.Model) :
     away_players = models.CharField(max_length=LONG_STRLEN, null=True, blank=True)
     weather = models.CharField(max_length=SMALL_STRLEN, default='Stable')
     referee_kit_number = models.SmallIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(4)], null=True, blank=True)
-    ticket_price = models.IntegerField()
+    ticket_price = models.IntegerField(null=True, blank=True)
     result = models.CharField(max_length=SMALL_STRLEN, default='0-0')
     
     host_club = models.ForeignKey(SampleClub, on_delete=models.CASCADE, related_name='match_host_club')
     guest_club = models.ForeignKey(SampleClub, on_delete=models.CASCADE, related_name='match_guest_club')
-    stadium = models.ForeignKey(Stadium, on_delete=models.CASCADE, related_name='match_stadium')
-    referee = models.ForeignKey(Referee, on_delete=models.CASCADE, related_name='match_referee')
-    first_referee_asist = models.ForeignKey(Referee, on_delete=models.CASCADE, related_name='match_first_referee_asist')
-    second_referee_asist = models.ForeignKey(Referee, on_delete=models.CASCADE, related_name='match_second_referee_asist')
-    fourth_official = models.ForeignKey(Referee, on_delete=models.CASCADE, related_name='match_fourth_official')
+    stadium = models.ForeignKey(Stadium, null=True, blank=True, on_delete=models.SET_NULL, related_name='match_stadium')
+    referee = models.ForeignKey(Referee, null=True, blank=True, on_delete=models.SET_NULL, related_name='match_referee')
+    first_referee_asist = models.ForeignKey(Referee, null=True, blank=True, on_delete=models.SET_NULL, related_name='match_first_referee_asist')
+    second_referee_asist = models.ForeignKey(Referee, null=True, blank=True, on_delete=models.SET_NULL, related_name='match_second_referee_asist')
+    fourth_official = models.ForeignKey(Referee, null=True, blank=True, on_delete=models.SET_NULL, related_name='match_fourth_official')
     
     match_spons = models.ManyToManyField(
         Sponsor, 

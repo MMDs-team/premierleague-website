@@ -37,7 +37,7 @@ const Stats = () => {
                     <h2 class="widget-header__title">Premier League {menu[indexTab].name}</h2>
             </header>
 
-            {/* {indexTab===0 && <StatsDashboard />} */}
+            {indexTab===0 && <StatsDashboard />}
             {indexTab===1 && <PlayerStats /> }
              {indexTab===2 && <ClubStats /> }
             {/*indexTab===3 && <AllTimeStats /> }

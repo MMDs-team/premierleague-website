@@ -84,24 +84,24 @@ export const PlayerStats = () => {
                     <tbody className="stats-table__container statsTableContainer">
 
                         {players.length > 0&& players.map((player, index) => (
-                            <tr class="table__row " key={index}>
-                                <td class="stats-table__rank">{index + 1}.</td>
-                                <td class="stats-table__player">
-                                    <a href="//www.premierleague.com/players/65970/player/overview" class="playerName">  {player.first_name} {player.last_name}</a>
-                                </td> <td class="hide-s">
-                                    <a href="//www.premierleague.com/clubs/11/Manchester-City/overview" class="stats-table__cell-icon-align">
-                                        <span class="badge badge-image-container" data-widget="club-badge-image" data-size="25">
-                                            <img class="badge-image badge-image--25 js-badge-image" src={`http://127.0.0.1:8000${player.sample_club.logo}`}  alt="logo"/>
+                            <tr className="table__row " key={index}>
+                                <td className="stats-table__rank">{index + 1}.</td>
+                                <td className="stats-table__player">
+                                    <a href="//www.premierleague.com/players/65970/player/overview" className="playerName">  {player.first_name} {player.last_name}</a>
+                                </td> <td className="hide-s">
+                                    <a href="//www.premierleague.com/clubs/11/Manchester-City/overview" className="stats-table__cell-icon-align">
+                                        <span className="badge badge-image-container" data-widget="club-badge-image" data-size="25">
+                                            <img className="badge-image badge-image--25 js-badge-image" src={`http://127.0.0.1:8000${player.sample_club.logo}`}  alt="logo"/>
                                         </span>{player.sample_club.name}
                                     </a>
                                 </td>
-                                <td class="hide-s">
-                                    <div class="stats-table__cell-icon-align">
-                                        <img class="stats-table__flag-icon" src={`http://127.0.0.1:8000/images/flags/${getNationality(player.nationality)}.png`} alt="flag"/>
-                                        <span class="playerCountry">{player.nationality}</span>
+                                <td className="hide-s">
+                                    <div className="stats-table__cell-icon-align">
+                                        <img className="stats-table__flag-icon" src={`http://127.0.0.1:8000/images/flags/${getNationality(player.nationality)}.png`} alt="flag"/>
+                                        <span className="playerCountry">{player.nationality}</span>
                                     </div>
                                 </td>
-                                <td class="stats-table__main-stat">{player.stats}</td>
+                                <td className="stats-table__main-stat">{player.stats}</td>
                                 <td>&nbsp;</td>
                             </tr>
 

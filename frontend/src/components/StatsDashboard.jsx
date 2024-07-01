@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { StatsCard } from "./StatsCard"
+import { PlayerStatsCard } from "./PlayerStatsCard"
+import { ClubStatsCard } from "./ClubStatsCard"
 
 export const StatsDashboard = () => {
 
@@ -26,7 +27,7 @@ export const StatsDashboard = () => {
 
     useEffect(() => {
 
-        console.log(stats)
+        console.log("stats=", stats)
     }, [stats])
 
 
@@ -34,23 +35,21 @@ export const StatsDashboard = () => {
     if (stats != null) return (
         <>
             
-            <ul data-script="pl_stats" data-widget="top-stats-header" data-header-id="topPerformers" class="block-list-4 mobileScrollList">
+            <ul data-script="pl_stats" data-widget="top-stats-header" data-header-id="topPerformers" className="block-list-4 mobileScrollList">
                 
            {stats.player_stats.map((ps, index) => (
-
-                <StatsCard data={ps.players} name={ps.action_type} key={index} type="Player" />
+                <PlayerStatsCard data={ps.players} name={ps.action_type}type="Player" />
             ))}
             
             </ul>
 
-            <ul data-script="pl_stats" data-widget="top-stats-header" data-header-id="topPerformers" class="block-list-4 mobileScrollList">
+            <ul data-script="pl_stats" data-widget="top-stats-header" data-header-id="topPerformers" className="block-list-4 mobileScrollList">
                 
-               {/* <StatsCard data={stats.club_stats.win } name="Win" type="Club" />
-               <StatsCard data={stats.club_stats.lose } name="Lose" type="Club" />
-               <StatsCard data={stats.club_stats.goal } name="Goal" type="Club" />
-               <StatsCard data={stats.club_stats.tackle } name="Tackle" type="Club" /> */}
-
-                
+               <ClubStatsCard data={stats.club_stats.win } name="Win" />
+               <ClubStatsCard data={stats.club_stats.goal } name="Goal" />
+               <ClubStatsCard data={stats.club_stats.lose } name="Lose" />
+               <ClubStatsCard data={stats.club_stats.tackle } name="Tackle" />
+            
             
             </ul>
             

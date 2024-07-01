@@ -25,10 +25,10 @@ export const StatsDashboard = () => {
     }, [])
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        console.log("stats=", stats)
-    }, [stats])
+    //     console.log("stats=", stats)
+    // }, [stats])
 
 
 

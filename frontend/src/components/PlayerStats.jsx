@@ -12,7 +12,7 @@ export const PlayerStats = () => {
     const [nationalityIndex, setNationalityIndex] = useState(-1) // the id which is season_id for filtering
     const [positionIndex, setPositionIndex] = useState(-1) // the id which is season_id for filtering
     
-    const [fromNumber, setFromNumber] = useState(0)
+    const [fromNumber, setFromNumber] = useState(1)
     const [order, setOrder] = useState(true) 
     const [chosenActionName, setChosenActionName] = useState("Goal")
 

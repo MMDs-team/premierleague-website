@@ -35,7 +35,7 @@ export const ClubStatsCard = ({data,name}) => {
                                     <div class="top-stats__hero-info">
                                     <div class="top-stats__hero-pos">1</div>
                                         <div class="top-stats__hero-name">{club.name}</div>
-                                        <div class="top-stats__hero-ground">Stadium9999999 </div>
+                                        <div class="top-stats__hero-ground">{club.main_stadium_name} </div>
                                     </div>
                                     <div class="top-stats__hero-stat">
                                         {club[name.toLowerCase()]}

@@ -11,7 +11,7 @@ export const ClubStats = () => {
 
     const [order, setOrder] = useState(true) 
     const [chosenActionName, setChosenActionName] = useState("Goal")
-    const [fromNumber, setFromNumber] = useState(0)
+    const [fromNumber, setFromNumber] = useState(1)
 
     const [clubs, setClubs] = useState([])
 

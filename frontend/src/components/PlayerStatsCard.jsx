@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const PlayerStatsCard = ({data, type, name}) => {
+export const PlayerStatsCard = ({data, name}) => {
 
 
 
@@ -34,13 +34,13 @@ export const PlayerStatsCard = ({data, type, name}) => {
                                             <div className="top-stats__hero-info">
                                             <div className="top-stats__hero-pos">1</div>
 
-                                            <div className="top-stats__hero-first">{type === "Player" ? data[0].first_name : data[0].name} </div>
-                                        <div className="top-stats__hero-last">{type === "Player" && data[0].last_name} </div>
+                                            <div className="top-stats__hero-first">{data[0].first_name} </div>
+                                        <div className="top-stats__hero-last">{data[0].last_name} </div>
                                                 <div className="top-stats__hero-club-info">
                                         <div className="badge badge-image-container" data-widget="club-badge-image" data-size="25">
-                                            <img className="badge-image js-badge-image" src={`http://127.0.0.1:8000${type === "Player" && data[0].sample_club.logo}`} alt='image club'/>
+                                            <img className="badge-image js-badge-image" src={`http://127.0.0.1:8000${data[0].sample_club.logo}`} alt='image club'/>
                                         </div>
-                                                <div className="top-stats__hero-club-name">{type === "Player" ? data[0].sample_club.name : data[0].main_stadium}</div>
+                                                <div className="top-stats__hero-club-name">{data[0].sample_club.name}</div>
                                                 </div>
                                             </div>
                                             <div className="top-stats__hero-stat">
@@ -48,7 +48,7 @@ export const PlayerStatsCard = ({data, type, name}) => {
                                             </div>
                                         </div>
                                         <div className="top-stats__hero-image ">
-                                            <img data-script="pl_player-image" data-widget="player-image" data-player="p223094" data-size="110x140" className="img statCardImg" src={`http://127.0.0.1:8000${type === "Player" ? data[0].image:data[0].club_logo}`} alt={`Photo for ${data.name}`}/>
+                                            <img data-script="pl_player-image" data-widget="player-image" data-player="p223094" data-size="110x140" className="img statCardImg" src={`http://127.0.0.1:8000${data[0].image}`} alt={`Photo for player`}/>
                                         </div>
                                         </a>
                                     </li>

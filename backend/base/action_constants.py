@@ -8,7 +8,6 @@ ACTION_NAMES = [
     'goal_from_outside_box',
     'goal_from_counter_attack',
     'save',
-    'own_goal',
     'shot',
     'pass',
     'cross',

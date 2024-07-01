@@ -49,7 +49,7 @@ class StatsTopPlayerAppearanceAllTimeSerializer(serializers.ModelSerializer):
         
 class StatsTopPlayerGoalAllTimeSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source='player.first_name', read_only=True)
-    username = serializers.CharField(source='player.username', read_only=True)
+    last_name = serializers.CharField(source='player.last_name', read_only=True)
     goal = serializers.SerializerMethodField(read_only=True)
     club_logo = serializers.SerializerMethodField(read_only=True)
     
@@ -64,7 +64,7 @@ class StatsTopPlayerGoalAllTimeSerializer(serializers.ModelSerializer):
         fields = (
             'player',
             'first_name',
-            'username', 
+            'last_name', 
             'image',
             'club_logo',
             'goal',
@@ -73,7 +73,7 @@ class StatsTopPlayerGoalAllTimeSerializer(serializers.ModelSerializer):
         
 class StatsTopPlayerAssistAllTimeSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source='player.first_name', read_only=True)
-    username = serializers.CharField(source='player.username', read_only=True)
+    last_name = serializers.CharField(source='player.last_name', read_only=True)
     assist = serializers.SerializerMethodField(read_only=True)
     club_logo = serializers.SerializerMethodField(read_only=True)
     
@@ -88,7 +88,7 @@ class StatsTopPlayerAssistAllTimeSerializer(serializers.ModelSerializer):
         fields = (
             'player',
             'first_name',
-            'username', 
+            'last_name', 
             'image',
             'club_logo',
             'assist',
@@ -97,7 +97,7 @@ class StatsTopPlayerAssistAllTimeSerializer(serializers.ModelSerializer):
         
 class StatsTopGKCleanSeetAllTimeSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source='player.first_name', read_only=True)
-    username = serializers.CharField(source='player.username', read_only=True)
+    last_name = serializers.CharField(source='player.last_name', read_only=True)
     clean_sheet = serializers.SerializerMethodField(read_only=True)
     club_logo = serializers.SerializerMethodField(read_only=True)
     
@@ -112,7 +112,7 @@ class StatsTopGKCleanSeetAllTimeSerializer(serializers.ModelSerializer):
         fields = (
             'player',
             'first_name',
-            'username', 
+            'last_name', 
             'image',
             'club_logo',
             'clean_sheet',

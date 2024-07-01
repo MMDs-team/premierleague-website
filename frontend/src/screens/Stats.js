@@ -3,6 +3,7 @@ import { PageNav } from '../components/PageNav'
 import { PlayerStats } from '../components/PlayerStats'
 import { ClubStats } from '../components/ClubStats'
 import { StatsDashboard } from '../components/StatsDashboard'
+import { AllTimeStats } from '../components/AllTimeStats'
 
 
 const Stats = () => {
@@ -40,8 +41,8 @@ const Stats = () => {
             {indexTab===0 && <StatsDashboard />}
             {indexTab===1 && <PlayerStats /> }
              {indexTab===2 && <ClubStats /> }
-            {/*indexTab===3 && <AllTimeStats /> }
-            {indexTab===4 && <StatsDashboard /> }
+            {indexTab===3 && <AllTimeStats /> }
+            {/*indexTab===4 && <StatsDashboard /> }
             {indexTab===5 && <StatsDashboard /> }
             {indexTab===6 && <StatsDashboard /> }
             {indexTab===7 && <StatsDashboard /> } */}

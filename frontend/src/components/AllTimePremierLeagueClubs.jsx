@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { IP } from "../CREDENTIALS";
 
 export const AllTimePremierLeagueClubs = () => {
     const [clubs, setClubs] = useState([]);
@@ -7,7 +8,7 @@ export const AllTimePremierLeagueClubs = () => {
     const fetchData = async () => {
         try {
             const response = await axios.get(
-                `http://127.0.0.1:8000/api/overview/allClubs`
+                `http://${IP}:8000/api/overview/allClubs`
             );
             setClubs(response.data);
         } catch (error) {
@@ -37,7 +38,7 @@ export const AllTimePremierLeagueClubs = () => {
                                 <td class="team">
                                     <a href="//www.premierleague.com/clubs/1/Arsenal/overview">
                                         <span class="badge badge-image-container" data-widget="club-badge-image" data-size="50" >
-                                            <img class="badge-image badge-image--50 js-badge-image" src={`http://127.0.0.1:8000${club.logo}`} alt="club logo"/>
+                                            <img class="badge-image badge-image--50 js-badge-image" src={`http://${IP}:8000${club.logo}`} alt="club logo"/>
                                         </span>
                                         <div class="team-index__name">
                                             <div class="team-index__club-name">{club.name}</div>

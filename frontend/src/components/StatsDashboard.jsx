@@ -2,6 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { PlayerStatsCard } from "./PlayerStatsCard"
 import { ClubStatsCard } from "./ClubStatsCard"
+import { IP } from "../CREDENTIALS"
 
 export const StatsDashboard = () => {
 
@@ -11,7 +12,7 @@ export const StatsDashboard = () => {
     const fetchData = async () => {
         console.log("repeat fetching data...")
         try {
-            const {data} = await axios.get("http://127.0.0.1:8000/api/stats")
+            const {data} = await axios.get(`http://${IP}:8000/api/stats`)
             console.log("stats player: ")
             setStats(data)
         } catch (error) {

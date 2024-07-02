@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import {MainContext} from '../App.js'
+import { IP } from '../CREDENTIALS.js';
 
 
 
@@ -22,7 +23,7 @@ export const ClubNavigation = () => {
                     <li className="clubList__club" key={i}>
                         <a className="clubList__link" target="_blank" href={club.website} role="menuitem">
                             <div className="badge badge--large badge-image-container" data-widget="club-badge-image" data-size="50">
-                                <img className="badge-image badge-image--50 js-badge-image" src={`http://127.0.0.1:8000${club.logo}`} alt='club_logo'/>
+                                <img className="badge-image badge-image--50 js-badge-image" src={`http://${IP}:8000${club.logo}`} alt='club_logo'/>
                                 <span className="visuallyHidden">{club.name}</span>
                             </div>
                             <span className="name">{club.name}</span>

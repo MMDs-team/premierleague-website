@@ -1,4 +1,5 @@
 import React from 'react'
+import { IP } from '../CREDENTIALS'
 
 export const ClubStatsCard = ({data,name}) => {
 
@@ -43,7 +44,7 @@ export const ClubStatsCard = ({data,name}) => {
                                 </div>
                                 <div class="top-stats__hero-image top-stats__hero-image--club">
                                     <div class="badge badge-image-container" data-widget="club-badge-image" data-size="100">
-                                        <img class="badge-image js-badge-image" src={`http://127.0.0.1:8000${club.club_logo}`} />
+                                        <img class="badge-image js-badge-image" src={`http://${IP}:8000${club.club_logo}`} />
                                     </div>
                                 </div>
                                 </a>

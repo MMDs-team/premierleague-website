@@ -69,7 +69,7 @@ def update_employee(request, pk):
     if data.get('description') is not None: employee.description = data['description']
     if data.get('cv') is not None: employee.cv = data['cv']
     if data.get('salary') is not None: employee.salary = float(data['salary'])
-    if data.get('gender') is not None: employee.gender = bool(data['gender'])
+    if data.get('gender') is not None: employee.gender = data['gender']
     employee.save()
 
     serializer = EmployeeSerializer(employee, many=False)
@@ -85,7 +85,7 @@ def add_employee(request):
         data.get('description') is None or \
         data.get('cv') is None or \
         data.get('salary') is None or \
-            data.get('gender') is None: return Response({
+        data.get('gender') is None: return Response({
             'detail': 'Some required fields is missing!'
         }, status=status.HTTP_400_BAD_REQUEST)
 
@@ -99,7 +99,7 @@ def add_employee(request):
         description=data['description'],
         cv=data['cv'],
         salary=float(data['salary']),
-        gender=bool(data['gender'])
+        gender=data['gender'],
     )
     if data.get('image') is not None: employee.image = data['image']
 

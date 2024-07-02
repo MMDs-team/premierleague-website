@@ -4,6 +4,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 import datetime
 
 SEMESTERS = [('SUMMER', 'summer'), ('WINTER', 'winter')]
+GENDER = [('Female', 'female'), ('Male', 'male')]
 
 SHORT_STRLEN = 10
 SMALL_STRLEN = 25
@@ -13,12 +14,12 @@ LONG_STRLEN = 125
 class Club(models.Model):
     club_id = models.AutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=STRLEN)
-    image = models.ImageField(upload_to="clubs")
-    description = models.TextField()
-    est_date = models.DateField()
-    website = models.URLField(max_length=LONG_STRLEN)
-    social_media = models.URLField(max_length=LONG_STRLEN)
-    email = models.EmailField(max_length=LONG_STRLEN)
+    image = models.ImageField(upload_to="clubs", null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    est_date = models.DateField( null=True, blank=True)
+    website = models.URLField(max_length=LONG_STRLEN, null=True, blank=True)
+    social_media = models.URLField(max_length=LONG_STRLEN, null=True, blank=True)
+    email = models.EmailField(max_length=LONG_STRLEN, null=True, blank=True)
     main_stadium = models.ForeignKey('Stadium', null=True, blank=True, on_delete=models.SET_NULL, related_name='club_club_stad')
 
     sponsors = models.ManyToManyField(
@@ -51,8 +52,8 @@ class ClubStad(models.Model):
 
 class SampleClub(models.Model):
     sample_club_id = models.AutoField(primary_key=True, editable=False)
-    logo = models.ImageField(upload_to="sample_clubs")
-    total_points = models.PositiveIntegerField()
+    logo = models.ImageField(upload_to="sample_clubs", null=True, blank=True)
+    total_points = models.PositiveIntegerField(null=True, blank=True)
 
     club = models.ForeignKey(Club, on_delete=models.CASCADE, related_name='sample_club_club')
     season = models.ForeignKey("Season", on_delete=models.CASCADE, related_name='sample_club_season')
@@ -73,8 +74,8 @@ class SampleClub(models.Model):
 class Sponsor(models.Model):
     sponsor_id = models.AutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=STRLEN)
-    logo = models.ImageField(upload_to="sponsors")
-    website = models.URLField(max_length=LONG_STRLEN)
+    logo = models.ImageField(upload_to="sponsors", null=True, blank=True)
+    website = models.URLField(max_length=LONG_STRLEN, null=True, blank=True)
 
     def __str__(self):
         return f"{self.sponsor_id} - {self.name}"
@@ -94,8 +95,8 @@ class ClubSpon(models.Model):
 
 class Kit(models.Model):
     kit_id = models.AutoField(primary_key=True, editable=False)
-    image = models.ImageField(upload_to="kits")
-    color = models.CharField(max_length=SHORT_STRLEN)
+    image = models.ImageField(upload_to="kits", null=True, blank=True)
+    color = models.CharField(max_length=SHORT_STRLEN, null=True, blank=True)
 
     sample_club = models.ForeignKey(SampleClub, null=True, blank=True, on_delete=models.CASCADE, related_name='kit_sample_club')
 
@@ -105,8 +106,8 @@ class Kit(models.Model):
 
 class MatchSpon(models.Model):
     match_spon_id = models.AutoField(primary_key=True, editable=False)
-    amount = models.PositiveIntegerField()
-    gif = models.FileField(upload_to="match_sponsors")
+    amount = models.PositiveIntegerField(null=True, blank=True)
+    gif = models.FileField(upload_to="match_sponsors", null=True, blank=True)
 
     match = models.ForeignKey("Match", on_delete=models.CASCADE, related_name='match_spon_match')
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE, related_name='match_spon_sponsor')
@@ -120,9 +121,9 @@ class MatchSpon(models.Model):
 
 class SeaSpon(models.Model):
     sea_spon = models.AutoField(primary_key=True, editable=False)
-    image = models.ImageField(upload_to="season_sponsors")
-    amount = models.PositiveIntegerField()
-    link = models.URLField(max_length=LONG_STRLEN)
+    image = models.ImageField(upload_to="season_sponsors", null=True, blank=True)
+    amount = models.PositiveIntegerField(null=True, blank=True)
+    link = models.URLField(max_length=LONG_STRLEN, null=True, blank=True)
 
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE, related_name='sea_spon_sponsor')
     season = models.ForeignKey("Season", on_delete=models.CASCADE, related_name='sea_spon_season')
@@ -138,11 +139,11 @@ class Broadcaster(models.Model):
     broadcaster_id = models.AutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=STRLEN)
 
-    s_date = models.DateField()
-    e_date = models.DateField()
+    s_date = models.DateField(null=True, blank=True)
+    e_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.broadcaster} - {self.name}"
+        return f"{self.broadcaster_id} - {self.name}"
 
 
 class Casts(models.Model):
@@ -194,21 +195,21 @@ class Employee(models.Model):
     image = models.ImageField(upload_to='employees', max_length=STRLEN, null=True, blank=True)
     birth_date = models.DateField()
     position = models.CharField(max_length=SMALL_STRLEN)
-    description = models.TextField()
-    cv = models.FileField(upload_to='CVs')
+    description = models.TextField(null=True, blank=True)
+    cv = models.FileField(upload_to='CVs', null=True, blank=True)
     salary = models.DecimalField(max_digits=9, decimal_places=2)
-    gender = models.BooleanField()
+    gender = models.CharField(max_length=STRLEN, default='Male', choices=GENDER)
 
     def __str__(self):
-        return f'{self.employee}({self.position})'
+        return f'{self.employee} ({self.position})'
     
 
 class ClubStaff(models.Model):
     staff = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE, related_name='club_staff_user')
     image = models.ImageField(upload_to='club_staff', max_length=STRLEN, null=True, blank=True)
     birth_date = models.DateField()
-    position = models.CharField(max_length=SMALL_STRLEN)
-    description = models.TextField()
+    position = models.CharField(max_length=SMALL_STRLEN, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     club = models.ForeignKey('SampleClub', on_delete=models.CASCADE, related_name='club_staff_club')
 
     class Meta:
@@ -221,12 +222,12 @@ class ClubStaff(models.Model):
 class Stadium(models.Model):
     stadium_id = models.AutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=STRLEN)
-    city = models.CharField(max_length=SMALL_STRLEN)
-    image = models.ImageField(upload_to='stadiums')
-    address = models.CharField(max_length=LONG_STRLEN)
-    coordinates = models.CharField(max_length=STRLEN)
-    capacity = models.IntegerField()
-    description = models.TextField()
+    city = models.CharField(max_length=SMALL_STRLEN, null=True, blank=True)
+    image = models.ImageField(upload_to='stadiums', null=True, blank=True)
+    address = models.CharField(max_length=LONG_STRLEN, null=True, blank=True)
+    coordinates = models.CharField(max_length=STRLEN, null=True, blank=True)
+    capacity = models.IntegerField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return str(self.name)
@@ -234,13 +235,13 @@ class Stadium(models.Model):
 
 class TicketType(models.Model):
     type_id = models.AutoField(primary_key=True, editable=False)
-    ratio = models.DecimalField(max_digits=4, decimal_places=2)
-    s_number = models.IntegerField()
-    e_number = models.IntegerField()
-    color = models.CharField(max_length=SHORT_STRLEN)
+    ratio = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
+    s_number = models.IntegerField(null=True, blank=True)
+    e_number = models.IntegerField(null=True, blank=True)
+    color = models.CharField(max_length=SHORT_STRLEN, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     stadium = models.ForeignKey(Stadium, on_delete=models.CASCADE, related_name='ticket_type_stadium')
-    html_tag_id = models.CharField(max_length=SHORT_STRLEN)
+    html_tag_id = models.CharField(max_length=SHORT_STRLEN, null=True, blank=True)
 
     users = models.ManyToManyField(
         User,
@@ -263,7 +264,7 @@ class Ticket(models.Model):
     user = models.ForeignKey(User,  on_delete=models.CASCADE, related_name='ticket_user')
     match = models.ForeignKey("Match", on_delete=models.CASCADE, related_name='ticket_match')
     type = models.ForeignKey(TicketType, null=True, blank=True, on_delete=models.SET_NULL, related_name='ticket_type')
-    seat_number = models.IntegerField()
+    seat_number = models.IntegerField(null=True, blank=True)
     date_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -286,9 +287,9 @@ class Referee(models.Model) :
     referee = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE, related_name='referee_user')
     
     image = models.ImageField(upload_to='referees', max_length=STRLEN, null=True, blank=True)
-    birth_date = models.DateField()
-    cv = models.FileField(upload_to='CVs')
-    nationality = models.CharField(max_length=SMALL_STRLEN)
+    birth_date = models.DateField(null=True, blank=True)
+    cv = models.FileField(upload_to='CVs', null=True, blank=True)
+    nationality = models.CharField(max_length=SMALL_STRLEN, null=True, blank=True)
 
     def __str__(self):
         return f'{self.referee}'
@@ -300,7 +301,7 @@ class Player(models.Model) :
     image = models.ImageField(upload_to='players', max_length=STRLEN, null=True, blank=True)
     birth_date = models.DateField()
     nationality = models.CharField(max_length=SMALL_STRLEN)
-    height = models.IntegerField()
+    height = models.IntegerField(null=True, blank=True)
     social_media = models.CharField(max_length=STRLEN, null=True, default='NULL')
     position = models.CharField(max_length=SMALL_STRLEN)
     heath_state = models.BooleanField(default=True)
@@ -351,15 +352,15 @@ class Transfer(models.Model) :
     origin_club = models.ForeignKey(SampleClub, null=True, on_delete=models.CASCADE, related_name='transfer_origin_club')
     
     date = models.DateField(auto_now_add=True)
-    amount = models.IntegerField()
+    amount = models.IntegerField(null=True, blank=True)
     semester = models.CharField(max_length=SMALL_STRLEN, default='SUMMER', choices=SEMESTERS)
-    duration = models.IntegerField()
+    duration = models.IntegerField(null=True, blank=True)
 
     class Meta:
         unique_together = ['player', 'target_club']
     
     def __str__(self):
-        return f'{self.player}: {self.origin_club} -> {self.target_club}, {self.season}-{self.semester}'
+        return f'{self.player}: {self.origin_club} -> {self.target_club}, {self.semester}'
 
 
 class Match(models.Model) : 

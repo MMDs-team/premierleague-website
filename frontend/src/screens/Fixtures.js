@@ -11,9 +11,13 @@ const Fixtures = () => {
     const [clubIndex, setClubIndex] = useState(-1) // the index which is sample_club_id for filtering
 
     const clubsOfThisSeason = useContext(MainContext).thisSeasonClubs
+    const {heroNameHandler} = useContext(MainContext)
     
+    heroNameHandler("Fixtures")
 
     const [fixtures, setFixtures] = useState([])
+
+
     
 
     const fetchData = async () => {
@@ -36,7 +40,7 @@ const Fixtures = () => {
     return (
 
 
-        <main className="mainContent" style={{padding:"1rem"}}>
+        <main className="mainContent" >
             <div className="tabbedContent">
                 <div className="league-table mainTableTab active" data-ui-tab="First Team" data-script="pl_filtered-list"
                     data-filter-list="FIRST" data-compseason="719" data-widget="table-filtered" data-detail="2"

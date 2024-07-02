@@ -12,6 +12,9 @@ import Tickets from './screens/Tickets.js';
 import Clubs from './screens/Clubs.js';
 import Players from './screens/Players.js';
 import axios from "axios";
+import { Footer } from "./components/Footer.jsx";
+import { Hero } from "./components/Hero.jsx";
+import "./styles/other.css"
 
 export const  MainContext = createContext(null)
 
@@ -32,12 +35,12 @@ export default function App() {
     const [clubs, setClubs] = useState([])
     const savedUser = localStorage.getItem("user")
     const [userInfo, setUserInfo] = useState(savedUser == null?null:savedUser)
+    const [heroName, setHeroName] = useState("Home")
 
     const fetchData = async () => {
         try {
             const response = await axios.get("http://127.0.0.1:8000/api/club/ex")
             setThisSeasonClubs(response.data)
-            console.log(response.data)
         } catch (error) {
             console.log("Error fetching this season's clubs!", error)
         }
@@ -45,7 +48,6 @@ export default function App() {
         try {
             const response = await axios.get("http://127.0.0.1:8000/api/season/ordered")
             setSeasonOrdered(response.data)
-            console.log(response.data)
         } catch (error) {
             console.log("Error fetching seasons!", error)
         }
@@ -53,7 +55,6 @@ export default function App() {
         try {
             
             const response = await axios.get(`http://127.0.0.1:8000/api/club/getAll`)
-            console.log("clubs:")
             setClubs(response.data)
         } catch (error) {
             console.log("Error fetching clubs!", error)
@@ -62,7 +63,6 @@ export default function App() {
         try {
             
             const response = await axios.get(`http://127.0.0.1:8000/api/action/action_type`)
-            console.log("clubs:")
             setActionTypes(response.data)
         } catch (error) {
             console.log("Error fetching action types!", error)
@@ -86,12 +86,15 @@ export default function App() {
                 actionTypes: actonTypes,
                 clubs: clubs,
                 userInfo: userInfo,
-                setUserInfo: setUserInfo
+                setUserInfo: setUserInfo,
+                heroName: heroName,
+                heroNameHandler: setHeroName 
             }}>
             <BrowserRouter>
 
                 <div className="main-wrapper-all">
                     <Header/>
+                        <Hero />
                         <Routes>
                             <Route path="*" element={<NoPage/>} />
                             {!userInfo &&<Route path="/auth" element={ <Auth/>} />}
@@ -107,6 +110,7 @@ export default function App() {
                             
 
                         </Routes>
+                    <Footer />
                 </div>
             </BrowserRouter>
         </MainContext.Provider>

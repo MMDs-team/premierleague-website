@@ -15,6 +15,10 @@ export const PageNav = ({menu, tabHandler}) => {
   return (
     <>
     <header className="page-header page-header--stats">
+            <div class="page-header__wrapper page-header__wrapper--tabs">
+                    <h1 class="page-header__title">Stats</h1>
+                
+    </div>
     
     </header>
           <nav className="generic-tabs-nav generic-tabs-nav--page-header wrapper  "

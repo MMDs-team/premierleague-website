@@ -1,13 +1,18 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { TopTableFilter } from '../components/TopTableFilter';
 import { TableMatchRow } from '../components/TableMatchRow';
+import { MainContext } from '../App';
 
 const Tables = () => {
 
     const [week, setWeek] = useState(20)
     const [homeAway, setHomeAway] = useState(0)
     const [seasonIndex, setSeasonIndex] = useState(0)
+
+    const {heroNameHandler} = useContext(MainContext)
+    
+    heroNameHandler("Table")
 
     const [table, setTable] = useState([])
 

@@ -313,7 +313,7 @@ class Player(models.Model) :
     )
         
     def __str__(self):
-        return f'{self.player_id}-{self.position}'
+        return f'{self.player.username} - {self.position}'
     
     
 class Action(models.Model) : 

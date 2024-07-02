@@ -51,35 +51,36 @@ const HomeScreen = () => {
               </div>
 
               <div class="fixtures-abridged   calendar " data-fixturesids="115827,115830,115828,115829,115831,115832,115833,115834,115835,115836" data-script="pl_club" data-widget="club-matches" data-pagesize="10" data-sort="ASCENDING" data-gameweek="18390" data-start-date="2024-08-16" data-end-date="2024-08-19" data-rendered="true">
+                        {fixtures.length > 0 && fixtures.slice(0, Math.min(2, fixtures.length)).map((fixt, index) => (
+
                 <div class="fixtures-abridged__list js-match-list-container">
                   <div class="fixtures-abridged__day-container ">
-                    <time class="fixtures-abridged__date"> Friday 16 August
+                    <time class="fixtures-abridged__date"> {fixt.date}
                     </time>
 
 
+                            {fixt.matches.map((match, ind) => (
 
 
-
-                    
                                 <a href="//www.premierleague.com/match/115827" class="match-fixture match-fixture--abridged " data-matchid="115827">
                                   <div class="match-fixture__team match-fixture__team--home">
-                                    <span class="match-fixture__team-name match-fixture__team-name--abbr u-hide-phablet">MUN
+                                    <span class="match-fixture__team-name match-fixture__team-name--abbr u-hide-phablet">{match.host_club.name.slice(0,3).toUpperCase()}
                                     </span>
-                                    <span class="match-fixture__team-name match-fixture__team-name--full u-show-phablet">Man Utd
+                                    <span class="match-fixture__team-name match-fixture__team-name--full u-show-phablet">{match.host_club.name}
                                     </span>
                                     <span class="badge badge-image-container" data-widget="club-badge-image" data-size="50">
-                                      <img class="badge-image badge-image--30 js-badge-image" src="https://resources.premierleague.com/premierleague/badges/50/t1.png" srcset="https://resources.premierleague.com/premierleague/badges/50/t1.png, https://resources.premierleague.com/premierleague/badges/50/t1@x2.png 2x" />
+                                      <img class="badge-image badge-image--30 js-badge-image" src={`http://127.0.0.1:8000${match.host_club.logo}`} />
                                     </span>
                                   </div>
-                                  <time>22:30
+                                  <time>{match.time.slice(0,5)}
                                   </time>
                                   <div class="match-fixture__team match-fixture__team--away">
                                     <span class="badge badge-image-container" data-widget="club-badge-image" data-size="50">
-                                      <img class="badge-image badge-image--30 js-badge-image" src="https://resources.premierleague.com/premierleague/badges/50/t54.png" srcset="https://resources.premierleague.com/premierleague/badges/50/t54.png, https://resources.premierleague.com/premierleague/badges/50/t54@x2.png 2x" />
+                                      <img class="badge-image badge-image--30 js-badge-image" src={`http://127.0.0.1:8000${match.guest_club.logo}`} />
                                     </span>
-                                    <span class="match-fixture__team-name match-fixture__team-name--abbr u-hide-phablet">FUL
+                                    <span class="match-fixture__team-name match-fixture__team-name--abbr u-hide-phablet">{match.guest_club.name.slice(0,3).toUpperCase()}}
                                     </span>
-                                    <span class="match-fixture__team-name match-fixture__team-name--full u-show-phablet">Fulham
+                                    <span class="match-fixture__team-name match-fixture__team-name--full u-show-phablet">{match.guest_club.name}
                                     </span>
                                   </div>
                                   <div data-id="115827" class="match-fixture__summary-broadcasters js-match-summary-broadcasters">
@@ -89,6 +90,9 @@ const HomeScreen = () => {
                                     </path>
                                   </svg>
                                 </a>
+
+
+                            ))}
 
 
 
@@ -101,6 +105,7 @@ const HomeScreen = () => {
                       </a>       
                       </div>
                 </div>
+                        ))}
 
               </div>
 

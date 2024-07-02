@@ -20,6 +20,7 @@ urlpatterns = [
     path('api/sponsor/', include('base.urls.sponsor_urls')),
     path('api/stats/', include('base.urls.stats_urls')),
     path('api/overview/', include('base.urls.overview_urls')),
+    path('api/season/setup', include('base.urls.season_setup_urls')),
 ]
 
 

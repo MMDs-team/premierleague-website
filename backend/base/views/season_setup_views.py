@@ -19,9 +19,9 @@ def check_if_unique(clubs):
 
 
 @transaction.atomic()
-def generate_matches(sample_clubs):
+def generate_matches(sample_clubs, season_id):
     matches = []
-    today = dt.datetime.today()
+    today = Season.objects.get(pk=season_id).date
     week_first_day = today + dt.timedelta(days=7) - dt.timedelta(dt.date.weekday(today))
     for week in range(TEAMS_COUNT - 1):
         first_day = week_first_day + dt.timedelta(weeks=week)
@@ -73,9 +73,8 @@ def generate_matches(sample_clubs):
 def setup_season(request):
     season_id = request.data['season_id']
     clubs = [int(club_id) for club_id in request.data['clubs'][1:-1].split(', ')]
-    logos = list(request.FILES.values())
 
-    if len(clubs) != len(logos) or len(clubs) != TEAMS_COUNT: return Response({
+    if len(clubs) != TEAMS_COUNT: return Response({
         'message': 'Input is not correct.'
     })
     if not check_if_unique(clubs): return Response({
@@ -98,10 +97,10 @@ def setup_season(request):
         sample_club = SampleClub.objects.create(
             season_id=season_id,
             club_id=club_id,
-            # logo=logos,
+            logo=club.image,
         )
         sample_clubs.append(sample_club)
 
-    generate_matches(sample_clubs)
+    generate_matches(sample_clubs, season_id)
 
     return Response({'message': 'Successful!'})

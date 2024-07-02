@@ -53,7 +53,7 @@ class ClubStad(models.Model):
 class SampleClub(models.Model):
     sample_club_id = models.AutoField(primary_key=True, editable=False)
     logo = models.ImageField(upload_to="sample_clubs", null=True, blank=True)
-    total_points = models.PositiveIntegerField(null=True, blank=True)
+    total_points = models.PositiveIntegerField(default=0)
 
     club = models.ForeignKey(Club, on_delete=models.CASCADE, related_name='sample_club_club')
     season = models.ForeignKey("Season", on_delete=models.CASCADE, related_name='sample_club_season')

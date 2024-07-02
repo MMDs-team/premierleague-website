@@ -3,6 +3,7 @@ import { TopPlayerFiltering } from '../components/TopPlayerFilter'
 import axios from 'axios'
 import imageMissing from '../static/i/elements/Photo-Missing.png';
 import { MainContext } from '../App';
+import { IP } from '../CREDENTIALS';
 
 const Players = () => {
 
@@ -18,7 +19,7 @@ const Players = () => {
     const fetchData = async () => {
         try {
             console.log(`season is ${seasonIndex} and club is ${clubIndex}`)
-            const response = await axios.get(`http://127.0.0.1:8000/api/overview/players?se=${seasonIndex}&cl=${clubIndex}`)
+            const response = await axios.get(`http://${IP}:8000/api/overview/players?se=${seasonIndex}&cl=${clubIndex}`)
             console.log("players:")
             console.log(response.data)
             setPlayers(response.data)
@@ -70,7 +71,7 @@ const Players = () => {
                                                     <td> 
                                                         <a href="//www.premierleague.com/players/19970/Max-Aarons/overview" className="player__name">
                                                         
-                                                            <img className="img player__name-image" data-player="p232980" data-size="40x40" src={player.image!==""?`http://127.0.0.1:8000${player.image}`:imageMissing} alt="Photo for Max Aarons"/>
+                                                            <img className="img player__name-image" data-player="p232980" data-size="40x40" src={player.image!==""?`http://${IP}:8000${player.image}`:imageMissing} alt="Photo for Max Aarons"/>
                                                             {`${player.first_name} ${player.last_name}`}
                                                         </a> 
                                                     </td> 

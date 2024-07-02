@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { IP } from '../CREDENTIALS';
 
 export const DataFixtures = ({ fixtures }) => {
 
@@ -55,7 +56,7 @@ export const DataFixtures = ({ fixtures }) => {
                                                                 <span className="badge badge-image-container"
                                                                     data-widget="club-badge-image" data-size="50">
                                                                     <img className="badge-image badge-image--32 js-badge-image"
-                                                                        src={`http://127.0.0.1:8000${match.host_club.logo}`} alt="host-logo"/>
+                                                                        src={`http://${IP}:8000${match.host_club.logo}`} alt="host-logo"/>
                                                                 </span>
                                                             </span>
                                                             <time datetime={match.time.slice(0,5)}>{match.time.slice(0,5)}</time>
@@ -63,7 +64,7 @@ export const DataFixtures = ({ fixtures }) => {
                                                                 <span className="badge badge-image-container"
                                                                     data-widget="club-badge-image" data-size="50">
                                                                     <img className="badge-image badge-image--32 js-badge-image"
-                                                                        src={`http://127.0.0.1:8000${match.guest_club.logo}`} alt="gest-logo"/>
+                                                                        src={`http://${IP}:8000${match.guest_club.logo}`} alt="gest-logo"/>
                                                                 </span>
                                                                 <span className="match-fixture__team-name">
                                                                     <span className="match-fixture__short-name">{match.guest_club.name}</span>

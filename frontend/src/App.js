@@ -39,14 +39,14 @@ export default function App() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get("http://127.0.0.1:8000/api/club/ex")
+            const response = await axios.get(`http://${IP}:8000/api/club/ex`)
             setThisSeasonClubs(response.data)
         } catch (error) {
             console.log("Error fetching this season's clubs!", error)
         }
 
         try {
-            const response = await axios.get("http://127.0.0.1:8000/api/season/ordered")
+            const response = await axios.get(`http://${IP}:8000/api/season/ordered`)
             setSeasonOrdered(response.data)
         } catch (error) {
             console.log("Error fetching seasons!", error)
@@ -54,7 +54,7 @@ export default function App() {
 
         try {
             
-            const response = await axios.get(`http://127.0.0.1:8000/api/club/getAll`)
+            const response = await axios.get(`http://${IP}:8000/api/club/getAll`)
             setClubs(response.data)
         } catch (error) {
             console.log("Error fetching clubs!", error)
@@ -62,7 +62,7 @@ export default function App() {
 
         try {
             
-            const response = await axios.get(`http://127.0.0.1:8000/api/action/action_type`)
+            const response = await axios.get(`http://${IP}:8000/api/action/action_type`)
             setActionTypes(response.data)
         } catch (error) {
             console.log("Error fetching action types!", error)

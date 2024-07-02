@@ -2,6 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { TopClubFilteringStats } from "./TopClubFilteringStats"
 import { NATIONALITY_LIST } from "../nationality"
+import { IP } from "../CREDENTIALS"
 
 export const ClubStats = () => {
 
@@ -26,7 +27,7 @@ export const ClubStats = () => {
     const fetchData = async () => {
         console.log("repeat fetching data...")
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/stats/top/club?at=${chosenActionName.toLowerCase()}&se=${seasonIndex}&from=${fromNumber}&order=${order?"desc":"asc"}`) // is not complited yet
+            const response = await axios.get(`http://${IP}:8000/api/stats/top/club?at=${chosenActionName.toLowerCase()}&se=${seasonIndex}&from=${fromNumber}&order=${order?"desc":"asc"}`) // is not complited yet
             console.log("stats clubs: ")
             console.log(response.data)
             setClubs(response.data)
@@ -81,7 +82,7 @@ export const ClubStats = () => {
                             <td className="stats-table__name">
                                 <a href="//www.premierleague.com/clubs/1/club/overview" className="stats-table__cell-icon-align">
                                     <span className="badge badge-image-container" data-widget="club-badge-image" data-size="25">
-                                        <img className="badge-image badge-image--25 js-badge-image" src={`http://127.0.0.1:8000${club.logo}`} alt="logo"/>
+                                        <img className="badge-image badge-image--25 js-badge-image" src={`http://${IP}:8000${club.logo}`} alt="logo"/>
                                     </span>
                                     {club.name}
                                 </a>

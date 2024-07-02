@@ -3,6 +3,7 @@ import "../styles/registerLogin.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { MainContext } from "../App";
+import { IP } from "../CREDENTIALS";
 
 const Auth = () => {
 
@@ -21,7 +22,7 @@ const Auth = () => {
     const registerHandler = async (e) => {
         e.preventDefault();
         try {
-            const {data} = await axios.post("http://127.0.0.1:8000/api/user/register", {
+            const {data} = await axios.post(`http://${IP}:8000/api/user/register`, {
                 name: email,
                 first_name: firstName,
                 last_name: lastName,
@@ -44,7 +45,7 @@ const Auth = () => {
     const loginHandler = async (e) => {
         e.preventDefault();
         try {
-            const {data} = await axios.post("http://127.0.0.1:8000/api/user/login", {
+            const {data} = await axios.post(`http://${IP}:8000/api/user/login`, {
                 username: userName,
                 password: password,
             }, {  headers: { 'Content-Type': 'application/json'  } })

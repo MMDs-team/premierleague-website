@@ -1,4 +1,5 @@
 import React from 'react'
+import { IP } from '../CREDENTIALS'
 
 export const TableMatchRow = (props) => {
 
@@ -22,7 +23,7 @@ export const TableMatchRow = (props) => {
             <td className="league-table__team team" scope="row">
                 <a href="//www.premierleague.com/clubs/11/Manchester-City/overview">
                     <span className="badge badge-image-container" data-widget="club-badge-image" data-size="50">
-                        <img className="badge-image badge-image--32 js-badge-image" src={`http://127.0.0.1:8000${logo}`}  />
+                        <img className="badge-image badge-image--32 js-badge-image" src={`http://${IP}:8000${logo}`}  />
                     </span>
                     <span className="league-table__team-name league-table__team-name--long long">{name}</span>
                     <span className="league-table__team-name league-table__team-name--short short">{name.slice(0,3).toUpperCase()}</span>       {/*the short form for club -------------------------------------------------------*/}
@@ -53,13 +54,13 @@ export const TableMatchRow = (props) => {
                                                 <div className="match-fixture__team match-fixture__team--home">
                                                     <span className="atch-fixture__team-name"> {match[1].slice(0,3).toUpperCase()} </span>    {/*the short form for club -------------------------------------------------------*/}
                                                     <span className="badge badge--home-team badge-image-container" data-widget="club-badge-image" data-size="50">
-                                                        <img className="badge-image badge-image--30 js-badge-image" src={`http://127.0.0.1:8000${match[2]}`} />
+                                                        <img className="badge-image badge-image--30 js-badge-image" src={`http://${IP}:8000${match[2]}`} />
                                                     </span>
                                                 </div>
                                                 <span className="match-fixture__score score"> {match[6]} </span>
                                                 <div className="match-fixture__team match-fixture__team--home">
                                                     <span className="badge badge--away-team badge-image-container" data-widget="club-badge-image" data-size="50">
-                                                        <img className="badge-image badge-image--30 js-badge-image" src={`http://127.0.0.1:8000${match[5]}`}  />
+                                                        <img className="badge-image badge-image--30 js-badge-image" src={`http://${IP}:8000${match[5]}`}  />
                                                     </span>
                                                     <span className="match-fixture__team-name"> {match[4].slice(0,3).toUpperCase()} </span>   {/*the short form for club -------------------------------------------------------*/}
                                                 </div>

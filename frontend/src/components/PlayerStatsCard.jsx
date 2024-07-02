@@ -1,4 +1,5 @@
 import React from 'react'
+import { IP } from '../CREDENTIALS'
 
 export const PlayerStatsCard = ({data, name}) => {
 
@@ -38,7 +39,7 @@ export const PlayerStatsCard = ({data, name}) => {
                                         <div className="top-stats__hero-last">{data[0].last_name} </div>
                                                 <div className="top-stats__hero-club-info">
                                         <div className="badge badge-image-container" data-widget="club-badge-image" data-size="25">
-                                            <img className="badge-image js-badge-image" src={`http://127.0.0.1:8000${data[0].sample_club.logo}`} alt='image club'/>
+                                            <img className="badge-image js-badge-image" src={`http://${IP}:8000${data[0].sample_club.logo}`} alt='image club'/>
                                         </div>
                                                 <div className="top-stats__hero-club-name">{data[0].sample_club.name}</div>
                                                 </div>
@@ -48,7 +49,7 @@ export const PlayerStatsCard = ({data, name}) => {
                                             </div>
                                         </div>
                                         <div className="top-stats__hero-image ">
-                                            <img data-script="pl_player-image" data-widget="player-image" data-player="p223094" data-size="110x140" className="img statCardImg" src={`http://127.0.0.1:8000${data[0].image}`} alt={`Photo for player`}/>
+                                            <img data-script="pl_player-image" data-widget="player-image" data-player="p223094" data-size="110x140" className="img statCardImg" src={`http://${IP}:8000${data[0].image}`} alt={`Photo for player`}/>
                                         </div>
                                         </a>
                                     </li>
@@ -59,7 +60,7 @@ export const PlayerStatsCard = ({data, name}) => {
                                             <div className="top-stats__row-info">
                                             <div className="top-stats__row-pos">{index + 2 }</div>
                                             <div className="badge badge-image-container" data-widget="club-badge-image" data-size="25">
-                                                <img className="badge-image js-badge-image" src={`http://127.0.0.1:8000${data[index].sample_club.logo}`} />
+                                                <img className="badge-image js-badge-image" src={`http://${IP}:8000${data[index].sample_club.logo}`} />
                                             </div>
                                             <div className="top-stats__row-team-info">
                                                 <a href="/players/49293/Cole-Palmer/overview" className="top-stats__row-name">{data[0].first_name}</a>

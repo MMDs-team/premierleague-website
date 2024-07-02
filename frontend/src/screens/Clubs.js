@@ -4,10 +4,11 @@ import { TopClubFiltering } from '../components/TopClubFiltering'
 import { MainContext } from '../App'
 import axios from 'axios'
 import { AllTimePremierLeagueClubs } from '../components/AllTimePremierLeagueClubs'
+import { IP } from '../CREDENTIALS'
 
 const Clubs = () => {
 
-    const [clubs, setClubs] = useState([]) 
+    const [clubs, setClubs] = useState([])
     const [seasonId, setSeasonId] = useState(1) 
     const {heroNameHandler} = useContext(MainContext)
     
@@ -17,7 +18,7 @@ const Clubs = () => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/overview/seasonClubs?se=${seasonId}`)
+            const response = await axios.get(`http://${IP}:8000/api/overview/seasonClubs?se=${seasonId}`)
             setClubs(response.data)
         } catch (error) {
             console.log("Error fetching clubs!", error)
@@ -54,7 +55,7 @@ const Clubs = () => {
                                                     <a href="/clubs/1/Arsenal/overview" class="club-card club-card--t3  indexItem t3">
                                                         <div class="club-card__badge">
                                                             <span class="badge badge-image-container" data-widget="club-badge-image" data-size="100">
-                                                                <img class="badge-image badge-image--78 js-badge-image" src={`http://127.0.0.1:8000${club.logo}`}/>
+                                                                <img class="badge-image badge-image--78 js-badge-image" src={`http://${IP}:8000${club.logo}`}/>
                                                             </span>
                                                         </div>
                                                         <div class="club-card__info">

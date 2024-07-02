@@ -1,6 +1,7 @@
 import React from 'react'
 import { SponsorFooter } from './SponsorFooter'
 import { lists } from '../App'
+import { NavLink } from 'react-router-dom'
 
 export const Footer = () => {
 
@@ -19,7 +20,7 @@ export const Footer = () => {
                         {lists[0].options.map((item, index) => (
 
                             <li class="footer-link-wrapper" key={index}>
-                                <a href="//www.premierleague.com/" class="footer-link" target="_self" role="menuitem">  {item.name} </a>
+                                <NavLink to={item.url} class="footer-link" target="_self" role="menuitem">  {item.name} </NavLink>
                             </li>
                         ))}
                     </ul>

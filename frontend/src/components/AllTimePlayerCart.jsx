@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { IP } from '../CREDENTIALS'
 
 export const AllTimePlayerCart = () => {
 
@@ -9,7 +10,7 @@ export const AllTimePlayerCart = () => {
 
     const fetchData = async () => {
         try {
-            const {data} = await axios.get("http://127.0.0.1:8000/api/stats/top/allTime/players")
+            const {data} = await axios.get(`http://${IP}:8000/api/stats/top/allTime/players`)
             setStats(data)
         } catch (error) {
             console.log("Error fetching stats!", error)
@@ -58,7 +59,7 @@ export const AllTimePlayerCart = () => {
                                                 <div className="top-stats__hero-last">{stats[stat][0].username} </div>
                                                     <div className="top-stats__hero-club-info">
                                                         <div className="badge badge-image-container" data-widget="club-badge-image" data-size="25">
-                                                            <img className="badge-image js-badge-image" src={`http://127.0.0.1:8000${stats[stat][0].club_logo}`} alt='club logo'/>
+                                                            <img className="badge-image js-badge-image" src={`http://${IP}:8000${stats[stat][0].club_logo}`} alt='club logo'/>
                                                         </div>
                                                         {/* <div className="top-stats__hero-club-name">{stats[stat][0].}</div> */}
                                                     
@@ -69,7 +70,7 @@ export const AllTimePlayerCart = () => {
                                                 </div>
                                             </div>
                                             <div className="top-stats__hero-image ">
-                                                <img data-script="pl_player-image" data-widget="player-image" data-player="p223094" data-size="110x140" className="img statCardImg" src={`http://127.0.0.1:8000${stats[stat][0].image}`} alt="player img"/>
+                                                <img data-script="pl_player-image" data-widget="player-image" data-player="p223094" data-size="110x140" className="img statCardImg" src={`http://${IP}:8000${stats[stat][0].image}`} alt="player img"/>
                                             </div>
                                             </a>
                                         </li>
@@ -81,7 +82,7 @@ export const AllTimePlayerCart = () => {
                                                 <div className="top-stats__row-info">
                                                 <div className="top-stats__row-pos">{index + 2 }</div>
                                                 <div className="badge badge-image-container" data-widget="club-badge-image" data-size="25">
-                                                    <img className="badge-image js-badge-image" src={`http://127.0.0.1:8000${item.club_logo}`} />
+                                                    <img className="badge-image js-badge-image" src={`http://${IP}:8000${item.club_logo}`} />
                                                 </div>
                                                 <div className="top-stats__row-team-info">
                                                     <a href="/players/49293/Cole-Palmer/overview" className="top-stats__row-name">{item.first_name}</a>

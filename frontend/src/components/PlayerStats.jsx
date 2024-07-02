@@ -2,6 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { TopPlayerFilteringStats } from "./TopPlayerFilteringStats"
 import { NATIONALITY_LIST } from "../nationality"
+import { IP } from "../CREDENTIALS"
 
 export const PlayerStats = () => {
 
@@ -30,7 +31,7 @@ export const PlayerStats = () => {
     const fetchData = async () => {
         console.log("repeat fetching data...")
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/stats/top/player?at=${chosenActionName.toLowerCase()}&se=${seasonIndex}&cl=${clubIndex}&na=${nationalityIndex===-1?-1:NATIONALITY_LIST[nationalityIndex].name}&po=${positionIndex}&from=${fromNumber}&order=${order?"desc":"asc"}`)
+            const response = await axios.get(`http://${IP}:8000/api/stats/top/player?at=${chosenActionName.toLowerCase()}&se=${seasonIndex}&cl=${clubIndex}&na=${nationalityIndex===-1?-1:NATIONALITY_LIST[nationalityIndex].name}&po=${positionIndex}&from=${fromNumber}&order=${order?"desc":"asc"}`)
             setPlayers(response.data)
         } catch (error) {
             console.log("Error fetching players!", error)
@@ -91,13 +92,13 @@ export const PlayerStats = () => {
                                 </td> <td className="hide-s">
                                     <a href="//www.premierleague.com/clubs/11/Manchester-City/overview" className="stats-table__cell-icon-align">
                                         <span className="badge badge-image-container" data-widget="club-badge-image" data-size="25">
-                                            <img className="badge-image badge-image--25 js-badge-image" src={`http://127.0.0.1:8000${player.sample_club.logo}`}  alt="logo"/>
+                                            <img className="badge-image badge-image--25 js-badge-image" src={`http://${IP}:8000${player.sample_club.logo}`}  alt="logo"/>
                                         </span>{player.sample_club.name}
                                     </a>
                                 </td>
                                 <td className="hide-s">
                                     <div className="stats-table__cell-icon-align">
-                                        <img className="stats-table__flag-icon" src={`http://127.0.0.1:8000/images/flags/${getNationality(player.nationality)}.png`} alt="flag"/>
+                                        <img className="stats-table__flag-icon" src={`http://${IP}:8000/images/flags/${getNationality(player.nationality)}.png`} alt="flag"/>
                                         <span className="playerCountry">{player.nationality}</span>
                                     </div>
                                 </td>

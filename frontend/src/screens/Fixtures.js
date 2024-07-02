@@ -4,6 +4,7 @@ import { MainContext } from '../App'
 import axios from 'axios'
 import { AdsFixture } from '../components/AdsFixture'
 import { DataFixtures } from '../components/DataFixtures'
+import { IP } from '../CREDENTIALS'
 
 const Fixtures = () => {
 
@@ -22,7 +23,7 @@ const Fixtures = () => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/overview/fixtures?s_cl=${clubIndex}`)
+            const response = await axios.get(`http://${IP}:8000/api/overview/fixtures?s_cl=${clubIndex}`)
             setFixtures(response.data)
         } catch (error) {
             console.log("Error fetching fixtures!", error)

@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { TopTableFilter } from '../components/TopTableFilter';
 import { TableMatchRow } from '../components/TableMatchRow';
 import { MainContext } from '../App';
+import { IP } from '../CREDENTIALS';
 
 const Tables = () => {
 
@@ -24,7 +25,7 @@ const Tables = () => {
                 let hw = "-1"
                 if (homeAway == 1) hw = "H" 
                 else if (homeAway == 2) hw = "W"
-                const { data } = await axios.get(`http://127.0.0.1:8000/api/overview/tables?se=${seasonIndex}&mw=${week!=20?week:-1}&ha=${hw}`)
+                const { data } = await axios.get(`http://${IP}:8000/api/overview/tables?se=${seasonIndex}&mw=${week!=20?week:-1}&ha=${hw}`)
                 setTable(data)
             } catch (error) {
                 console.log("Error fetching stats!", error)

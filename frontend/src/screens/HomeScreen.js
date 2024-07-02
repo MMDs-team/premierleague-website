@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { MainContext } from '../App'
 import axios from 'axios'
+import { IP } from '../CREDENTIALS'
 
 
 
@@ -13,7 +14,7 @@ const HomeScreen = () => {
 
   const fetchData = async () => {
       try {
-          const response = await axios.get(`http://127.0.0.1:8000/api/overview/fixtures?s_cl=-1`)
+          const response = await axios.get(`http://${IP}:8000/api/overview/fixtures?s_cl=-1`)
           setFixtures(response.data)
       } catch (error) {
           console.log("Error fetching fixtures!", error)
@@ -69,16 +70,16 @@ const HomeScreen = () => {
                                     <span class="match-fixture__team-name match-fixture__team-name--full u-show-phablet">{match.host_club.name}
                                     </span>
                                     <span class="badge badge-image-container" data-widget="club-badge-image" data-size="50">
-                                      <img class="badge-image badge-image--30 js-badge-image" src={`http://127.0.0.1:8000${match.host_club.logo}`} />
+                                      <img class="badge-image badge-image--30 js-badge-image" src={`http://${IP}:8000${match.host_club.logo}`} />
                                     </span>
                                   </div>
                                   <time>{match.time.slice(0,5)}
                                   </time>
                                   <div class="match-fixture__team match-fixture__team--away">
                                     <span class="badge badge-image-container" data-widget="club-badge-image" data-size="50">
-                                      <img class="badge-image badge-image--30 js-badge-image" src={`http://127.0.0.1:8000${match.guest_club.logo}`} />
+                                      <img class="badge-image badge-image--30 js-badge-image" src={`http://${IP}:8000${match.guest_club.logo}`} />
                                     </span>
-                                    <span class="match-fixture__team-name match-fixture__team-name--abbr u-hide-phablet">{match.guest_club.name.slice(0,3).toUpperCase()}}
+                                    <span class="match-fixture__team-name match-fixture__team-name--abbr u-hide-phablet">{match.guest_club.name.slice(0,3).toUpperCase()}
                                     </span>
                                     <span class="match-fixture__team-name match-fixture__team-name--full u-show-phablet">{match.guest_club.name}
                                     </span>
